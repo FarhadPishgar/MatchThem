@@ -11,7 +11,7 @@
 
 ![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=informational&style=for-the-badge)
 
-The package is released. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package will replace the [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package.
 
 ## Author
 Farhad Pishgar
