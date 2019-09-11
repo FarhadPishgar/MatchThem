@@ -126,7 +126,11 @@ weightthem <- function (formula, datasets,
     others <- method
 
     #Returning output
-    output <- list(object = weighted.datasets, models = modelslist, methods = others, datasets = datasetslist, original.object = datasets)
+    output <- list(object = weighted.datasets,
+                   models = modelslist,
+                   methods = others,
+                   datasets = datasetslist,
+                   original.object = datasets)
     class(output) <- "wimids"
     return(output)
   }
@@ -198,7 +202,11 @@ weightthem <- function (formula, datasets,
     others <- method
 
     #Returning output
-    output <- list(object = weighted.datasets, models = modelslist, methods = others, datasets = datasetslist, original.object = datasets)
+    output <- list(object = weighted.datasets,
+                   models = modelslist,
+                   methods = others,
+                   datasets = datasetslist,
+                   original.object = datasets)
     class(output) <- "wimids"
     return(output)
   }
