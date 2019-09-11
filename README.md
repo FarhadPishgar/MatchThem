@@ -67,6 +67,8 @@ The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one 
 The output of the `pool()` function will be saved in an object of the `mipo` class. The `print()` and `summary()` functions can be used to review detailed descriptions of these objects.
 
 ## Acknowledgments
+The wonderful logo of this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), is designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his other beautiful works).
+
 I would like to thanks the CRAN team members for their comments and technical support. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`WeightIt`](https://cran.r-project.org/package=WeightIt), and [`mice`](https://cran.r-project.org/package=mice) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package:
 
 ## Author
