@@ -1,4 +1,4 @@
-# MatchThem <img src="man/figure/logo.png" align="right" width="120" />
+# MatchThem <img src="man/figure/logo.png" align="right" width="150" />
 
 <!-- badges: start -->
 #### Matching Multiply Imputed Datasets
