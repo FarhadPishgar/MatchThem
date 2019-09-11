@@ -72,4 +72,4 @@ I would like to thanks the CRAN team members for their comments and technical su
 ## Author
 Farhad Pishgar
 
-[![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=yellow&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+[![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=success&style=for-the-badge)](https://twitter.com/FarhadPishgar)
