@@ -1,0 +1,20 @@
+#' @title Data of 4,796 Participants in the OAI Project
+#'
+#' @rdname osteoarthritis
+#'
+#' @description The dataset \code{osteoarthritis} includes demographic data of 4,796 observations (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), osteoporosis status (\code{OSP}, a binary qualitative variable), and knee osteoarthritis status (\code{KOA}, a binary qualitative variable).
+#'
+#' @format This dataset contains 4,796 rows and 8 columns. Each row presents data of an observation (individual) and each column presents data of a characteristics of that observation. The columns are:
+#' \describe{
+#'   \item{IDN}{Unique identifier number for each observation (individual);}
+#'   \item{AGE}{Age of each observation (individual);}
+#'   \item{SEX}{Gender of each observation (individual), coded as \code{0} (female) and \code{1} (male);}
+#'   \item{BMI}{Estimated body mass index of each observation (individual);}
+#'   \item{RAC}{Race of each observation (individual), coded as \code{0} (Other), \code{1} (Caucasian), \code{2} (African American), and \code{3} (Asian);}
+#'   \item{SMK}{The smoking status of each observation, coded as \code{0} (non-smoker) and \code{1} (smoker)}
+#'   \item{OSP}{Osteoporosis status of each observation (individual), coded as \code{0} (negative) and \code{1} (positive); and}
+#'   \item{KOA}{Knee osteoarthritis status of each observation (individual), coded as \code{0} (at risk) and \code{1} (diagnosed).}
+#' }
+#' @source The information presented in the \code{osteoarthritis} dataset is based on the publicly available data of the Osteoarthritis Initiative (OAI) project (see \url{https://nda.nih.gov/oai/} for details), with changes.
+
+"osteoarthritis"
