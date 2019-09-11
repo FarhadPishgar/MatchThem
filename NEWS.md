@@ -9,7 +9,7 @@
 
 ## What's New
 
-![](https://img.shields.io/badge/version-0.9.0-orange.svg?color=success&style=for-the-badge)
+![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=success&style=for-the-badge)
 
 The package is released. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package will replace the [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package
 
