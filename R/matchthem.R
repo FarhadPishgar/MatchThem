@@ -137,7 +137,7 @@ matchthem <- function (formula, datasets,
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
-                   methods = others,
+                   others = others,
                    datasets = datasetslist,
                    original.object = datasets)
     class(output) <- "mimids"
@@ -230,7 +230,7 @@ matchthem <- function (formula, datasets,
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
-                   methods = others,
+                   others = others,
                    datasets = datasetslist,
                    original.object = datasets)
     class(output) <- "mimids"
