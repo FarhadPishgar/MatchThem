@@ -114,7 +114,7 @@ mergethem <- function(datasets, data, by = "ID") {
     #Returning output
     output <- list(object = new.datasets,
                    models = modelslist,
-                   methods = others,
+                   others = others,
                    datasets = datasetslist,
                    original.object = original)
     class(output) <- "mimids"
@@ -153,7 +153,7 @@ mergethem <- function(datasets, data, by = "ID") {
     #Returning output
     output <- list(object = new.datasets,
                    models = modelslist,
-                   methods = others,
+                   others = others,
                    datasets = datasetslist,
                    original.object = original)
     class(output) <- "wimids"
