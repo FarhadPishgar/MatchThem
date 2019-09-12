@@ -6,6 +6,7 @@ Author: Farhad Pishgar
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: graphics, MatchIt, methods, mice, WeightIt, R (>= 3.5.0)
 Imports: stats
+Suggests: cobalt
 URL: https://github.com/FarhadPishgar/MatchThem
 BugReports: https://github.com/FarhadPishgar/MatchThem/issues
 License: GPL-3
@@ -13,4 +14,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-09-11 20:16:02 UTC; Farhad
+Packaged: 2019-09-12 14:52:14 UTC; Farhad
