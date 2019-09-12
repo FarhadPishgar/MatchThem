@@ -123,7 +123,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- method
+    others <- list(approach. = approach, method. = method)
 
     #Returning output
     output <- list(object = weighted.datasets,
@@ -199,7 +199,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- method
+    others <- list(approach. = approach, method. = method)
 
     #Returning output
     output <- list(object = weighted.datasets,
