@@ -53,7 +53,7 @@ The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its 
 
 The `matchthem()` function requires the imputed datasets not to have any missing data (even in variables not included in the matching model).
 
-The output of the `matchthem()` function will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` functions can be used to review detailed descriptions of these objects. Moreover, the `matchthem.data()` function can be used to extract the matched datasets in these objects.
+The output of the `matchthem()` function will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` functions can be used to review detailed descriptions of these objects. Moreover, `matchthem.data()` function can be used to extract the matched datasets in these objects.
 
 ### Complete Data Analysis
 
