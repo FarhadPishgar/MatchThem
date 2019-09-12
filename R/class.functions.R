@@ -120,7 +120,7 @@ print.wimids <- function(x, n = 1, digits = getOption("digits"), ...) {
   cat("Dataset: #", n,  "\n", sep = "")
 
   #Printing
-  print(x$models[[n + 1]]$nn)
+  print(x$models[[n + 1]])
 }
 
 #' @export
