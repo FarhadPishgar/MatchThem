@@ -51,7 +51,7 @@ print.mimids <- function(x, n = 1, digits = getOption("digits"), ...) {
 
   #Printing out
   cat("Dataset: #", n,  "\n", sep = "")
-  if (x$others$methods. == 'exact') {cat("\nExact subclasses: ", max(x$models[[n + 1]]$subclass, na.rm = TRUE), "\n", sep="")}
+  if (x$others$method. == 'exact') {cat("\nExact subclasses: ", max(x$models[[n + 1]]$subclass, na.rm = TRUE), "\n", sep="")}
   cat("\nSample sizes: ", sep="\n")
 
   #Printing
@@ -80,7 +80,7 @@ summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   cat("Dataset: #", n,  "\n", sep = "")
 
   #Summarizing
-  if (object$others$methods. == 'exact') {
+  if (object$others$method. == 'exact') {
     cat("\nSample sizes:", "\n", sep = "")
     print(summary(object$models[[n + 1]], covariates = covariates)[[2]])
     cat("\n    Matched sample sizes by subclass:", "\n", sep = "")
@@ -88,7 +88,7 @@ summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
 
   }
 
-  if (object$others$methods. == 'nearest') {
+  if (object$others$method. == 'nearest') {
     cat("\nSummary of balance for all data:", "\n", sep = "")
     print(summary(object$models[[n + 1]], interactions = interactions, addlvariables = addlvariables, standardize = standardize)[[3]])
     cat("\nSummary of balance for matched data:", "\n", sep = "")
