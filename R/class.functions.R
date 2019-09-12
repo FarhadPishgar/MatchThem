@@ -144,5 +144,5 @@ summary.wimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   cat("Dataset: #", n,  "\n", sep = "")
 
   #Summarizing
-  summary(object$models[[n + 1]]$nn)
+  summary(object$models[[n + 1]])
 }
