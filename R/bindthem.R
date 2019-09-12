@@ -112,7 +112,7 @@ if (is.mimids(datasets)) {
   #Returning output
   output <- list(object = new.datasets,
                  models = modelslist,
-                 methods = others,
+                 others = others,
                  datasets = datasetslist,
                  original.object = original)
   class(output) <- "mimids"
@@ -150,7 +150,7 @@ if (is.mimids(datasets)) {
     #Returning output
     output <- list(object = new.datasets,
                    models = modelslist,
-                   methods = others,
+                   others = others,
                    datasets = datasetslist,
                    original.object = original)
     class(output) <- "wimids"
