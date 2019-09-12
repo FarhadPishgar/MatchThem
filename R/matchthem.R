@@ -5,7 +5,7 @@
 #' @rdname matchthem
 #'
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
-#' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package.
+#' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia} function from the \pkg{Amelia} package.
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and matching observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and matching based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown previously to produce unbiased results.
 #' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching) and \code{"exact"} (exact matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.
 #' @param distance This argument specifies the method used to estimate the distance measure. The default is logistic regression, \code{"logit"}. A variety of other methods are available.
@@ -14,7 +14,7 @@
 #' @param reestimate This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the matching method.
 #'
-#' @description The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment groups of imputed datasets of a \code{mids} class object.
+#' @description The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment groups of imputed datasets of a \code{mids} or \code{amelia} class object.
 #'
 #' @details The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the treatment indicator and \code{x1} represents the potential cofoudenr to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets = NULL, method = "nearest", model = "logit", ratio = 1, caliper = 0, ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 #'
@@ -28,6 +28,7 @@
 #'
 #' @references Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
+#' @references Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Incomplete Political Science Data: An Alternative Algorithm for Multiple Imputation. \emph{American Political Science Review}, 95: 49–69. \url{http://j.mp/2oOrtGs}
 #'
 #' @export
 #'
@@ -53,10 +54,9 @@ matchthem <- function (formula, datasets,
   #External function
 
   #Importing functions
-  #' @importFrom mice is.mids complete
+  #' @importFrom mice complete
   #' @importFrom MatchIt matchit
   #' @importFrom stats as.formula
-  mice::is.mids
   mice::complete
   MatchIt::matchit
   stats::as.formula
@@ -64,17 +64,35 @@ matchthem <- function (formula, datasets,
 
   #Polishing variables
   formula <- as.formula(formula)
+  original.datasets <- datasets
   if(approach == "pool-then-match") {approach == "across"}
   if(approach == "match-then-pool") {approach == "within"}
 
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
-  if(!is.mids(datasets)) {stop("The input for the datasets must be an object of the 'mids' class.")}
+  if(class(datasets) != "mids" && class(datasets) != "amelia") {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
   if(!is.null(datasets$data$distance)) {stop("The input for the datasets shouldn't have a variable named 'distance'.")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(method != "nearest" && method != "exact") {stop("The input for the matching method must be either 'nearest' or 'exact'.")}
   if(approach != "within" && approach != "across") {stop("The input for the matching approach must be either 'within' or 'across'.")}
   if(approach == "across" && method == "exact") {stop("The input for the matching method must be 'nearest', if the 'across' matching approch is selected.")}
+
+  #Compatibility with amelia objects
+  if (class(datasets) == "amelia") {
+    imp0 <- datasets$imputations[[1]]
+    is.na(imp0) <- datasets$missMatrix
+    imp0$.id <- 1:nrow(imp0)
+    imp0$.imp <- 0
+    implist <- list(imp0)
+    for (i in 1:datasets$m) {
+      imp <- datasets$imputations[[i]]
+      imp$.id <- 1:nrow(imp0)
+      imp$.imp <- i
+      implist[i+1] <- list(imp)
+    }
+    imp.datasets <- do.call("rbind", as.list(noquote(implist)))
+    datasets <- as2.mids(imp.datasets)
+  }
 
   #Within
   if (approach == "within") {
@@ -132,14 +150,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method)
+    others <- list(approach. = approach, method. = method, source.package. = class(original.datasets))
 
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = datasets)
+                   original.object = original.datasets)
     class(output) <- "mimids"
     return(output)
   }
@@ -225,14 +243,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method)
+    others <- list(approach. = approach, method. = method, source.package. = class(original.datasets))
 
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = datasets)
+                   original.object = original.datasets)
     class(output) <- "mimids"
     return(output)
   }

@@ -4,15 +4,15 @@
 #'
 #' @rdname mergethem
 #'
-#' @param datasets This argument specifies an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
+#' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
 #' @param data This argument specifies a dataframe.
 #' @param by This argument specifies a variable name, present in both \code{datasets} and \code{data}.
 #'
-#' @description The \code{mergethem()} function merges a dataframe with each imputed dataset of the \code{mids}, \code{mimids}, or \code{wimids} class objects based on the variables passed to the function as \code{by}.
+#' @description The \code{mergethem()} function merges a dataframe with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
 #'
-#' @details This functions can be used instead of the \code{cbind()} function (from the \pkg{mice} package).
+#' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
-#' @return This function returns an object of the \code{mids}, \code{mimids}, or \code{wimids} class after merging a dataframe with each imputed dataset of the inputted object.
+#' @return This function returns an object of the \code{mimids} or \code{wimids} class after merging a dataframe with each imputed dataset of the inputted object.
 #'
 #' @seealso \code{\link[=matchthem]{matchthem}}
 #' @seealso \code{\link[=weightthem]{weightthem}}

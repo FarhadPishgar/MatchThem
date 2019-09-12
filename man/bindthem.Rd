@@ -7,18 +7,18 @@
 bindthem(datasets, data)
 }
 \arguments{
-\item{datasets}{This argument specifies an object of the \code{mids}, \code{mimids}, or \code{wimids} class.}
+\item{datasets}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
 
 \item{data}{This argument specifies a dataframe.}
 }
 \value{
-This function returns an object of the \code{mids}, \code{mimids}, or \code{wimids} class after binding a dataframe to each imputed dataset of the inputted object.
+This function returns an object of the \code{mimids} or \code{wimids} class after binding a dataframe to each imputed dataset of the inputted object.
 }
 \description{
-The \code{bindthem()} function binds a dataframe to each imputed dataset of the \code{mids}, \code{mimids}, or \code{wimids} class objects in a row-wise fashion.
+The \code{bindthem()} function binds a dataframe to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
 }
 \details{
-This functions can be used instead of the \code{cbind()} function (from the \pkg{mice} package).
+This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 }
 \examples{
 \donttest{

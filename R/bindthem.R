@@ -4,14 +4,14 @@
 #'
 #' @rdname bindthem
 #'
-#' @param datasets This argument specifies an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
+#' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
 #' @param data This argument specifies a dataframe.
 #'
-#' @description The \code{bindthem()} function binds a dataframe to each imputed dataset of the \code{mids}, \code{mimids}, or \code{wimids} class objects in a row-wise fashion.
+#' @description The \code{bindthem()} function binds a dataframe to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
 #'
-#' @details This functions can be used instead of the \code{cbind()} function (from the \pkg{mice} package).
+#' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
-#' @return This function returns an object of the \code{mids}, \code{mimids}, or \code{wimids} class after binding a dataframe to each imputed dataset of the inputted object.
+#' @return This function returns an object of the \code{mimids} or \code{wimids} class after binding a dataframe to each imputed dataset of the inputted object.
 #'
 #' @seealso  \code{\link[=matchthem]{matchthem}}
 #' @seealso  \code{\link[=weightthem]{weightthem}}

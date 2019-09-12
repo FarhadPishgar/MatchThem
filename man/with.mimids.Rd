@@ -19,7 +19,7 @@ This function returns an object of the \code{mira} class (multiply imputed repea
 \description{
 The \code{with()} function performs a statistical computation on the \code{n} imputed datasets of the \code{mimids} object. The typical sequence of steps to do a matching procedure on the imputed datasets are:
 \enumerate{
- \item Impute the missing values by the \code{mice} function (from the \pkg{mice} package), resulting in a multiple imputed dataset (an object of the \code{mids} class);
+ \item Impute the missing values by the \code{mice} function (from the \pkg{mice} package) or the \code{amelia} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
  \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mira} class;
  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
