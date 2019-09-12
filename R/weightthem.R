@@ -80,7 +80,7 @@ weightthem <- function (formula, datasets,
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!(method %in% c("ps", "gbm", "cbps", "npcbps", "ebal", "ebcw", "optweight", "super", "user-defined"))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'npcbps', 'ebal', 'ebcw', 'optweight', 'super', or 'user-defined'.")}
   if(approach != "within" && approach != "across") {stop("The input for the weighting approach must be either 'within' or 'across'.")}
-  if(approach == "across" && method != "ps") {stop("The input for the weighting method must be 'ps', if the 'across' weighting approch is selected.")}
+  if(approach == "across" && (!(method %in% c("ps", "gbm", "cbps", "super")))) {stop("The input for the weighting method must be 'ps', if the 'across' weighting approch is selected.")}
 
   #Within
   if (approach == "within") {
