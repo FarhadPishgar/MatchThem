@@ -132,7 +132,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- method
+    others <- list(approach. = approach, method. = method)
 
     #Returning output
     output <- list(object = matched.datasets,
@@ -225,7 +225,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- method
+    others <- list(approach. = approach, method. = method)
 
     #Returning output
     output <- list(object = matched.datasets,
