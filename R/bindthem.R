@@ -102,7 +102,7 @@ if (is.mimids(datasets)) {
     data.i$.id <- 1:nrow(datasets$data)
     data.i$.imp <- i
     data.i <- cbind(data.i, data)
-    datasetlist[[i+1]] <- data.i
+    datasetslist[[i+1]] <- data.i
   }
 
   #Prepating the output
