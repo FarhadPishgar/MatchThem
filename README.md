@@ -9,9 +9,9 @@
 
 ## Introduction
 
-One of the major issues in the matching procedures is the presence of missing data since matching relies on the predictions from a logistic regression model and with lacking information for the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem and despite the standard approach of the complete case analysis (excluding observations with missing data points from the final analysis), adopting algorithms to multiply impute the missing data is growing as a popular alternative.
+One of the major issues in the matching procedures is the presence of missing data since matching relies on the predictions from a logistic regression model and with lacking information for the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem and despite other standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
 
-Matching of treatment and control observations in multiply imputed datasets can be achieved through different approaches:
+Matching of control and treatment observations in multiply imputed datasets can be achieved through different approaches:
 
 1. **The within (match-then-pool) approach**: In this approach, matching is done on each imputed dataset, the complete data analysis is performed on them, and the treatment effects obtained from these analyses are pooled together (please see the article by [Leyrat et al.](https://www.ncbi.nlm.nih.gov/pubmed/28573919) for more details).
 2. **The across (pool-then-match) approach**: In this approach, the calculated distances (propensity scores) for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. Complete data analysis is performed on the matched datasets, and the treatment effects obtained from these analyses are pooled together (although a bit different, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
@@ -39,7 +39,7 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to simplify this process into a few steps:
 
 1. **Imputing the Missing Data in the Dataset**: The `mice()` function from the [`mice`](https://cran.r-project.org/package=mice) package can be used to multiply impute the missing data in the dataset.
-2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from treatment and control groups of each imputed dataset.
+2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of balance in covariates after matching, you can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` and `wimids` objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) pakcage, itself).
 3. **Complete Data Analysis**: The `with()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate treatment effect size from complete data analysis in each (matched) imputed dataset.
 4. **Pooling the Treatment Effect Size Estimates**: The `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained treatment effect estimates from the previous step using Rubin’s rules.
 
