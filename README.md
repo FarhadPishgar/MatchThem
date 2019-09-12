@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 [![](https://img.shields.io/badge/CRAN%20version-0.8.0-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.8.0-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.8.1-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## Introduction
 
@@ -16,7 +16,7 @@ Matching of control and treatment observations in multiply imputed datasets can 
 1. **The within (match-then-pool) approach**: In this approach, matching is done on each imputed dataset, the complete data analysis is performed on them, and the treatment effects obtained from these analyses are pooled together (please see the article by [Leyrat et al.](https://www.ncbi.nlm.nih.gov/pubmed/28573919) for more details).
 2. **The across (pool-then-match) approach**: In this approach, the calculated distances (propensity scores) for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. Complete data analysis is performed on the matched datasets, and the treatment effects obtained from these analyses are pooled together (although a bit different, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
 
-The [`mice`](https://cran.r-project.org/package=mice) package is a widely accepted statistical tool for imputing the ignorable missing data in the R platform. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package simplifies the process of matching the imputed datasets of the [`mice`](https://cran.r-project.org/package=mice) package and enables credible adoption of the two matching approaches and several matching methods in practice. This package enables parametric models for causal inference to work better through selecting matched observations from the control and treatment groups, performing complete data analysis, and pooling the obtained results on imputed datasets using Rubin’s rules.
+The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are widely accepted statistical tool for imputing the ignorable missing data in the R platform. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package simplifies the process of matching the imputed datasets of the [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages and enables credible adoption of the two matching approaches and several matching methods in practice. This package enables parametric models for causal inference to work better through selecting matched observations from the control and treatment groups, performing complete data analysis, and pooling the obtained results on imputed datasets using Rubin’s rules.
 
 ## Installation
 
@@ -38,14 +38,14 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to simplify this process into a few steps:
 
-1. **Imputing the Missing Data in the Dataset**: The `mice()` function from the [`mice`](https://cran.r-project.org/package=mice) package can be used to multiply impute the missing data in the dataset.
+1. **Imputing the Missing Data in the Dataset**: Functions of the [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) package can be used to multiply impute the missing data in the dataset.
 2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of the balance in covariates after matching, you can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` and `wimids` objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package, itself).
 3. **Complete Data Analysis**: The `with()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate treatment effect size from complete data analysis in each (matched) imputed dataset.
 4. **Pooling the Treatment Effect Size Estimates**: The `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained treatment effect estimates from the previous step using Rubin’s rules.
 
 ### Imputing the Missing Data in the Dataset
 
-The [`mice`](https://cran.r-project.org/package=mice) package and its main function, `mice()`, provide the necessary tools for multiply imputing ignorable missing data in a dataset (several points should be considered before choosing the appropriate method for the imputation procedure, please see the [`mice`](https://cran.r-project.org/package=mice) package reference manual for details). The output of the `mice()` function will be saved in an object of the `mids` class. The `print()` and `summary()` functions can be used to review detailed descriptions of these objects.
+The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages and their main functions provide the necessary tools for multiply imputing ignorable missing data in a dataset (several points should be considered before choosing the appropriate method for the imputation procedure, please see these packages reference manuals for details).
 
 ### Matching the Imputed Datasets
 
