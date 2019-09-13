@@ -1,11 +1,11 @@
 #' @title Matches Multiply Imputed Datasets
 #'
-#' @aliases matchthem
-#'
 #' @rdname matchthem
 #'
+#' @aliases matchthem
+#'
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
-#' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia} function from the \pkg{Amelia} package.
+#' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, although it may work with the latter, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and matching observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and matching based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown previously to produce unbiased results.
 #' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching) and \code{"exact"} (exact matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.
 #' @param distance This argument specifies the method used to estimate the distance measure. The default is logistic regression, \code{"logit"}. A variety of other methods are available.

@@ -1,8 +1,8 @@
 #' @title Merges Imputed Datasets with Dataframes
 #'
-#' @aliases mergethem
-#'
 #' @rdname mergethem
+#'
+#' @aliases mergethem
 #'
 #' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
 #' @param data This argument specifies a dataframe.

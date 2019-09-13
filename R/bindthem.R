@@ -1,8 +1,8 @@
 #' @title Binds Imputed Datasets and Dataframes
 #'
-#' @aliases bindthem
-#'
 #' @rdname bindthem
+#'
+#' @aliases bindthem
 #'
 #' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
 #' @param data This argument specifies a dataframe.

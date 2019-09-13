@@ -1,8 +1,8 @@
 #' @title Combines Estimates by Rubin’s Rules
 #'
-#' @aliases pool
-#'
 #' @rdname pool
+#'
+#' @aliases pool
 #'
 #' @param object This argument specifies an object of the \code{mira} class (produced by a previous call to \code{with()} function) or a list with model fits.
 #' @param dfcom This argument specifies a positive number representing the degrees of freedom in the complete data analysis. The default is \code{NULL}, which means to extract this information from the first fitted model or the fitted model with the lowest number of observations (when that fails the warning \code{Large sample assumed} is printed and the parameter is set to \code{999999}).

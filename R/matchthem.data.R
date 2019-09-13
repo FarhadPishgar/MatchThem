@@ -1,8 +1,8 @@
 #' @title Outputs Matched Imputed Datasets
 #'
-#' @aliases matchthem.data
-#'
 #' @rdname matchthem.data
+#'
+#' @aliases matchthem.data
 #'
 #' @param object This argument specifies an object of the \code{mimids} class.
 #' @param n This argument specifies the matched imputed dataset number, intended to extract its matching data. The input must be a positive integer. The default is \code{1}.
