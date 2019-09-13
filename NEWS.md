@@ -15,7 +15,7 @@ Say hello to the [`Amelia`](https://cran.r-project.org/package=Amelia) package! 
 
 ![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=inactive&style=for-the-badge)
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package. This new package, uses functions of the [`WeightIt`](https://cran.r-project.org/package=WeightIt) package to estimate weights of observations in the datasets (Thanks, Noah!). The insecticde is used to kill several not-so-tiny bugs.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package. This new package uses functions of the [`WeightIt`](https://cran.r-project.org/package=WeightIt) package to estimate weights of observations in the datasets (Thanks, Noah!). The insecticide is used to kill several not-so-tiny bugs.
 
 ## Author
 Farhad Pishgar
