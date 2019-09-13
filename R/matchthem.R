@@ -64,7 +64,7 @@ matchthem <- function (formula, datasets,
 
   #Polishing variables
   formula <- as.formula(formula)
-  original.datasets <- datasets
+  originals <- datasets
   if(approach == "pool-then-match") {approach == "across"}
   if(approach == "match-then-pool") {approach == "within"}
 
@@ -150,14 +150,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source.dataset. = class(original.datasets))
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = original.datasets)
+                   original.datasets = originals)
     class(output) <- "mimids"
     return(output)
   }
@@ -243,14 +243,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source.dataset. = class(original.datasets))
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = matched.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = original.datasets)
+                   original.datasets = originals)
     class(output) <- "mimids"
     return(output)
   }
