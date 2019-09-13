@@ -70,7 +70,7 @@ weightthem <- function (formula, datasets,
 
   #Polishing variables
   formula <- as.formula(formula)
-  original.datasets <- datasets
+  originals <- datasets
   if(approach == "pool-then-match") {approach == "across"}
   if(approach == "match-then-pool") {approach == "within"}
 
@@ -141,14 +141,14 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(original.datasets))
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = weighted.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.datasets = original.datasets)
+                   original.datasets = originals)
     class(output) <- "wimids"
     return(output)
   }
@@ -217,14 +217,14 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(original.datasets))
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = weighted.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.datasets = original.datasets)
+                   original.datasets = originals)
     class(output) <- "wimids"
     return(output)
   }
