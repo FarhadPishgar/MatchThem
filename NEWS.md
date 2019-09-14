@@ -11,7 +11,7 @@
 
 ![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=informational&style=for-the-badge)
 
-With several improvemetns and compatibility for the [`Amelia`](https://cran.r-project.org/package=Amelia) package, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the (now retired) [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package.
+With several improvements and compatibility for the [`Amelia`](https://cran.r-project.org/package=Amelia) package, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the (now retired) [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package.
 
 ## Author
 Farhad Pishgar
