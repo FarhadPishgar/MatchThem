@@ -3,10 +3,9 @@
 \docType{data}
 \name{osteoarthritis}
 \alias{osteoarthritis}
-\title{Data of 4,796 Participants in the OAI Project}
-\format{This dataset contains 4,796 rows and 8 columns. Each row presents data of an observation (individual) and each column presents data of a characteristics of that observation. The columns are:
+\title{Data of 2,585 Participants in the OAI Project}
+\format{This dataset contains 2,585 rows and 7 columns. Each row presents data of an observation (individual) and each column presents data of a characteristics of that observation. The columns are:
 \describe{
-  \item{IDN}{Unique identifier number for each observation (individual);}
   \item{AGE}{Age of each observation (individual);}
   \item{SEX}{Gender of each observation (individual), coded as \code{0} (female) and \code{1} (male);}
   \item{BMI}{Estimated body mass index of each observation (individual);}
@@ -22,6 +21,6 @@ The information presented in the \code{osteoarthritis} dataset is based on the p
 osteoarthritis
 }
 \description{
-The dataset \code{osteoarthritis} includes demographic data of 4,796 observations (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), osteoporosis status (\code{OSP}, a binary qualitative variable), and knee osteoarthritis status (\code{KOA}, a binary qualitative variable).
+The dataset \code{osteoarthritis} includes demographic data of 2,585 observations (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), osteoporosis status (\code{OSP}, a binary qualitative variable), and knee osteoarthritis status (\code{KOA}, a binary qualitative variable).
 }
 \keyword{datasets}

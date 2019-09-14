@@ -27,13 +27,14 @@ data(osteoarthritis)
 
 #Multiply imputing the missing values
 imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+                         method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
                               approach = 'within', method = 'nearest')
 
-#Binding a dataframe to imputed datasets of the 'matched.datasets'
+#Binding a (sorted) dataframe to imputed datasets of the 'matched.datasets'
+#(assume that 'data' is a dataset with information on new variables)
 matched.datasets <- bindthem(matched.datasets, data)
 }
 }

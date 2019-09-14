@@ -22,23 +22,6 @@ The \code{mergethem()} function merges a dataframe with each imputed dataset of 
 \details{
 This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 }
-\examples{
-\donttest{
-#Loading the dataset
-data(osteoarthritis)
-
-#Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
-
-#Matching the multiply imputed datasets
-matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')
-
-#Merging a dataframe with imputed datasets of the 'matched.datasets'
-matched.datasets <- mergethem(matched.datasets, data, by = "IDN")
-}
-}
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
 }

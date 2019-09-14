@@ -1,7 +1,7 @@
 Package: MatchThem
 Title: Matching Multiply Imputed Datasets
 Description: Provides the necessary tools for the pre-processing technique of matching in multiply imputed datasets, to improve the robustness and transparency of deriving causal inferences from studying these datasets. This package includes functions to perform propensity score matching within or across the imputed datasets as well as to estimate weights (including inverse propensity score weights) of observations, to analyze each matched or weighted datasets using parametric or non-parametric statistical models, and to combine the obtained results from these models according to Rubin’s rules. Please see the package repository <https://github.com/FarhadPishgar/MatchThem> for details.
-Version: 0.8.1
+Version: 0.8.0
 Author: Farhad Pishgar
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: graphics, MatchIt, methods, mice, WeightIt, R (>= 3.5.0)
@@ -14,4 +14,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-09-13 08:57:05 UTC; Farhad
+Packaged: 2019-09-14 14:23:07 UTC; Farhad

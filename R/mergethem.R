@@ -31,14 +31,15 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+#'                          method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
 #'                               approach = 'within', method = 'nearest')
 #'
-#' #Merging a dataframe with imputed datasets of the 'matched.datasets'
-#' matched.datasets <- mergethem(matched.datasets, data, by = "IDN")
+#' #Merging a (unsorted) dataframe with imputed datasets of the 'matched.datasets'
+#' #(assume that 'data' is a dataset with information on new variables)
+#' matched.datasets <- mergethem(matched.datasets, data, by = c("AGE", "SEX))
 #' }
 
 mergethem <- function(datasets, data, by = "ID") {

@@ -34,7 +34,7 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+#'                          method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
@@ -74,5 +74,24 @@ pool <- function (object, dfcom = NULL) {
 
   #Returning output
   output <- mice::pool(object, dfcom = dfcom)
+
+  #Ungrouping
+  call. <- output$call
+  m. <- output$m
+  pooled. <- output$pooled
+  summary. <- summary(output, conf.int = TRUE)
+
+  #Adding confidence intervals data
+  pooled.$`2.5 %` <- summary.$`2.5 %`
+  pooled.$`97.5 %` <- summary.$`97.5 %`
+  pooled.$std.error <- summary.$std.error
+  pooled.$p.value <- summary.$p.value
+  pooled. <- pooled.[c("estimate", "2.5 %", "97.5 %", "std.error", "p.value", "ubar", "b", "t", "dfcom", "df", "riv", "lambda", "fmi")]
+
+  #Grouping again
+  output <- list(call = call., m = m., pooled = pooled.)
+  class(output) <- c("mipo", "data.frame")
+
+  #Return
   return(output)
 }
