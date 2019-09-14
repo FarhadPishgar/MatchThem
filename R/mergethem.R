@@ -39,7 +39,7 @@
 #'
 #' #Merging a (unsorted) dataframe with imputed datasets of the 'matched.datasets'
 #' #(assume that 'data' is a dataset with information on new variables)
-#' matched.datasets <- mergethem(matched.datasets, data, by = c("AGE", "SEX))
+#' matched.datasets <- mergethem(matched.datasets, data, by = c("AGE", "SEX"))
 #' }
 
 mergethem <- function(datasets, data, by = "ID") {
