@@ -9,7 +9,7 @@
 
 ## Introduction
 
-One of the major issues in the matching procedures is the presence of missing data since matching relies on the predictions from a logistic regression model and with lacking information for the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem and despite other standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
+One of the major issues in the matching procedures is the presence of missing data since matching relies on the predictions from a logistic regression model and with missing information in the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem and despite these standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
 
 Matching of control and treatment observations in multiply imputed datasets can be achieved through different approaches:
 
