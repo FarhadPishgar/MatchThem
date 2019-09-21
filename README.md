@@ -75,3 +75,7 @@ I would like to thank the CRAN team members for their comments and technical sup
 Farhad Pishgar
 
 [![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+
+Clemence Leyrat
+
+[![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
