@@ -11,7 +11,7 @@
 
 ![](https://img.shields.io/badge/version-0.8.1-orange.svg?color=informational&style=for-the-badge)
 
-The `README` and `NEWS` files are updated.
+TBD
 
 ![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=inactive&style=for-the-badge)
 
