@@ -13,7 +13,7 @@
 
 The `README` and `NEWS` files are updated.
 
-![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=informational&style=for-the-badge)
+![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=inactive&style=for-the-badge)
 
 The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released on the Github and Comprehensive R Archive Network (CRAN).
 
