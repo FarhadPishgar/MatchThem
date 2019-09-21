@@ -71,11 +71,11 @@ The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/165
 
 I would like to thank the CRAN team members for their comments and technical support. This package relies on the [`Amelia`](https://cran.r-project.org/package=Amelia), [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
 
-## Author
+## Authors
 Farhad Pishgar
 
 [![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
 
-Clemence Leyrat
+Clémence Leyrat
 
 [![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
