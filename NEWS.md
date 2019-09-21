@@ -5,15 +5,23 @@
 <!-- badges: end -->
 
 [![](https://img.shields.io/badge/CRAN%20version-0.8.0-orange.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.8.0-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.8.1-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
 
+![](https://img.shields.io/badge/version-0.8.1-orange.svg?color=informational&style=for-the-badge)
+
+The `README` and `NEWS` files are updated.
+
 ![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=informational&style=for-the-badge)
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released to replace the (now retired) [`MatchIt.mice`](https://cran.r-project.org/package=MatchIt.mice) package.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released on the Github and Comprehensive R Archive Network (CRAN).
 
-## Author
+## Authors
 Farhad Pishgar
 
 [![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+
+Clémence Leyrat
+
+[![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
