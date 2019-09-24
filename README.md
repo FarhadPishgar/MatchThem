@@ -13,10 +13,10 @@ One of the major issues in the propensity score matching procedures is the prese
 
 Matching of control and treatment observations based on the propensity score in multiply imputed datasets can be achieved through different approaches:
 
-1. **The within (match-then-pool) approach**: In this approach, matching is done on each imputed dataset, the complete data analysis is performed on them, and the treatment effects obtained from these analyses are pooled together (please see the article by [Leyrat et al.](https://www.ncbi.nlm.nih.gov/pubmed/28573919) for more details).
-2. **The across (pool-then-match) approach**: In this approach, the calculated propensity scores for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. Complete data analysis is performed on the matched datasets, and the treatment effects obtained from these analyses are pooled together (although a bit different, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
+1. **The within (match-then-pool) approach**: In this approach, matching is done on each imputed dataset, using the observed and imputed covariate values, and the treatment effects obtained from analysing the matched datasets are pooled together (please see the article by [Leyrat et al.](https://www.ncbi.nlm.nih.gov/pubmed/28573919) for more details).
+2. **The across (pool-then-match) approach**: In this approach, the calculated propensity scores for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. The matched datasets are analyzed and the treatment effects obtained from these analyses are pooled together (although a bit different, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
 
-The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are widely accepted statistical tools for imputing the ignorable missing data in the R platform. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package simplifies the process of matching the imputed datasets obtained using these packages and enables credible adoption of the two matching approaches and several matching methods in practice. This package enables parametric models for causal inference to provide unbiased estimates through selecting matched observations from the control and treatment groups, performing complete data analysis, and pooling the obtained results on imputed datasets using Rubin’s rules.
+The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are widely accepted statistical tools for imputing the ignorable missing data in the R platform. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package simplifies the process of matching the imputed datasets obtained using these packages and enables credible adoption of the two matching approaches and several matching methods in practice. This package enables parametric models for causal inference to provide unbiased estimates through selecting matched observations from the control and treatment groups, analysing the matched datasets, and pooling the obtained results on imputed datasets using Rubin’s rules.
 
 ## Installation
 
@@ -40,7 +40,7 @@ Adopting algorithms to multiply impute the missing data, before the matching pro
 
 1. **Imputing the Missing Data in the Dataset**: Functions of the [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, although it may work with the latter, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
 2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of the balance in covariates after matching. You can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` and `wimids` objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package, itself).
-3. **Complete Data Analysis**: The `with()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate treatment effect size from complete data analysis in each (matched) imputed dataset.
+3. **Analysing the Matched Datasets**: The `with()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate treatment effect size from analysing the matched datasets.
 4. **Pooling the Treatment Effect Size Estimates**: The `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained treatment effect estimates from the previous step using Rubin’s rules.
 
 ### Imputing the Missing Data in the Dataset
@@ -55,9 +55,9 @@ The `matchthem()` function requires the imputed datasets not to have any missing
 
 The output of the `matchthem()` function will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` functions can be used to review detailed descriptions of these objects. Moreover, `matchthem.data()` function can be used to extract the matched datasets in these objects.
 
-### Complete Data Analysis
+### Analysing the Matched Datasets
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `with()`, provides an easy way to perform complete data analysis on each matched imputed dataset.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `with()`, provides an easy way to analyze each matched imputed dataset.
 
 The output of the `with()` function will be saved in an object of the `mira` class. The `print()` and `summary()` functions can be used to review detailed descriptions of these objects.
 
