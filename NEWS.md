@@ -9,11 +9,11 @@
 
 ## What's New
 
-![](https://img.shields.io/badge/version-0.8.1-orange.svg?color=informational&style=for-the-badge)
+### Version 0.8.1
 
-TBD
+This is a "spit and polish" release.
 
-![](https://img.shields.io/badge/version-0.8.0-orange.svg?color=inactive&style=for-the-badge)
+### Version 0.8.0
 
 The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package is released on the Github and Comprehensive R Archive Network (CRAN).
 
