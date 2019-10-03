@@ -11,7 +11,7 @@
 
 ### Version 0.8.1
 
-This is a spit and polish release.
+This is a spit and polish release, improving the documentation.
 
 ### Version 0.8.0
 
