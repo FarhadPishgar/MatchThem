@@ -54,10 +54,10 @@ bindthem <- function(datasets, data) {
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
-  if(!is.mids(datasets) & !is.mimids(datasets) & !is.wimids(datasets)) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if(!mice::is.mids(datasets) & !is.mimids(datasets) & !is.wimids(datasets)) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
   if(!is.data.frame(data)) {stop("The input for the data must be a dataframe.")}
 
-  if (is.mids(datasets)) {
+  if (mice::is.mids(datasets)) {
     #Polishing variables
     data.0 <- datasets$data
     data.0$.id <- 1:nrow(datasets$data)
@@ -69,7 +69,7 @@ bindthem <- function(datasets, data) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- cbind(data.i, data)
@@ -82,43 +82,43 @@ bindthem <- function(datasets, data) {
     return(new.datasets)
   }
 
-if (is.mimids(datasets)) {
-  #Polishing variables
-  modelslist <- datasets$models
-  others <- datasets$others
-  datasets <- datasets$object
-  original <- datasets$original.object
+  if (is.mimids(datasets)) {
+    #Polishing variables
+    modelslist <- datasets$models
+    others <- datasets$others
+    datasets <- datasets$object
+    original <- datasets$original.object
 
-  data.0 <- datasets$data
-  data.0$.id <- 1:nrow(datasets$data)
-  data.0$.imp <- 0
-  data.0 <- cbind(data.0, data)
+    data.0 <- datasets$data
+    data.0$.id <- 1:nrow(datasets$data)
+    data.0$.imp <- 0
+    data.0 <- cbind(data.0, data)
 
-  #Preparing the list
-  datasetslist <- list(data.0)
+    #Preparing the list
+    datasetslist <- list(data.0)
 
-  #Binding
-  for (i in 1:datasets$m) {
-    data.i <- complete(datasets, i)
-    data.i$.id <- 1:nrow(datasets$data)
-    data.i$.imp <- i
-    data.i <- cbind(data.i, data)
-    datasetslist[[i+1]] <- data.i
+    #Binding
+    for (i in 1:datasets$m) {
+      data.i <- mice::complete(datasets, i)
+      data.i$.id <- 1:nrow(datasets$data)
+      data.i$.imp <- i
+      data.i <- cbind(data.i, data)
+      datasetslist[[i+1]] <- data.i
+    }
+
+    #Prepating the output
+    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
+    new.datasets <- as2.mids(new.datasets)
+
+    #Returning output
+    output <- list(object = new.datasets,
+                   models = modelslist,
+                   others = others,
+                   datasets = datasetslist,
+                   original.object = original)
+    class(output) <- "mimids"
+    return(output)
   }
-
-  #Prepating the output
-  new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-  new.datasets <- as2.mids(new.datasets)
-
-  #Returning output
-  output <- list(object = new.datasets,
-                 models = modelslist,
-                 others = others,
-                 datasets = datasetslist,
-                 original.object = original)
-  class(output) <- "mimids"
-  return(output)
-}
 
   if (is.wimids(datasets)) {
     #Polishing variables
@@ -137,7 +137,7 @@ if (is.mimids(datasets)) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- cbind(data.i, data)

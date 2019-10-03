@@ -61,15 +61,14 @@ weightthem <- function (formula, datasets,
   #Importing functions
   #' @importFrom mice complete
   #' @importFrom WeightIt weightit
-  #' @importFrom stats as.formula terms
+  #' @importFrom stats as.formula
   mice::complete
   WeightIt::weightit
   stats::as.formula
-  stats::terms
   #' @export
 
   #Polishing variables
-  formula <- as.formula(formula)
+  formula <- stats::as.formula(formula)
   originals <- datasets
   if(approach == "pool-then-match") {approach == "across"}
   if(approach == "match-then-pool") {approach == "within"}
@@ -117,8 +116,8 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Building the model
-      dataset <- complete(datasets, i)
-      model <- weightit(formula, dataset,
+      dataset <- mice::complete(datasets, i)
+      model <- WeightIt::weightit(formula, dataset,
                         method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
                         ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 
@@ -170,8 +169,8 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Building the model
-      dataset <- complete(datasets, i)
-      model <- weightit(formula, dataset,
+      dataset <- mice::complete(datasets, i)
+      model <- WeightIt::weightit(formula, dataset,
                         method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
                         ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 
@@ -189,11 +188,11 @@ weightthem <- function (formula, datasets,
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       dataset$p.s. <- p
 
       #Building the model
-      model <- weightit(formula, dataset,
+      model <- WeightIt::weightit(formula, dataset,
                         method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
                         ps = dataset$p.s., moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 

@@ -28,8 +28,8 @@ plot.mimids <- function(x, n = 1, type = "QQ", discrete.cutoff = 5,
   cat("Dataset: #", n,  "\n", sep = "")
 
   #Plotting
-  plot(model, discrete.cutoff = discrete.cutoff, type = type,
-       numdraws = numdraws, interactive = interactive, which.xs = which.xs, ...)
+  graphics::plot(model, discrete.cutoff = discrete.cutoff, type = type,
+                 numdraws = numdraws, interactive = interactive, which.xs = which.xs, ...)
 }
 
 #' @export

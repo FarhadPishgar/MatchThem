@@ -55,10 +55,10 @@ mergethem <- function(datasets, data, by = "ID") {
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
-  if(!is.mids(datasets) & !is.mimids(datasets) & !is.wimids(datasets)) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if(!mice::is.mids(datasets) & !is.mimids(datasets) & !is.wimids(datasets)) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
   if(!is.data.frame(data)) {stop("The input for the data must be a data frame.")}
 
-  if (is.mids(datasets)) {
+  if (mice::is.mids(datasets)) {
     #Polishing variables
     data.0 <- datasets$data
     data.0$.id <- 1:nrow(datasets$data)
@@ -70,7 +70,7 @@ mergethem <- function(datasets, data, by = "ID") {
 
     #Merging
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- merge(data.i, data, by = by, all.x = TRUE, all.y = FALSE)
@@ -82,7 +82,7 @@ mergethem <- function(datasets, data, by = "ID") {
     new.datasets <- as2.mids(new.datasets)
     return(new.datasets)
 
-    }
+  }
 
   if (is.mimids(datasets)) {
     #Polishing variables
@@ -101,7 +101,7 @@ mergethem <- function(datasets, data, by = "ID") {
 
     #Merging
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- merge(data.i, data, by = by, all.x = TRUE, all.y = FALSE)
@@ -140,7 +140,7 @@ mergethem <- function(datasets, data, by = "ID") {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- merge(data.i, data, by = by, all.x = TRUE, all.y = FALSE)

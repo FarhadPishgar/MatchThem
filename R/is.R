@@ -44,7 +44,7 @@ is.mimids <- function(object) {
   methods::is
   #' @export
 
-  output <- is(object, "mimids")
+  output <- methods::is(object, "mimids")
   return(output)
 }
 
@@ -94,6 +94,6 @@ is.wimids <- function(object) {
   methods::is
   #' @export
 
-  output <- is(object, "wimids")
+  output <- methods::is(object, "wimids")
   return(output)
-  }
+}

@@ -30,7 +30,7 @@ as2.mids <- function(long, where = NULL, .imp = ".imp", .id = ".id") {
     stop("Unequal group sizes in imputation index `.imp`")
 
   # get original data part
-  keep <- setdiff(names(long), na.omit(c(.imp, .id)))
+  keep <- setdiff(names(long), stats::na.omit(c(.imp, .id)))
   data <- long[imps == 0, keep, drop = FALSE]
   n <- nrow(data)
   if (n == 0)
@@ -40,11 +40,11 @@ as2.mids <- function(long, where = NULL, .imp = ".imp", .id = ".id") {
   m <- length(unique(imps)) - 1
 
   # use mice to get info on data
-  if (is.null(where)) where <- is.na(matrix(, nrow = n, ncol = length(keep)))
+  if (is.null(where)) where <- is.na(matrix(nrow = n, ncol = length(keep)))
   colnames(where) <- keep
 
-  ini <- mice(data, m = m, where = where, maxit = 0,
-              remove.collinear = FALSE, allow.na = TRUE)
+  ini <- mice::mice(data, m = m, where = where, maxit = 0,
+                    remove.collinear = FALSE, allow.na = TRUE)
 
   # store any .id as row names
   if (!is.na(.id))

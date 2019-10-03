@@ -49,9 +49,8 @@ weightthem.data <- function (object, n = 1) {
   if(object$object$m < n) {stop("The input for the 'n' is out of bounds.")}
 
   #Returning the output
-  output <- object$datasets[[n + 1]][complete.cases(object$datasets[[n + 1]][ , "weights"]),]
+  output <- object$datasets[[n + 1]][stats::complete.cases(object$datasets[[n + 1]][ , "weights"]),]
   output$.id <- NULL
   output$.imp <- NULL
   return(output)
 }
-

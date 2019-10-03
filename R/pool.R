@@ -70,7 +70,7 @@ pool <- function (object, dfcom = NULL) {
   #' @export
 
   #Handling unequal dfs
-  if (is.null(dfcom) & sd(summary(getfit(object), type = "glance")$df.residual) != 0) dfcom <- min(summary(getfit(object), type = "glance")$df.residual)
+  if (is.null(dfcom) & stats::sd(summary(mice::getfit(object), type = "glance")$df.residual) != 0) dfcom <- min(summary(mice::getfit(object), type = "glance")$df.residual)
 
   #Returning output
   output <- mice::pool(object, dfcom = dfcom)

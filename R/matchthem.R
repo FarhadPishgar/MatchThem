@@ -63,7 +63,7 @@ matchthem <- function (formula, datasets,
   #' @export
 
   #Polishing variables
-  formula <- as.formula(formula)
+  formula <- stats::as.formula(formula)
   originals <- datasets
   if(approach == "pool-then-match") {approach == "across"}
   if(approach == "match-then-pool") {approach == "within"}
@@ -111,12 +111,12 @@ matchthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Building the model
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       dataset$.id <- 1:nrow(datasets$data)
-      model <- matchit(formula, dataset,
-                       method = method, distance = distance,
-                       distance.options = distance.options, discard = discard,
-                       reestimate = reestimate, ...)
+      model <- MatchIt::matchit(formula, dataset,
+                                method = method, distance = distance,
+                                distance.options = distance.options, discard = discard,
+                                reestimate = reestimate, ...)
 
       #Printing out
       if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
@@ -179,12 +179,12 @@ matchthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Building the model
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       dataset$.id <- 1:nrow(datasets$data)
-      model <- matchit(formula, dataset,
-                       method = method, distance = distance,
-                       distance.options = distance.options, discard = discard,
-                       reestimate = reestimate, ...)
+      model <- MatchIt::matchit(formula, dataset,
+                                method = method, distance = distance,
+                                distance.options = distance.options, discard = discard,
+                                reestimate = reestimate, ...)
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
@@ -200,15 +200,15 @@ matchthem <- function (formula, datasets,
 
     #Matching each dataset
     for (i in 1:datasets$m) {
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       dataset$.id <- 1:nrow(datasets$data)
       dataset$estimated.distance <- d
 
       #Building the model
-      model <- matchit(formula, dataset,
-                       method = method, distance = dataset$estimated.distance,
-                       distance.options = distance.options, discard = discard,
-                       reestimate = reestimate, ...)
+      model <- MatchIt::matchit(formula, dataset,
+                                method = method, distance = dataset$estimated.distance,
+                                distance.options = distance.options, discard = discard,
+                                reestimate = reestimate, ...)
 
       #Printing out
       if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
