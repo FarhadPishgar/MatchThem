@@ -11,10 +11,6 @@
 
 ### Version 0.8.1
 
-This is a spit and polish release, improving the documentation.
-
-### Version 0.8.0
-
 This is the first release of the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package on the [Github](https://github.com/FarhadPishgar/MatchThem) and [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=MatchThem).
 
 ## Authors
