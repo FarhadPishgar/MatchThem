@@ -126,19 +126,17 @@ matchthem <- function (formula, datasets,
       matched.dataset <- match2.data(model, environment = environment())
       matched.dataset$weights <- NULL
 
-      x = nrow(matched.dataset) + 1
-      for (j in 1:nrow(dataset0)){
-        if (j %in% matched.dataset$.id) {
-          #
-        }
-        else {
-          matched.dataset[x, ".id"] <- j
-          x = x + 1
-        }
+      all.list <- 1:nrow(datasets$data)
+      inc.list <- matched.dataset$.id
+      exc.list <- setdiff(all.list, inc.list)
+      num.list <- nrow(matched.dataset) + 1
+      for (j in 1:length(exc.list)){
+        matched.dataset[num.list, ".id"] <- exc.list[j]
+        num.list <- num.list + 1
       }
-
       matched.dataset$.imp <- i
       matched.dataset <- matched.dataset[order(matched.dataset$.id),]
+      row.names(matched.dataset) <- 1:nrow(datasets$data)
 
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
@@ -219,19 +217,17 @@ matchthem <- function (formula, datasets,
       matched.dataset$weights <- NULL
       matched.dataset$estimated.distance <- NULL
 
-      x = nrow(matched.dataset) + 1
-      for (j in 1:nrow(dataset0)){
-        if (j %in% matched.dataset$.id) {
-          #
-        }
-        else {
-          matched.dataset[x, ".id"] <- j
-          x = x + 1
-        }
+      all.list <- 1:nrow(datasets$data)
+      inc.list <- matched.dataset$.id
+      exc.list <- setdiff(all.list, inc.list)
+      num.list <- nrow(matched.dataset) + 1
+      for (j in 1:length(exc.list)){
+        matched.dataset[num.list, ".id"] <- exc.list[j]
+        num.list <- num.list + 1
       }
-
       matched.dataset$.imp <- i
       matched.dataset <- matched.dataset[order(matched.dataset$.id),]
+      row.names(matched.dataset) <- 1:nrow(datasets$data)
 
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
