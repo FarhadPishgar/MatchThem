@@ -65,8 +65,8 @@ matchthem <- function (formula, datasets,
   #Polishing variables
   formula <- stats::as.formula(formula)
   originals <- datasets
-  if(approach == "pool-then-match") {approach == "across"}
-  if(approach == "match-then-pool") {approach == "within"}
+  if(approach == "pool-then-match") {approach <- "across"}
+  if(approach == "match-then-pool") {approach <- "within"}
 
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
