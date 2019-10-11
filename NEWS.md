@@ -5,9 +5,13 @@
 <!-- badges: end -->
 
 [![](https://img.shields.io/badge/CRAN%20version-0.8.1-orange.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.8.1-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.8.2-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
+
+### Version 0.8.2
+
+This is a spit and polish update to improve the documentation and to implement compatibility for weighted analyses.
 
 ### Version 0.8.1
 
