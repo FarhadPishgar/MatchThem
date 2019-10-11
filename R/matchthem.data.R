@@ -5,9 +5,9 @@
 #' @aliases matchthem.data
 #'
 #' @param object This argument specifies an object of the \code{mimids} class.
-#' @param n This argument specifies the matched imputed dataset number, intended to extract its matching data. The input must be a positive integer. The default is \code{1}.
+#' @param n This argument specifies the matched imputed dataset number, intended to extract its data. The input must be a positive integer. The default is \code{1}.
 #'
-#' @description The \code{matchthem.data()} function extracts matching data from an object of the \code{mimids} class.
+#' @description The \code{matchthem.data()} function extracts matched data from an object of the \code{mimids} class.
 #'
 #' @details The matched datasets within the \code{mimids} class object are extracted.
 #'
@@ -28,7 +28,8 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+#'                          method = c("", "", "mean", "polyreg",
+#'                                     "logreg", "logreg", "logreg"))
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

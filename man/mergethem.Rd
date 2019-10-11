@@ -2,22 +2,22 @@
 % Please edit documentation in R/mergethem.R
 \name{mergethem}
 \alias{mergethem}
-\title{Merges Imputed Datasets with Dataframes}
+\title{Merges Imputed Datasets with Data Frames}
 \usage{
 mergethem(datasets, data, by = "ID")
 }
 \arguments{
 \item{datasets}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
 
-\item{data}{This argument specifies a dataframe.}
+\item{data}{This argument specifies a data frame.}
 
 \item{by}{This argument specifies a variable name, present in both \code{datasets} and \code{data}.}
 }
 \value{
-This function returns an object of the \code{mimids} or \code{wimids} class after merging a dataframe with each imputed dataset of the inputted object.
+This function returns an object of the \code{mimids} or \code{wimids} class after merging a data frame with each imputed dataset of the inputted object.
 }
 \description{
-The \code{mergethem()} function merges a dataframe with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
+The \code{mergethem()} function merges a data frame with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
 }
 \details{
 This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
@@ -29,7 +29,8 @@ data(osteoarthritis)
 
 #Multiply imputing the missing values
 imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+                         method = c("", "", "mean", "polyreg",
+                                    "logreg", "logreg", "logreg"))
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

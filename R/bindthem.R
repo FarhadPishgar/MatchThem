@@ -1,17 +1,17 @@
-#' @title Binds Imputed Datasets and Dataframes
+#' @title Binds Imputed Datasets to Data Frames
 #'
 #' @rdname bindthem
 #'
 #' @aliases bindthem
 #'
-#' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
-#' @param data This argument specifies a dataframe.
+#' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the functions \code{matchthem()} or \code{weightthem()}.
+#' @param data This argument specifies a data frame.
 #'
-#' @description The \code{bindthem()} function binds a dataframe to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
+#' @description The \code{bindthem()} function binds a data frame to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
 #'
 #' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
-#' @return This function returns an object of the \code{mimids} or \code{wimids} class after binding a dataframe to each imputed dataset of the inputted object.
+#' @return This function returns an object of the \code{mimids} or \code{wimids} class after binding a data frame to each imputed dataset of the inputted object.
 #'
 #' @seealso  \code{\link[=matchthem]{matchthem}}
 #' @seealso  \code{\link[=weightthem]{weightthem}}
@@ -30,7 +30,8 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+#'                          method = c("", "", "mean", "polyreg",
+#'                                     "logreg", "logreg", "logreg"))
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

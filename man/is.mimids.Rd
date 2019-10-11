@@ -24,8 +24,9 @@ The class of objects is checked to be of the \code{mimids}.
 data(dataset)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(dataset, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
+                         method = c("", "", "mean", "polyreg",
+                                    "logreg", "logreg", "logreg"))
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

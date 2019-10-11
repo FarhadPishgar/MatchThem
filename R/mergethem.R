@@ -1,18 +1,18 @@
-#' @title Merges Imputed Datasets with Dataframes
+#' @title Merges Imputed Datasets with Data Frames
 #'
 #' @rdname mergethem
 #'
 #' @aliases mergethem
 #'
 #' @param datasets This argument specifies an object of the \code{mimids} or \code{wimids} class.
-#' @param data This argument specifies a dataframe.
+#' @param data This argument specifies a data frame.
 #' @param by This argument specifies a variable name, present in both \code{datasets} and \code{data}.
 #'
-#' @description The \code{mergethem()} function merges a dataframe with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
+#' @description The \code{mergethem()} function merges a data frame with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
 #'
 #' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
-#' @return This function returns an object of the \code{mimids} or \code{wimids} class after merging a dataframe with each imputed dataset of the inputted object.
+#' @return This function returns an object of the \code{mimids} or \code{wimids} class after merging a data frame with each imputed dataset of the inputted object.
 #'
 #' @seealso \code{\link[=matchthem]{matchthem}}
 #' @seealso \code{\link[=weightthem]{weightthem}}
@@ -31,7 +31,8 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg", "logreg", "logreg", "logreg"))
+#'                          method = c("", "", "mean", "polyreg",
+#'                                     "logreg", "logreg", "logreg"))
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
