@@ -61,37 +61,48 @@ pool <- function (object, dfcom = NULL) {
   #Changes: Few
 
   #Importing functions
-  #' @importFrom mice pool
   #' @importFrom mice getfit
-  #' @importFrom stats sd
-  mice::pool
+  #' @importFrom mice as.mira
+  #' @importFrom stats df.residual
   mice::getfit
-  stats::sd
+  mice::as.mira
+  stats::df.residual
   #' @export
 
-  #Handling unequal dfs
-  if (is.null(dfcom) & stats::sd(summary(mice::getfit(object), type = "glance")$df.residual) != 0) dfcom <- min(summary(mice::getfit(object), type = "glance")$df.residual)
+  #Polishing variables
+  if (!mice::is.mira(object)) stop("The input for the object must be an object of the 'mira' class.")
 
-  #Returning output
-  output <- mice::pool(object, dfcom = dfcom)
+  #Checking inputs format
+  call <- match.call()
+  m <- length(object$analyses)
 
-  #Ungrouping
-  call. <- output$call
-  m. <- output$m
-  pooled. <- output$pooled
-  summary. <- summary(output, conf.int = TRUE)
+  #Deal with imputed datasets with m = 1
+  if (m == 1) {
+    warning("The input for the object has only 1 imputed dataset, hence, no pooling is done.")
+    return(getfit(object, 1))
+  }
 
-  #Adding confidence intervals data
-  pooled.$`2.5 %` <- summary.$`2.5 %`
-  pooled.$`97.5 %` <- summary.$`97.5 %`
-  pooled.$std.error <- summary.$std.error
-  pooled.$p.value <- summary.$p.value
-  pooled. <- pooled.[c("estimate", "2.5 %", "97.5 %", "std.error", "p.value", "ubar", "b", "t", "dfcom", "df", "riv", "lambda", "fmi")]
+  #Handling the (unequal) dfcoms
+  if (!is.null(dfcom)) {
+    dfcom <- max(dfcom, 1)
+  } else {
+    dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
+    if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
+    if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
+    if (is.null(dfcom)) dfcom <- df.residual(getfit(mice::getfit(object), 1L))
+  }
 
-  #Grouping again
-  output <- list(call = call., m = m., pooled = pooled.)
+  #Large dataset
+  if (is.null(dfcom)) {
+    dfcom <- 999999
+    warning("Large sample assumed.")
+  }
+
+  #Pooling
+  pooled <- pool2.fitlist(mice::getfit(object), dfcom = dfcom)
+  output <- list(call = call, m = m, pooled = pooled)
   class(output) <- c("mipo", "data.frame")
 
-  #Return
+  #Return the output
   return(output)
 }

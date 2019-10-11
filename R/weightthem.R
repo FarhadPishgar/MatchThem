@@ -62,9 +62,11 @@ weightthem <- function (formula, datasets,
   #' @importFrom mice complete
   #' @importFrom WeightIt weightit
   #' @importFrom stats as.formula
+  #' @importFrom survey svydesign
   mice::complete
   WeightIt::weightit
   stats::as.formula
+  survey::svydesign
   #' @export
 
   #Polishing variables
@@ -76,7 +78,7 @@ weightthem <- function (formula, datasets,
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(class(datasets) != "mids" && class(datasets) != "amelia") {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
-  if(!is.null(datasets$data$p.s.)) {stop("The input for the datasets shouldn't have a variable named 'p.s.'.")}
+  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance'.")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!(method %in% c("ps", "gbm", "cbps", "npcbps", "ebal", "ebcw", "optweight", "super", "user-defined"))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'npcbps', 'ebal', 'ebcw', 'optweight', 'super', or 'user-defined'.")}
   if(approach != "within" && approach != "across") {stop("The input for the weighting approach must be either 'within' or 'across'.")}
@@ -111,6 +113,7 @@ weightthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(dataset0)
     modelslist <- list(0)
+    surveylist <- list(0)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -118,8 +121,8 @@ weightthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
-                        method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                        ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
+                                  ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 
       #Printing out
       if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
@@ -130,9 +133,13 @@ weightthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
       dataset$.imp <- i
 
+      #The survey object
+      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = dataset)
+
       #Updating the lists
       datasetslist[i+1] <- list(dataset)
       modelslist[i+1] <- list(model)
+      surveylist[i+1] <- list(survey.object)
     }
 
     #Binding the datasets
@@ -140,7 +147,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
 
     #Returning output
     output <- list(object = weighted.datasets,
@@ -164,6 +171,7 @@ weightthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(dataset0)
     modelslist <- list(0)
+    surveylist <- list(0)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -171,44 +179,48 @@ weightthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
-                        method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                        ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
+                                  ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
       if (i != 1) cat(" #", i, sep = "")
 
       #Measures
-      if (i == 1) p <- model$ps
-      if (i != 1) p <- p + model$ps
+      if (i == 1) d <- model$ps
+      if (i != 1) d <- d + model$ps
     }
 
     #Updating the weights
-    p <- p / (datasets$m)
+    d <- d / (datasets$m)
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
       dataset <- mice::complete(datasets, i)
-      dataset$p.s. <- p
+      dataset$estimated.distance <- d
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
-                        method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                        ps = dataset$p.s., moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
+                                  ps = dataset$estimated.distance, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
 
       #Dataset
       dataset$weights <- model$weights
       dataset$.id <- 1:nrow(datasets$data)
       dataset$.imp <- i
-      dataset$p.s. <- NULL
+      dataset$estimated.distance <- NULL
 
       #Printing out
       if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
       if (i != 1) cat(" #", i, sep = "")
 
+      #The survey object
+      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = dataset)
+
       #Updating the list
       datasetslist[i+1] <- list(dataset)
       modelslist[i+1] <- list(model)
+      surveylist[i+1] <- list(survey.object)
     }
 
     #Binding the datasets
@@ -216,7 +228,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
 
     #Returning output
     output <- list(object = weighted.datasets,

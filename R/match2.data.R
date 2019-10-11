@@ -1,4 +1,4 @@
-match2.data <- function(object, distance = "distance", weights = "weights",
+match2.data <- function(object, distance = "distance", weights = "weights", subclass = "subclass",
                        environment = environment()) {
 
   #Internal function
@@ -32,6 +32,15 @@ match2.data <- function(object, distance = "distance", weights = "weights",
   else if (!is.null(object$weights)){
     dta <- data.frame(cbind(data, object$weights))
     names(dta) <- c(names(data), weights)
+    data <- dta
+  }
+
+  #Binding the subclass variable
+  if (subclass %in% vars)
+    stop("The input for the datasets shouldn't have a variable named as 'subclass'.")
+  else if (!is.null(object$subclass)){
+    dta <- data.frame(cbind(data, object$subclass))
+    names(dta) <- c(names(data), subclass)
     data <- dta
   }
 

@@ -4,12 +4,14 @@
 \alias{with.mimids}
 \title{Evaluates an Expression in Matched Imputed Datasets}
 \usage{
-\method{with}{mimids}(data, expr, ...)
+\method{with}{mimids}(data, expr, method = "conventional", ...)
 }
 \arguments{
 \item{data}{This argument specifies an object of the \code{mimids} class, typically produced by a previous call to the function \code{matchthem()}.}
 
 \item{expr}{This argument specifies an expression of the usual syntax of R formula. See \code{help(formula)} for details.}
+
+\item{method}{This argument specifies the method that should be used for calculating standard errors of the estimates. Currently, the \code{'conventional'} (default) and \code{'weighted'} (using functions from the \pkg{survey} package to build the \code{glm} and \code{coxph} models).}
 
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }

@@ -57,9 +57,11 @@ matchthem <- function (formula, datasets,
   #' @importFrom mice complete
   #' @importFrom MatchIt matchit
   #' @importFrom stats as.formula
+  #' @importFrom survey svydesign
   mice::complete
   MatchIt::matchit
   stats::as.formula
+  survey::svydesign
   #' @export
 
   #Polishing variables
@@ -73,6 +75,8 @@ matchthem <- function (formula, datasets,
   if(class(datasets) != "mids" && class(datasets) != "amelia") {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
   if(!is.null(datasets$data$distance)) {stop("The input for the datasets shouldn't have a variable named 'distance'.")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
+  if(!is.null(datasets$data$subclass)) {stop("The input for the datasets shouldn't have a variable named 'subclass'.")}
+  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance'.")}
   if(method != "nearest" && method != "exact") {stop("The input for the matching method must be either 'nearest' or 'exact'.")}
   if(approach != "within" && approach != "across") {stop("The input for the matching approach must be either 'within' or 'across'.")}
   if(approach == "across" && method == "exact") {stop("The input for the matching method must be 'nearest', if the 'across' matching approch is selected.")}
@@ -100,12 +104,15 @@ matchthem <- function (formula, datasets,
     #The raw data
     dataset0 <- datasets$data
     if (method != "exact") {dataset0$distance <- NA}
+    dataset0$weights <- NA
+    if (method == "exact") {dataset0$subclass <- NA}
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Defining the lists
     datasetslist <- list(dataset0)
     modelslist <- list(0)
+    surveylist <- list(0)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -124,7 +131,9 @@ matchthem <- function (formula, datasets,
 
       #Matched dataset
       matched.dataset <- match2.data(model, environment = environment())
-      matched.dataset$weights <- NULL
+
+      #The survey object
+      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = matched.dataset)
 
       all.list <- 1:nrow(datasets$data)
       inc.list <- matched.dataset$.id
@@ -141,6 +150,7 @@ matchthem <- function (formula, datasets,
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
       modelslist[i+1] <- list(model)
+      surveylist[i+1] <- list(survey.object)
     }
 
     #Binding the datasets
@@ -148,7 +158,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
 
     #Returning output
     output <- list(object = matched.datasets,
@@ -167,11 +177,13 @@ matchthem <- function (formula, datasets,
     dataset0 <- datasets$data
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$distance <- NA
+    dataset0$weights <- NA
     dataset0$.imp <- 0
 
     #Defining the lists
     datasetslist <- list(dataset0)
     modelslist <- list(0)
+    surveylist <- list(0)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -214,8 +226,10 @@ matchthem <- function (formula, datasets,
 
       #Matched dataset
       matched.dataset <- match2.data(model, environment = environment())
-      matched.dataset$weights <- NULL
       matched.dataset$estimated.distance <- NULL
+
+      #The survey object
+      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = matched.dataset)
 
       all.list <- 1:nrow(datasets$data)
       inc.list <- matched.dataset$.id
@@ -232,6 +246,7 @@ matchthem <- function (formula, datasets,
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
       modelslist[i+1] <- list(model)
+      surveylist[i+1] <- list(survey.object)
     }
 
     #Binding the datasets
@@ -239,7 +254,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
 
     #Returning output
     output <- list(object = matched.datasets,
