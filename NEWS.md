@@ -15,7 +15,7 @@ This is a spit and polish update to improve the documentation and to implement c
 
 ### Version 0.8.1
 
-This is the first release of the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package both on the [Github](https://github.com/FarhadPishgar/MatchThem) and [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=MatchThem).
+This is the first release of the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package both on the [Github](https://github.com/FarhadPishgar/MatchThem) and the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=MatchThem).
 
 ## Authors
 Farhad Pishgar
