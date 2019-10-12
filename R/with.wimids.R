@@ -5,7 +5,7 @@
 #' @method with wimids
 #'
 #' @param data This argument specifies an object of the \code{wimids} class, typically produced by a previous call to the function \code{weightthem()}.
-#' @param expr This argument specifies an expression of the usual syntax of R formula. See \code{help(formula)} for details.
+#' @param expr This argument specifies an expression of the usual syntax of R formula (please note that you should not include the \code{weights = weights} argument, see the package vignette for details). See \code{help(formula)} for details.
 #' @param ... Additional arguments to be passed to \code{expr}.
 #'
 #' @description The \code{with()} function performs a statistical computation on the \code{n} imputed datasets of the \code{wimids} object. The typical sequence of steps to do a weighting procedure on the imputed datasets are:
