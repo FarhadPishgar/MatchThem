@@ -11,7 +11,7 @@
 
 ### Version 0.8.2
 
-This is a spit and polish update to improve the documentation and to implement compatibility for robust estimation of standard errors (including the `svyglm()` and `svycoxph()` from the [`survey`](https://cran.r-project.org/package=survet) package) and for new matching and weighting methods.
+This is a spit and polish update to improve the documentation and to implement compatibility for robust estimation of standard errors (including the `svyglm()` and `svycoxph()` from the [`survey`](https://cran.r-project.org/package=survet) package) and for new matching and weighting methods (including the `full`, `optimal`, and `genetic` matching methods).
 
 ### Version 0.8.1
 
