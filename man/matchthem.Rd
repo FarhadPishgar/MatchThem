@@ -15,7 +15,7 @@ matchthem(formula, datasets, approach = "within", method = "nearest",
 
 \item{approach}{This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and matching observations based on them) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and matching based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.}
 
-\item{method}{This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching) and \code{"exact"} (exact matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods (and matching approaches), \pkg{MatchThem} offers a variety of options.}
+\item{method}{This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), and \code{"optimal"} (optimal matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.}
 
 \item{distance}{This argument specifies the method that should be used to estimate the distance measure. The default is logistic regression, \code{"logit"}. A variety of other methods are available.}
 

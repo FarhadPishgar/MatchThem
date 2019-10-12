@@ -4,14 +4,12 @@
 \alias{with.wimids}
 \title{Evaluates an Expression in Weighted Imputed Datasets}
 \usage{
-\method{with}{wimids}(data, expr, method = "conventional", ...)
+\method{with}{wimids}(data, expr, ...)
 }
 \arguments{
 \item{data}{This argument specifies an object of the \code{wimids} class, typically produced by a previous call to the function \code{weightthem()}.}
 
 \item{expr}{This argument specifies an expression of the usual syntax of R formula. See \code{help(formula)} for details.}
-
-\item{method}{This argument specifies the method that should be used for calculating standard errors of the estimates. Currently, the \code{'conventional'} (default) and \code{'weighted'} (using functions from the \pkg{survey} package to build the \code{glm} and \code{coxph} models).}
 
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }
@@ -46,8 +44,7 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datas
 
 #Analyzing the weighted datasets
 models <- with(data = weighted.datasets,
-               exp = glm(KOA ~ OSP, weights = weights, family = binomial),
-               method = 'weighted')
+               exp = svyglm(KOA ~ OSP, family = binomial))
 }
 }
 \references{

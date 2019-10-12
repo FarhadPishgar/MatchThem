@@ -6,7 +6,6 @@
 #'
 #' @param data This argument specifies an object of the \code{mimids} class, typically produced by a previous call to the function \code{matchthem()}.
 #' @param expr This argument specifies an expression of the usual syntax of R formula. See \code{help(formula)} for details.
-#' @param method This argument specifies the method that should be used for calculating standard errors of the estimates. Currently, the \code{'conventional'} (default) and \code{'weighted'} (using functions from the \pkg{survey} package to build the \code{glm} and \code{coxph} models).
 #' @param ... Additional arguments to be passed to \code{expr}.
 #'
 #' @description The \code{with()} function performs a statistical computation on the \code{n} imputed datasets of the \code{mimids} object. The typical sequence of steps to do a matching procedure on the imputed datasets are:
@@ -48,7 +47,7 @@
 #'                exp = glm(KOA ~ OSP, family = binomial))
 #' }
 
-with.mimids <- function(data, expr, method = "conventional", ...) {
+with.mimids <- function(data, expr, ...) {
 
   #S3 method
 
@@ -60,39 +59,33 @@ with.mimids <- function(data, expr, method = "conventional", ...) {
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
-  #Importing functions
-  #' @importFrom survey svyglm
-  #' @importFrom survey svycoxph
-  survey::svyglm
-  survey::svycoxph
-  #' @export
-
   #Polishing variables
   object <- data$object
   call <- match.call()
   analyses <- as.list(seq_len(object$m))
 
   #Do the repeated analysis, store the result
-  for (i in seq_along(analyses)){
-    data.i <- matchthem.data(data, i)
-    analyses[[i]] <- eval(expr = substitute(expr), envir = data.i, enclos = parent.frame())
-    if (is.expression(analyses[[i]])){
-      analyses[[i]] <- eval(expr = analyses[[i]], envir = data.i, enclos = parent.frame())
+  if (substr(substitute(expr)[1], 1, 3) != "svy") {
+    for (i in seq_along(analyses)){
+      data.i <- matchthem.data(data, i)
+      con.expr <- substitute(expr)
+      con.expr$weights <- quote(weights)
+      analyses[[i]] <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
+      if (is.expression(analyses[[i]])){
+        analyses[[i]] <- eval(expr = analyses[[i]], envir = data.i, enclos = parent.frame())
+      }
     }
   }
 
-  #Weighted
-  if (method == "weighted") {
-    weighted.formula <- analyses[[1]]$formula
-    if (!is.null(analyses[[1]]$family$family)) weighted.family <- noquote(analyses[[1]]$family$family)
-
-    #Estimate the weighted standard errors
+  if (substr(substitute(expr)[1], 1, 3) == "svy") {
+    svy.expr <- substitute(expr)
+    svy.expr$design <- quote(design.i)
     for (i in seq_along(analyses)) {
       design.i <- data$others$survey.objects.[[i+1]]
-
-      #Weighted models
-      if (analyses[[i]]$call[1] == "glm()") analyses[[i]] <- survey::svyglm(weighted.formula, design.i, family = weighted.family)
-      if (analyses[[i]]$call[1] == "coxph()") analyses[[i]] <- survey::svycoxph(weighted.formula, design.i)
+      analyses[[i]] <- eval(expr = svy.expr)
+      if (is.expression(analyses[[i]])){
+        analyses[[i]] <- eval(expr = analyses[[i]])
+      }
     }
   }
 

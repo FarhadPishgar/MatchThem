@@ -7,7 +7,7 @@
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
 #' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and matching observations based on them) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and matching based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching) and \code{"exact"} (exact matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods (and matching approaches), \pkg{MatchThem} offers a variety of options.
+#' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), and \code{"optimal"} (optimal matching) methods are available. The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.
 #' @param distance This argument specifies the method that should be used to estimate the distance measure. The default is logistic regression, \code{"logit"}. A variety of other methods are available.
 #' @param distance.options This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.
 #' @param discard This argument specifies whether to discard observations that fall outside some measure of support of the distance score before matching and not allow them to be used at all in the matching procedure. Note that discarding observations may change the quantity of interest being estimated. The current options are \code{"none"} (discarding no observations before matching), \code{"both"} (discarding all observations, both the control and treatment observations, that are outside the support of the distance measure), \code{"control"} (discarding only control observations outside the support of the distance measure of the treatment observations), and \code{"treat"} (discarding only treatment observations outside the support of the distance measure of the control observations). The default is \code{"none"}.
@@ -78,9 +78,9 @@ matchthem <- function (formula, datasets,
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!is.null(datasets$data$subclass)) {stop("The input for the datasets shouldn't have a variable named 'subclass'.")}
   if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance'.")}
-  if(method != "nearest" && method != "exact") {stop("The input for the matching method must be either 'nearest' or 'exact'.")}
-  if(approach != "within" && approach != "across") {stop("The input for the matching approach must be either 'within' or 'across'.")}
-  if(approach == "across" && method == "exact") {stop("The input for the matching method must be 'nearest', if the 'across' matching approch is selected.")}
+  if(!(method %in% c("nearest", "exact", "full", "genetic", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', or 'optimal'.")}
+  if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
+  if(approach == "across" && (!(method %in% c("nearest", "full", "optimal")))) {stop("The input for the matching method must be 'nearest', 'full', or 'optimal', when the 'across' matching approch is selected.")}
 
   #Compatibility with amelia objects
   if (class(datasets) == "amelia") {
@@ -106,7 +106,7 @@ matchthem <- function (formula, datasets,
     dataset0 <- datasets$data
     if (method != "exact") {dataset0$distance <- NA}
     dataset0$weights <- NA
-    if (method == "exact") {dataset0$subclass <- NA}
+    if (method %in% c("exact", "full", "optimal")) {dataset0$subclass <- NA}
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
@@ -121,14 +121,22 @@ matchthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       dataset$.id <- 1:nrow(datasets$data)
+
+      #Printing out
+      if (method != "genetic"){
+        if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
+        if (i != 1) cat(" #", i, sep = "")
+      }
+
+      if (method == "genetic"){
+        if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
+        if (i != 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
+      }
+      #Building the model
       model <- MatchIt::matchit(formula, dataset,
                                 method = method, distance = distance,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
-
-      #Printing out
-      if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
 
       #Matched dataset
       matched.dataset <- match2.data(model, environment = environment())
@@ -140,9 +148,11 @@ matchthem <- function (formula, datasets,
       inc.list <- matched.dataset$.id
       exc.list <- setdiff(all.list, inc.list)
       num.list <- nrow(matched.dataset) + 1
-      for (j in 1:length(exc.list)){
-        matched.dataset[num.list, ".id"] <- exc.list[j]
-        num.list <- num.list + 1
+      if (length(exc.list != 0)) {
+        for (j in 1:length(exc.list)){
+          matched.dataset[num.list, ".id"] <- exc.list[j]
+          num.list <- num.list + 1
+        }
       }
       matched.dataset$.imp <- i
       matched.dataset <- matched.dataset[order(matched.dataset$.id),]
@@ -168,6 +178,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    original.datasets = originals)
     class(output) <- "mimids"
+    cat("\n")
     return(output)
   }
 
@@ -179,6 +190,7 @@ matchthem <- function (formula, datasets,
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$distance <- NA
     dataset0$weights <- NA
+    if (method %in% c("full", "optimal")) {dataset0$subclass <- NA}
     dataset0$.imp <- 0
 
     #Defining the lists
@@ -192,14 +204,16 @@ matchthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       dataset$.id <- 1:nrow(datasets$data)
-      model <- MatchIt::matchit(formula, dataset,
-                                method = method, distance = distance,
-                                distance.options = distance.options, discard = discard,
-                                reestimate = reestimate, ...)
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
       if (i != 1) cat(" #", i, sep = "")
+
+      #Building the model
+      model <- MatchIt::matchit(formula, dataset,
+                                method = method, distance = distance,
+                                distance.options = distance.options, discard = discard,
+                                reestimate = reestimate, ...)
 
       #Distance
       if (i == 1) d <- model$distance
@@ -215,15 +229,15 @@ matchthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
       dataset$estimated.distance <- d
 
+      #Printing out
+      if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
+
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
                                 method = method, distance = dataset$estimated.distance,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
-
-      #Printing out
-      if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
 
       #Matched dataset
       matched.dataset <- match2.data(model, environment = environment())
@@ -236,9 +250,11 @@ matchthem <- function (formula, datasets,
       inc.list <- matched.dataset$.id
       exc.list <- setdiff(all.list, inc.list)
       num.list <- nrow(matched.dataset) + 1
-      for (j in 1:length(exc.list)){
-        matched.dataset[num.list, ".id"] <- exc.list[j]
-        num.list <- num.list + 1
+      if (length(exc.list != 0)) {
+        for (j in 1:length(exc.list)){
+          matched.dataset[num.list, ".id"] <- exc.list[j]
+          num.list <- num.list + 1
+        }
       }
       matched.dataset$.imp <- i
       matched.dataset <- matched.dataset[order(matched.dataset$.id),]
@@ -264,6 +280,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    original.datasets = originals)
     class(output) <- "mimids"
+    cat("\n")
     return(output)
   }
 }

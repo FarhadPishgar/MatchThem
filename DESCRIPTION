@@ -8,7 +8,7 @@ Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: R (>= 3.5.0)
 Imports: dplyr, graphics, MatchIt, methods, mice, stats, survey,
         WeightIt
-Suggests: Amelia, cobalt
+Suggests: Amelia, cobalt, optmatch, rgenoud
 URL: https://github.com/FarhadPishgar/MatchThem
 BugReports: https://github.com/FarhadPishgar/MatchThem/issues
 License: GPL-3
@@ -16,6 +16,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-10-11 20:34:22 UTC; Farhad
+Packaged: 2019-10-12 10:48:56 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Clémence Leyrat [ctb]
