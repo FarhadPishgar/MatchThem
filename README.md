@@ -38,10 +38,10 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to simplify this process into a few steps:
 
-1. **Imputing the Missing Data in the Dataset**: Functions of the [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, although it may work with the latter, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
-2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of the balance in covariates after matching. You can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` and `wimids` objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package, itself).
+1. **Imputing the Missing Data in the Dataset**: Functions of the [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
+2. **Matching the Imputed Datasets**: The `matchthem()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of the balance in covariates after matching. You can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` (and the `wimids`) objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package, itself).
 3. **Analyzing the Matched Datasets**: The `with()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate treatment effect size by analyzing the matched datasets.
-4. **Pooling the Treatment Effect Size Estimates**: The `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained treatment effect estimates from the previous step using Rubin’s rules.
+4. **Pooling the Treatment Effect Size Estimates**: The `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained treatment effect size estimates from the previous step using Rubin’s rules.
 
 ### Imputing the Missing Data in the Dataset
 
@@ -62,14 +62,14 @@ The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one 
 The output of the `with()` function will be saved in an object of the `mira` class. The `print()` and `summary()` functions can be used to review detailed descriptions of these objects.
 
 ### Pooling the Treatment Effect Size Estimates
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, provides the tools to easily pool the obtained treatment effect estimates from complete data analyses according to Rubin’s rules.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, provides the tools to easily pool the obtained treatment effect size estimates from data analyses according to Rubin’s rules.
 
 The output of the `pool()` function will be saved in an object of the `mipo` class. The `print()` and `summary()` functions can be used to review detailed descriptions of these objects.
 
 ## Acknowledgments
 The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his beautiful works).
 
-I would like to thank the CRAN team members for their comments and technical support. This package relies on the [`Amelia`](https://cran.r-project.org/package=Amelia), [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
+I would like to thank the CRAN team members for their technical support and Noah Greifer (University of North Carolina at Chapel Hill) for his invaluable comments on the package performance. This package relies on the [`Amelia`](https://cran.r-project.org/package=Amelia), [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
 
 ## Authors
 Farhad Pishgar
