@@ -9,7 +9,7 @@
 \arguments{
 \item{data}{This argument specifies an object of the \code{wimids} class, typically produced by a previous call to the function \code{weightthem()}.}
 
-\item{expr}{This argument specifies an expression of the usual syntax of R formula (please note that you should not include the \code{weights = weights} argument, see the package vignette for details). See \code{help(formula)} for details.}
+\item{expr}{This argument specifies an expression of the usual syntax of R formula (please note that you shouldn't include the \code{weights = weights} argument, see the package vignette for details). See \code{help(formula)} for details.}
 
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }

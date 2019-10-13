@@ -80,7 +80,7 @@ pool <- function (object, dfcom = NULL) {
   #Deal with imputed datasets with m = 1
   if (m == 1) {
     warning("The input for the object has only 1 imputed dataset, hence, no pooling is done.")
-    return(getfit(object, 1))
+    return(mice::getfit(object, 1))
   }
 
   #Handling the (unequal) dfcoms
@@ -96,7 +96,7 @@ pool <- function (object, dfcom = NULL) {
   #Large dataset
   if (is.null(dfcom)) {
     dfcom <- 999999
-    warning("The function cannot extract the dfcom from the datasets, hence, large sample is assumed.")
+    warning("The function cannot extract the 'dfcom' from the datasets, hence, large sample is assumed.")
   }
 
   #Pooling

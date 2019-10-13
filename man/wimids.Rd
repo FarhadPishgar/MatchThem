@@ -22,3 +22,4 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \author{
 Farhad Pishgar
 }
+\keyword{classes}

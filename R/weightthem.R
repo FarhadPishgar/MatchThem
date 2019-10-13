@@ -7,7 +7,7 @@
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
 #' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach).  The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
+#' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
 #' @param estimand This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
 #' @param stabilize This argument specifies whether to stabilize the weights or not. For the methods that involve estimating propensity scores, this involves multiplying each observation weight by the sum of the weights in the observation group (control or treatment). The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
 #' @param focal This argument specifies which group to consider as the treatment or the focal group (when multinomial treatments are used and the \code{"ATT"} is requested). This group will not be weighted, and the other groups will be weighted to be more like the focal group. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
@@ -79,7 +79,7 @@ weightthem <- function (formula, datasets,
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(class(datasets) != "mids" && class(datasets) != "amelia") {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
-  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance'.")}
+  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' weighting approch is selected..")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!(method %in% c("ps", "gbm", "cbps", "npcbps", "ebal", "ebcw", "optweight", "super", "user-defined"))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'npcbps', 'ebal', 'ebcw', 'optweight', 'super', or 'user-defined'.")}
   if(!(approach %in% c("within","across"))) {stop("The input for the weighting approach must be either 'within' or 'across'.")}
@@ -113,15 +113,15 @@ weightthem <- function (formula, datasets,
     #Longing the datasets
     for (i in 1:datasets$m) {
 
+      #Printing out
+      if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
+
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
                                   ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
-
-      #Printing out
-      if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
 
       #Dataset
       dataset$weights <- model$weights
@@ -175,15 +175,15 @@ weightthem <- function (formula, datasets,
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
 
+      #Printing out
+      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
+
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
                                   ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
-
-      #Printing out
-      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
 
       #Measures
       if (i == 1) d <- model$ps
@@ -198,6 +198,10 @@ weightthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
       dataset$estimated.distance <- d
 
+      #Printing out
+      if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
+
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
@@ -208,10 +212,6 @@ weightthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
       dataset$.imp <- i
       dataset$estimated.distance <- NULL
-
-      #Printing out
-      if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
 
       #The survey object
       survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = dataset)
