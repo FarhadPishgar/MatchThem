@@ -59,6 +59,11 @@ with.mimids <- function(data, expr, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
+  #Importing functions
+  #' @importFrom survey svydesign
+  survey::svydesign
+  #' @export
+
   #Polishing variables
   object <- data$object
   call <- match.call()
@@ -80,8 +85,9 @@ with.mimids <- function(data, expr, ...) {
   if (substr(substitute(expr)[1], 1, 3) == "svy") {
     svy.expr <- substitute(expr)
     svy.expr$design <- quote(design.i)
+    if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the 'expr' is unnecessary and may result in biased estimates.")
     for (i in seq_along(analyses)) {
-      design.i <- data$others$survey.objects.[[i+1]]
+      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = matchthem.data(data, n = i))
       analyses[[i]] <- eval(expr = svy.expr)
       if (is.expression(analyses[[i]])){
         analyses[[i]] <- eval(expr = analyses[[i]])

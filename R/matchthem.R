@@ -58,11 +58,9 @@ matchthem <- function (formula, datasets,
   #' @importFrom mice complete
   #' @importFrom MatchIt matchit
   #' @importFrom stats as.formula
-  #' @importFrom survey svydesign
   mice::complete
   MatchIt::matchit
   stats::as.formula
-  survey::svydesign
   #' @export
 
   #Polishing variables
@@ -107,7 +105,6 @@ matchthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(0)
     modelslist <- list(0)
-    surveylist <- list(0)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -135,9 +132,6 @@ matchthem <- function (formula, datasets,
       #Matched dataset
       matched.dataset <- match2.data(model, environment = environment())
 
-      #The survey object
-      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = matched.dataset)
-
       all.list <- 1:nrow(datasets$data)
       inc.list <- matched.dataset$.id
       exc.list <- setdiff(all.list, inc.list)
@@ -155,7 +149,6 @@ matchthem <- function (formula, datasets,
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
       modelslist[i+1] <- list(model)
-      surveylist[i+1] <- list(survey.object)
     }
 
     #The raw data
@@ -174,7 +167,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = matched.datasets,
@@ -193,7 +186,6 @@ matchthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(0)
     modelslist <- list(0)
-    surveylist <- list(0)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -240,9 +232,6 @@ matchthem <- function (formula, datasets,
       matched.dataset <- match2.data(model, environment = environment())
       matched.dataset$estimated.distance <- NULL
 
-      #The survey object
-      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = matched.dataset)
-
       all.list <- 1:nrow(datasets$data)
       inc.list <- matched.dataset$.id
       exc.list <- setdiff(all.list, inc.list)
@@ -260,7 +249,6 @@ matchthem <- function (formula, datasets,
       #Updating the lists
       datasetslist[i+1] <- list(matched.dataset)
       modelslist[i+1] <- list(model)
-      surveylist[i+1] <- list(survey.object)
     }
 
     #The raw data
@@ -279,7 +267,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = matched.datasets,

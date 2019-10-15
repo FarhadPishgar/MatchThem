@@ -63,11 +63,9 @@ weightthem <- function (formula, datasets,
   #' @importFrom mice complete
   #' @importFrom WeightIt weightit
   #' @importFrom stats as.formula
-  #' @importFrom survey svydesign
   mice::complete
   WeightIt::weightit
   stats::as.formula
-  survey::svydesign
   #' @export
 
   #Polishing variables
@@ -108,7 +106,6 @@ weightthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(0)
     modelslist <- list(0)
-    surveylist <- list(0)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -128,13 +125,9 @@ weightthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
       dataset$.imp <- i
 
-      #The survey object
-      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = dataset)
-
       #Updating the lists
       datasetslist[i+1] <- list(dataset)
       modelslist[i+1] <- list(model)
-      surveylist[i+1] <- list(survey.object)
     }
 
     #The raw data
@@ -151,7 +144,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = weighted.datasets,
@@ -170,7 +163,6 @@ weightthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- list(0)
     modelslist <- list(0)
-    surveylist <- list(0)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -213,13 +205,9 @@ weightthem <- function (formula, datasets,
       dataset$.imp <- i
       dataset$estimated.distance <- NULL
 
-      #The survey object
-      survey.object <- survey::svydesign(~ 1, weights = ~ weights, data = dataset)
-
       #Updating the list
       datasetslist[i+1] <- list(dataset)
       modelslist[i+1] <- list(model)
-      surveylist[i+1] <- list(survey.object)
     }
 
     #Raw data
@@ -236,7 +224,7 @@ weightthem <- function (formula, datasets,
     weighted.datasets <- as2.mids(weighted.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), survey.objects. = surveylist)
+    others <- list(approach. = approach, method. = method, source. = class(originals))
 
     #Returning output
     output <- list(object = weighted.datasets,
