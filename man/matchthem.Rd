@@ -25,7 +25,7 @@ matchthem(formula, datasets, approach = "within", method = "nearest",
 
 \item{reestimate}{This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.}
 
-\item{...}{Additional arguments to be passed to the matching method.}
+\item{...}{Additional arguments to be passed to the matching method (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
 }
 \value{
 This function returns an object of the \code{mimids} (matched multiply imputed datasets) class, that includes matched subsets of the imputed datasets primarily passed to the function by the \code{datasets} argument.

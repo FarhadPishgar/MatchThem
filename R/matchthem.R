@@ -12,7 +12,7 @@
 #' @param distance.options This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.
 #' @param discard This argument specifies whether to discard observations that fall outside some measure of support of the distance score before matching and not allow them to be used at all in the matching procedure. Note that discarding observations may change the quantity of interest being estimated. The current options are \code{"none"} (discarding no observations before matching), \code{"both"} (discarding all observations, both the control and treatment observations, that are outside the support of the distance measure), \code{"control"} (discarding only control observations outside the support of the distance measure of the treatment observations), and \code{"treat"} (discarding only treatment observations outside the support of the distance measure of the control observations). The default is \code{"none"}.
 #' @param reestimate This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.
-#' @param ... Additional arguments to be passed to the matching method.
+#' @param ... Additional arguments to be passed to the matching method (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
 #'
 #' @description The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment groups of imputed datasets of a \code{mids} or \code{amelia} class object.
 #'

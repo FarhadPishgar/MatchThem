@@ -71,10 +71,10 @@ with.wimids <- function(data, expr, ...) {
 
   #Do the repeated analysis, store the result
   if (substr(substitute(expr)[1], 1, 3) != "svy") {
+    con.expr <- substitute(expr)
+    con.expr$weights <- quote(weights)
     for (i in seq_along(analyses)){
       data.i <- matchthem.data(data, i)
-      con.expr <- substitute(expr)
-      con.expr$weights <- quote(weights)
       analyses[[i]] <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
       if (is.expression(analyses[[i]])){
         analyses[[i]] <- eval(expr = analyses[[i]], envir = data.i, enclos = parent.frame())

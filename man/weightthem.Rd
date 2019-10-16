@@ -4,10 +4,7 @@
 \alias{weightthem}
 \title{Weights Multiply Imputed Datasets}
 \usage{
-weightthem(formula, datasets, approach = "within", method = "ps",
-  estimand = "ATE", stabilize = FALSE, focal = NULL, by = NULL,
-  s.weights = NULL, ps = NULL, moments = 1, int = FALSE,
-  verbose = FALSE, include.obj = FALSE, ...)
+weightthem(formula, datasets, approach = "within", method = "ps", ...)
 }
 \arguments{
 \item{formula}{This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.}
@@ -18,27 +15,7 @@ weightthem(formula, datasets, approach = "within", method = "ps",
 
 \item{method}{This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
 
-\item{estimand}{This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{stabilize}{This argument specifies whether to stabilize the weights or not. For the methods that involve estimating propensity scores, this involves multiplying each observation weight by the sum of the weights in the observation group (control or treatment). The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{focal}{This argument specifies which group to consider as the treatment or the focal group (when multinomial treatments are used and the \code{"ATT"} is requested). This group will not be weighted, and the other groups will be weighted to be more like the focal group. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{by}{This argument specifies a vector or the names of variables in the datasets, for which weighting should be done within categories. For example, if \code{by = "gender"}, weights will be generated separately within each level of the variable \code{"gender"}.}
-
-\item{s.weights}{This argument specifies a vector of sampling weights or the name of a variable in the datasets that contains sampling weights. These can also be matching weights if weighting is to be used on matched data.}
-
-\item{ps}{This argument specifies a vector of propensity scores or the name of a variable in the datasets containing the propensity scores. If not \code{NULL}, weighting method is ignored, and the propensity scores will be used to create weights (in this case, \code{formula} must include the treatment indicator in the datasets, but the listed covariates will not play a role in the weight estimation).}
-
-\item{moments}{This argument specifies the greatest moment of the covariate distribution to be balanced (for entropy balancing, empirical balancing calibration weights, and optimization-based weights). For example, if \code{moments = 3}, for all non-categorical covariates, the mean, second moment (variance), and third moments (skew) of the covariates will be balanced. This argument is ignored for other weighting methods; to balance powers of the covariates, appropriate functions must be entered in the \code{formula}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{int}{This argument specifies whether first-order interactions of the covariates should be balanced (essentially balancing the covariances between covariates, for entropy balancing, empirical balancing calibration weights, and optimization-based weights). This argument is ignored for other weighting methods; to balance interactions between the variables, appropriate functions must be entered in the \code{formula}. The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{verbose}{This argument specifies whether to print additional information output by the fitting function. The default is \code{FALSE}.}
-
-\item{include.obj}{This argument specifies whether to include in the output any fit objects created in the process of estimating the weights. For example, with \code{method = "ps"}, the \code{glm} objects containing the propensity score model will be included.  The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
-
-\item{...}{Additional arguments to be passed to the matching method.}
+\item{...}{Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).}
 }
 \value{
 This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.

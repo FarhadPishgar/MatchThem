@@ -8,17 +8,7 @@
 #' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
 #' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
-#' @param estimand This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param stabilize This argument specifies whether to stabilize the weights or not. For the methods that involve estimating propensity scores, this involves multiplying each observation weight by the sum of the weights in the observation group (control or treatment). The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param focal This argument specifies which group to consider as the treatment or the focal group (when multinomial treatments are used and the \code{"ATT"} is requested). This group will not be weighted, and the other groups will be weighted to be more like the focal group. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param by This argument specifies a vector or the names of variables in the datasets, for which weighting should be done within categories. For example, if \code{by = "gender"}, weights will be generated separately within each level of the variable \code{"gender"}.
-#' @param s.weights This argument specifies a vector of sampling weights or the name of a variable in the datasets that contains sampling weights. These can also be matching weights if weighting is to be used on matched data.
-#' @param ps This argument specifies a vector of propensity scores or the name of a variable in the datasets containing the propensity scores. If not \code{NULL}, weighting method is ignored, and the propensity scores will be used to create weights (in this case, \code{formula} must include the treatment indicator in the datasets, but the listed covariates will not play a role in the weight estimation).
-#' @param moments This argument specifies the greatest moment of the covariate distribution to be balanced (for entropy balancing, empirical balancing calibration weights, and optimization-based weights). For example, if \code{moments = 3}, for all non-categorical covariates, the mean, second moment (variance), and third moments (skew) of the covariates will be balanced. This argument is ignored for other weighting methods; to balance powers of the covariates, appropriate functions must be entered in the \code{formula}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param int This argument specifies whether first-order interactions of the covariates should be balanced (essentially balancing the covariances between covariates, for entropy balancing, empirical balancing calibration weights, and optimization-based weights). This argument is ignored for other weighting methods; to balance interactions between the variables, appropriate functions must be entered in the \code{formula}. The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param verbose This argument specifies whether to print additional information output by the fitting function. The default is \code{FALSE}.
-#' @param include.obj This argument specifies whether to include in the output any fit objects created in the process of estimating the weights. For example, with \code{method = "ps"}, the \code{glm} objects containing the propensity score model will be included.  The default is \code{FALSE}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
-#' @param ... Additional arguments to be passed to the matching method.
+#' @param ... Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).
 #'
 #' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treatment observations in each imputed dataset of a \code{mids} or \code{amelia} class object.
 #'
@@ -54,8 +44,7 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", estimand = "ATE", stabilize = FALSE, focal = NULL, by = NULL, s.weights = NULL,
-                        ps = NULL, moments = 1, int = FALSE, verbose = FALSE, include.obj = FALSE, ...) {
+                        method = "ps", ...) {
 
   #External function
 
@@ -117,8 +106,7 @@ weightthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
-                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                                  ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, ...)
 
       #Dataset
       dataset$weights <- model$weights
@@ -174,8 +162,7 @@ weightthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
-                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                                  ps = ps, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, ...)
 
       #Measures
       if (i == 1) d <- model$ps
@@ -196,8 +183,7 @@ weightthem <- function (formula, datasets,
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
-                                  method = method, estimand = estimand, stabilize = stabilize, focal = focal, by = by, s.weights = s.weights,
-                                  ps = dataset$estimated.distance, moments = moments, int = int, verbose = verbose, include.obj = include.obj, ...)
+                                  method = method, ps = dataset$estimated.distance, ...)
 
       #Dataset
       dataset$weights <- model$weights
