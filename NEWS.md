@@ -28,4 +28,4 @@ Clémence Leyrat
 
 Noah Greifer
 
-[![](https://img.shields.io/github/followers/ngreifer.svg?style=for-the-badge&color=informational&label=follow%20@NGreifer)](https://github.com/ngreifer)
+[![](https://img.shields.io/github/followers/ngreifer.svg?style=for-the-badge&color=informational&label=follow%20@NGreifer)](https://github.com/NGreifer)
