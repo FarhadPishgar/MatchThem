@@ -25,3 +25,7 @@ Farhad Pishgar
 Clémence Leyrat
 
 [![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
+
+Noah Greifer
+
+[![](https://img.shields.io/github/followers/ngreifer.svg?style=for-the-badge&color=informational&label=follow%20@NGreifer)](https://github.com/ngreifer)
