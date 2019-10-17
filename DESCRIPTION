@@ -16,7 +16,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-10-16 09:27:25 UTC; Farhad
+Packaged: 2019-10-17 17:43:34 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Clémence Leyrat [ctb],
   Noah Greifer [ctb]
