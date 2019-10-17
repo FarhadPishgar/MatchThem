@@ -49,7 +49,7 @@ The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cra
 
 ### Matching the Imputed Datasets
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched observations from control and treatment groups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, and optimal matching methods) are available (within each of these approaches and methods, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package offers a variety of options).
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched observations from control and treatment groups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, coarsened exact, and optimal matching methods) are available (within each of these approaches and methods, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package offers a variety of options).
 
 The `matchthem()` function requires the imputed datasets not to have any missing data (even in variables not included in the matching model).
 
