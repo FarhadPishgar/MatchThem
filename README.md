@@ -72,13 +72,12 @@ The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/165
 We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
 
 ## Authors
-Farhad Pishgar
+Farhad Pishgar                    Clémence Leyrat
 
-[![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+[![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar) [![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
 
-Clémence Leyrat
 
-[![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
+
 
 Noah Greifer
 
