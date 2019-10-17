@@ -9,7 +9,7 @@
 
 ## Introduction
 
-One of the major issues in the propensity score matching procedures is the presence of missing data on the treatment indicator or covariates since matching relies on the predictions from a logistic regression model and with missing information in the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem (including the complete-case analysis and the missingness pattern approach) and despite these standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
+One of the major issues in the matching procedures is the presence of missing data on the treatment indicator or covariates since matching requires comparing the values of covariates for observations in control and treatment groups or relies on the predictions from a logistic regression model and with missing information in the variables within the model, the predictions cannot be made for that observation. There are a couple of solutions to address this problem (including the complete-case analysis and the missingness pattern approach) and with flaws and limitations in these standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
 
 Matching of control and treatment observations based on the propensity score in multiply imputed datasets can be achieved through different approaches:
 
