@@ -89,8 +89,8 @@ mergethem <- function(datasets, data, by = "ID") {
     #Polishing variables
     modelslist <- datasets$models
     others <- datasets$others
+    original <- datasets$original.datasets
     datasets <- datasets$object
-    original <- datasets$original.object
 
     data.0 <- datasets$data
     data.0$.id <- 1:nrow(datasets$data)
@@ -118,7 +118,7 @@ mergethem <- function(datasets, data, by = "ID") {
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = original)
+                   original.datasets = original)
     class(output) <- "mimids"
     return(output)
 
@@ -128,8 +128,8 @@ mergethem <- function(datasets, data, by = "ID") {
     #Polishing variables
     modelslist <- datasets$models
     others <- datasets$others
+    original <- datasets$original.datasets
     datasets <- datasets$object
-    original <- datasets$original.object
 
     data.0 <- datasets$data
     data.0$.id <- 1:nrow(datasets$data)
@@ -157,7 +157,7 @@ mergethem <- function(datasets, data, by = "ID") {
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.object = original)
+                   original.datasets = original)
     class(output) <- "wimids"
     return(output)
 
