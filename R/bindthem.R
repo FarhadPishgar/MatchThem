@@ -87,7 +87,7 @@ bindthem <- function(datasets, data) {
     #Polishing variables
     modelslist <- datasets$models
     others <- datasets$others
-    original <- datasets$original.datasets
+    originals <- datasets$original.datasets
     datasets <- datasets$object
 
     data.0 <- datasets$data
@@ -109,14 +109,14 @@ bindthem <- function(datasets, data) {
 
     #Prepating the output
     new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    new.datasets <- as2.mids(new.datasets)
+    matched.datasets <- as2.mids(new.datasets)
 
     #Returning output
-    output <- list(object = new.datasets,
+    output <- list(object = matched.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.datasets = original)
+                   original.datasets = originals)
     class(output) <- "mimids"
     return(output)
   }
@@ -125,7 +125,7 @@ bindthem <- function(datasets, data) {
     #Polishing variables
     modelslist <- datasets$models
     others <- datasets$others
-    original <- datasets$original.datasets
+    originals <- datasets$original.datasets
     datasets <- datasets$object
 
     data.0 <- datasets$data
@@ -147,14 +147,14 @@ bindthem <- function(datasets, data) {
 
     #Prepating the output
     new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    new.datasets <- as2.mids(new.datasets)
+    weighted.datasets <- as2.mids(new.datasets)
 
     #Returning output
-    output <- list(object = new.datasets,
+    output <- list(object = weighted.datasets,
                    models = modelslist,
                    others = others,
                    datasets = datasetslist,
-                   original.datasets = original)
+                   original.datasets = originals)
     class(output) <- "wimids"
     return(output)
   }
