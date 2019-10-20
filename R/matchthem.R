@@ -103,8 +103,8 @@ matchthem <- function (formula, datasets,
   if (approach == "within") {
 
     #Defining the lists
-    datasetslist <- list(0)
-    modelslist <- list(0)
+    datasetslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m + 1)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -118,49 +118,59 @@ matchthem <- function (formula, datasets,
         if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
         if (i != 1) cat(" #", i, sep = "")
       }
-
-      if (method %in% c("genetic", "cem")){
+      else {
         if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
         if (i != 1) cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
       }
+
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
                                 method = method, distance = distance,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
 
-      #Matched dataset
-      matched.dataset <- match2.data(model, environment = environment())
+      # #Matched dataset
+      # matched.dataset <- match2.data(model, environment = environment())
 
-      all.list <- 1:nrow(datasets$data)
-      inc.list <- matched.dataset$.id
-      exc.list <- setdiff(all.list, inc.list)
-      num.list <- nrow(matched.dataset) + 1
-      if (length(exc.list != 0)) {
-        for (j in 1:length(exc.list)){
-          matched.dataset[num.list, ".id"] <- exc.list[j]
-          num.list <- num.list + 1
-        }
-      }
-      matched.dataset$.imp <- i
-      matched.dataset <- matched.dataset[order(matched.dataset$.id),]
-      row.names(matched.dataset) <- 1:nrow(datasets$data)
+      # all.list <- 1:nrow(datasets$data)
+      # inc.list <- matched.dataset$.id
+      # exc.list <- setdiff(all.list, inc.list)
+      # num.list <- nrow(matched.dataset) + 1
+      # if (length(exc.list != 0)) {
+      #   for (j in 1:length(exc.list)){
+      #     matched.dataset[num.list, ".id"] <- exc.list[j]
+      #     num.list <- num.list + 1
+      #   }
+      # }
+      # matched.dataset$.imp <- i
+      # matched.dataset <- matched.dataset[order(matched.dataset$.id),]
+      # row.names(matched.dataset) <- 1:nrow(datasets$data)
+
+      dataset$weights <- model$weights
+      dataset$distance <- model$distance
+      dataset$discarded <- model$discarded
+      dataset$subclass <- model$subclass
+      dataset$.id <- 1:nrow(datasets$data)
+      dataset$.imp <- i
+      dataset$estimated.distance <- NULL
 
       #Updating the lists
-      datasetslist[i+1] <- list(matched.dataset)
-      modelslist[i+1] <- list(model)
+      # datasetslist[[i+1]] <- matched.dataset
+      datasetslist[[i+1]] <- dataset
+      modelslist[[i+1]] <- model
     }
 
     #The raw data
     dataset0 <- datasets$data
-    if (method != "exact") {dataset0$distance <- NA}
-    dataset0$weights <- NA
-    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA}
+    if (method != "exact") {dataset0$distance <- NA_real_}
+    dataset0$weights <- NA_real_
+    if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
+    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the lists
-    datasetslist[1] <- list(dataset0)
+    datasetslist[[1]] <- dataset0
 
     #Binding the datasets
     matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
@@ -184,8 +194,10 @@ matchthem <- function (formula, datasets,
   if (approach == "across") {
 
     #Defining the lists
-    datasetslist <- list(0)
-    modelslist <- list(0)
+    datasetslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m + 1)
+
+    pslist <- vector("list", datasets$m)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -200,17 +212,20 @@ matchthem <- function (formula, datasets,
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
-                                method = method, distance = distance,
-                                distance.options = distance.options, discard = discard,
-                                reestimate = reestimate, ...)
+                                method = "nearest", distance = distance,
+                                distance.options = distance.options,
+                                discard = "none",
+                                reestimate = FALSE, ...)
 
       #Distance
-      if (i == 1) d <- model$distance
-      if (i != 1) d <- d + model$distance
+      pslist[[i]] <- model$distance
+      # if (i == 1) d <- model$distance
+      # if (i != 1) d <- d + model$distance
     }
 
     #Updating the distance
-    d <- d / (datasets$m)
+    d <- rowMeans(as.matrix(do.call("cbind", pslist)))
+    # d <- d / (datasets$m)
 
     #Matching each dataset
     for (i in 1:datasets$m) {
@@ -229,38 +244,48 @@ matchthem <- function (formula, datasets,
                                 reestimate = reestimate, ...)
 
       #Matched dataset
-      matched.dataset <- match2.data(model, environment = environment())
-      matched.dataset$estimated.distance <- NULL
+      # matched.dataset <- match2.data(model, environment = environment())
+      # matched.dataset$estimated.distance <- NULL
+      #
+      # all.list <- 1:nrow(datasets$data)
+      # inc.list <- matched.dataset$.id
+      # exc.list <- setdiff(all.list, inc.list)
+      # num.list <- nrow(matched.dataset) + 1
+      # if (length(exc.list != 0)) {
+      #   for (j in 1:length(exc.list)){
+      #     matched.dataset[num.list, ".id"] <- exc.list[j]
+      #     num.list <- num.list + 1
+      #   }
+      # }
+      # matched.dataset$.imp <- i
+      # matched.dataset <- matched.dataset[order(matched.dataset$.id),]
+      # row.names(matched.dataset) <- 1:nrow(datasets$data)
 
-      all.list <- 1:nrow(datasets$data)
-      inc.list <- matched.dataset$.id
-      exc.list <- setdiff(all.list, inc.list)
-      num.list <- nrow(matched.dataset) + 1
-      if (length(exc.list != 0)) {
-        for (j in 1:length(exc.list)){
-          matched.dataset[num.list, ".id"] <- exc.list[j]
-          num.list <- num.list + 1
-        }
-      }
-      matched.dataset$.imp <- i
-      matched.dataset <- matched.dataset[order(matched.dataset$.id),]
-      row.names(matched.dataset) <- 1:nrow(datasets$data)
+      dataset$weights <- model$weights
+      dataset$distance <- model$distance
+      dataset$discarded <- model$discarded
+      dataset$subclass <- model$subclass
+      dataset$.id <- 1:nrow(datasets$data)
+      dataset$.imp <- i
+      dataset$estimated.distance <- NULL
 
       #Updating the lists
-      datasetslist[i+1] <- list(matched.dataset)
-      modelslist[i+1] <- list(model)
+      # datasetslist[[i+1]] <- matched.dataset
+      datasetslist[[i+1]] <- dataset
+      modelslist[[i+1]] <- model
     }
 
     #The raw data
     dataset0 <- datasets$data
-    dataset0$distance <- NA
-    dataset0$weights <- NA
-    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA}
+    dataset0$distance <- NA_real_
+    dataset0$weights <- NA_real_
+    if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
+    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the lists
-    datasetslist[1] <- list(dataset0)
+    datasetslist[[1]] <- dataset0
 
     #Binding the datasets
     matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
