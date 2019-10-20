@@ -67,32 +67,51 @@ with.mimids <- function(data, expr, ...) {
   #Polishing variables
   object <- data$object
   call <- match.call()
-  analyses <- as.list(seq_len(object$m))
+  # analyses <- vector("list", object$m)
 
   #Do the repeated analysis, store the result
   if (substr(substitute(expr)[1], 1, 3) != "svy") {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
-    for (i in seq_along(analyses)){
-      data.i <- matchthem.data(data, i)
-      analyses[[i]] <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
-      if (is.expression(analyses[[i]])){
-        analyses[[i]] <- eval(expr = analyses[[i]], envir = data.i, enclos = parent.frame())
+    analyses <- lapply(seq_len(object$m), function(i) {
+      data.i <- complete.mimids(data, i, keepzeroweight = FALSE)
+      out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
+      if (is.expression(out)){
+        out <- eval(expr = out, envir = data.i, enclos = parent.frame())
       }
-    }
+      out
+    })
+    # for (i in seq_along(analyses)){
+    #   data.i <- matchthem.data(data, i)
+    #   analyses[[i]] <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
+    #   if (is.expression(analyses[[i]])){
+    #     analyses[[i]] <- eval(expr = analyses[[i]], envir = data.i, enclos = parent.frame())
+    #   }
+    # }
   }
-
-  if (substr(substitute(expr)[1], 1, 3) == "svy") {
+  else {
+  # if (substr(substitute(expr)[1], 1, 3) == "svy") {
     svy.expr <- substitute(expr)
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the 'expr' is unnecessary and may result in biased estimates.")
-    for (i in seq_along(analyses)) {
-      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = matchthem.data(data, n = i))
-      analyses[[i]] <- eval(expr = svy.expr)
-      if (is.expression(analyses[[i]])){
-        analyses[[i]] <- eval(expr = analyses[[i]])
+    analyses <- lapply(seq_len(object$m), function(i) {
+      data.i <- complete.mimids(data, i, keepzeroweight = FALSE)
+      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)
+      out <- eval(expr = svy.expr)
+      if (is.expression(out)){
+        out <- eval(expr = out)
       }
-    }
+      out
+    })
+    # for (i in seq_along(analyses)) {
+    #   # data.i <- matchthem.data(data, i)
+    #   data.i <- complete.mimids(data, i, keepzeroweight = FALSE)
+    #   design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)
+    #   analyses[[i]] <- eval(expr = svy.expr)
+    #   if (is.expression(analyses[[i]])){
+    #     analyses[[i]] <- eval(expr = analyses[[i]])
+    #   }
+    # }
   }
 
   #Return the complete data analyses as a list of length nimp
