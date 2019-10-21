@@ -7,8 +7,8 @@
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary treatment indicator and \code{x1} and \code{x2} are the potential confounders. Both the treatment indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
 #' @param datasets This argument specifies the datasets containing the treatment indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
-#' @param ... Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).
+#' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options. See \code{\link[WeightIt]{weightit}} for more details.
+#' @param ... Additional arguments to be passed to the weighting method (please see \code{\link[WeightIt]{weightit}} for more details).
 #'
 #' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treatment observations in each imputed dataset of a \code{mids} or \code{amelia} class object.
 #'
@@ -19,6 +19,7 @@
 #' @seealso \code{\link[=wimids]{wimids}}
 #' @seealso \code{\link[=with]{with}}
 #' @seealso \code{\link[=pool]{pool}}
+#' @seealso \code{\link[WeightIt]{weightit}}
 #'
 #' @author Farhad Pishgar
 #'
@@ -61,7 +62,7 @@ weightthem <- function (formula, datasets,
   formula <- stats::as.formula(formula)
   originals <- datasets
   if(approach == "pool-then-match") {approach <- "across"}
-  if(approach == "match-then-pool") {approach <- "within"}
+  else if(approach == "match-then-pool") {approach <- "within"}
 
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
@@ -93,15 +94,15 @@ weightthem <- function (formula, datasets,
   if (approach == "within") {
 
     #Defining the lists
-    datasetslist <- list(0)
-    modelslist <- list(0)
+    datasetslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m + 1)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
 
       #Printing out
       if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      else        cat(" #", i, sep = "")
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -114,18 +115,18 @@ weightthem <- function (formula, datasets,
       dataset$.imp <- i
 
       #Updating the lists
-      datasetslist[i+1] <- list(dataset)
-      modelslist[i+1] <- list(model)
+      datasetslist[[i+1]] <- dataset
+      modelslist[[i+1]] <- model
     }
 
     #The raw data
     dataset0 <- datasets$data
-    dataset0$weights <- NA
+    dataset0$weights <- NA_real_
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the lists
-    datasetslist[1] <- list(dataset0)
+    datasetslist[[1]] <- dataset0
 
     #Binding the datasets
     weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
@@ -149,15 +150,17 @@ weightthem <- function (formula, datasets,
   if (approach == "across") {
 
     #Defining the lists
-    datasetslist <- list(0)
-    modelslist <- list(0)
+    datasetslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m + 1)
+
+    pslist <- vector("list", datasets$m)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      else        cat(" #", i, sep = "")
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -165,12 +168,14 @@ weightthem <- function (formula, datasets,
                                   method = method, ...)
 
       #Measures
-      if (i == 1) d <- model$ps
-      if (i != 1) d <- d + model$ps
+      pslist[[i]] <- model$ps
+      # if (i == 1) d <- model$ps
+      # if (i != 1) d <- d + model$ps
     }
 
     #Updating the weights
-    d <- d / (datasets$m)
+    # d <- d / (datasets$m)
+    d <- rowMeans(as.matrix(do.call("cbind", pslist)))
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
@@ -181,9 +186,10 @@ weightthem <- function (formula, datasets,
       if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
       if (i != 1) cat(" #", i, sep = "")
 
-      #Building the model
+      #Building the model; just turns ps into weights
       model <- WeightIt::weightit(formula, dataset,
-                                  method = method, ps = dataset$estimated.distance, ...)
+                                  method = "ps",
+                                  ps = dataset$estimated.distance, ...)
 
       #Dataset
       dataset$weights <- model$weights
@@ -192,18 +198,18 @@ weightthem <- function (formula, datasets,
       dataset$estimated.distance <- NULL
 
       #Updating the list
-      datasetslist[i+1] <- list(dataset)
-      modelslist[i+1] <- list(model)
+      datasetslist[[i+1]] <- dataset
+      modelslist[[i+1]] <- model
     }
 
     #Raw data
     dataset0 <- datasets$data
-    dataset0$weights <- NA
+    dataset0$weights <- NA_real_
     dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the list
-    datasetslist[1] <- list(dataset0)
+    datasetslist[[1]] <- dataset0
 
     #Binding the datasets
     weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
