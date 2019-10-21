@@ -46,7 +46,6 @@
 
 complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
-
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
   #URL: <https://github.com/stefvanbuuren/mice>
@@ -57,7 +56,6 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
 
   #Checking inputs format
   if((!(class(object) %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
-
 
   #Polishing variables
   data <- object
@@ -126,4 +124,3 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
     }
   }
 }
-
