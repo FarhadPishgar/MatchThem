@@ -2,7 +2,7 @@ Package: MatchThem
 Title: Matching Multiply Imputed Datasets
 Description: Provides the necessary tools for the pre-processing technique of matching in multiply imputed datasets in order to improve the robustness and transparency of deriving causal inferences from studying these datasets. This package includes functions to perform propensity score matching within or across the imputed datasets as well as to estimate weights (including inverse propensity score weights) of observations, to analyze each matched or weighted datasets using parametric or non-parametric statistical models, and to combine the obtained results from these models according to Rubin’s rules. Please see the package repository <https://github.com/FarhadPishgar/MatchThem> for details.
 Version: 0.8.2
-Authors@R: c(person("Farhad", "Pishgar", role = c("aut","cre"), email = "Farhad.Pishgar@Gmail.com"),
+Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad.Pishgar@Gmail.com"),
              person("Noah", "Greifer", role = "aut", email = "Noah.Greifer@Gmail.com"),
              person("Clémence", "Leyrat", role = "ctb", email = "Clemence.Leyrat@lshtm.ac.uk"))
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
