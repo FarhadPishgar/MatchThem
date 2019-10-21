@@ -24,7 +24,7 @@ This function returns an object of the \code{wimids} (weighted multiply imputed 
 The \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treatment observations in each imputed dataset of a \code{mids} or \code{amelia} class object.
 }
 \details{
-The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the treatment indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets = NULL, method = "ps", ...)}. Summaries of the results can be seen numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
+The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the treatment indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets = NULL, method = "ps", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
 }
 \examples{
 \donttest{
@@ -54,5 +54,5 @@ Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Inco
 \code{\link[=pool]{pool}}
 }
 \author{
-Farhad Pishgar
+Farhad Pishgar and Noah Greifer
 }

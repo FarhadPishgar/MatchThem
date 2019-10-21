@@ -31,7 +31,7 @@ matchthem(formula, datasets, approach = "within", method = "nearest",
 This function returns an object of the \code{mimids} (matched multiply imputed datasets) class, that includes matched subsets of the imputed datasets primarily passed to the function by the \code{datasets} argument.
 }
 \description{
-The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment groups of imputed datasets of a \code{mids} or \code{amelia} class object.
+The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
 }
 \details{
 The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the treatment indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets = NULL, method = "nearest", model = "logit", ratio = 1, caliper = 0, ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
@@ -66,5 +66,5 @@ Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Inco
 \code{\link[=pool]{pool}}
 }
 \author{
-Farhad Pishgar
+Farhad Pishgar and Noah Greifer
 }

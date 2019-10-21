@@ -9,7 +9,7 @@
 #'
 #' @description The \code{bindthem()} function binds a data frame to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
 #'
-#' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
+#' @details This function can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
 #' @return This function returns an object of the \code{mimids} or \code{wimids} class after binding a data frame to each imputed dataset of the inputted object.
 #'
@@ -66,7 +66,8 @@ bindthem <- function(datasets, data) {
     data.0 <- cbind(data.0, data)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Binding
     for (i in 1:datasets$m) {
@@ -96,7 +97,8 @@ bindthem <- function(datasets, data) {
     data.0 <- cbind(data.0, data)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Binding
     for (i in 1:datasets$m) {
@@ -117,7 +119,7 @@ bindthem <- function(datasets, data) {
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "mimids"
+    class(output) <- c("mimids", "list")
     return(output)
   }
 
@@ -134,7 +136,8 @@ bindthem <- function(datasets, data) {
     data.0 <- cbind(data.0, data)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Binding
     for (i in 1:datasets$m) {
@@ -155,7 +158,7 @@ bindthem <- function(datasets, data) {
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "wimids"
+    class(output) <- c("wimids", "list")
     return(output)
   }
 }

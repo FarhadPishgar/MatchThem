@@ -10,7 +10,7 @@
 #'
 #' @description The \code{mergethem()} function merges a data frame with each imputed dataset of the \code{mimids} or \code{wimids} class objects based on the variables passed to the function as \code{by}.
 #'
-#' @details This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
+#' @details This function can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 #'
 #' @return This function returns an object of the \code{mimids} or \code{wimids} class after merging a data frame with each imputed dataset of the inputted object.
 #'
@@ -67,7 +67,8 @@ mergethem <- function(datasets, data, by = "ID") {
     data.0 <- merge(data.0, data, by = by, all.x = TRUE, all.y = FALSE)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Merging
     for (i in 1:datasets$m) {
@@ -82,7 +83,6 @@ mergethem <- function(datasets, data, by = "ID") {
     new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
     new.datasets <- as2.mids(new.datasets)
     return(new.datasets)
-
   }
 
   if (is.mimids(datasets)) {
@@ -98,7 +98,8 @@ mergethem <- function(datasets, data, by = "ID") {
     data.0 <- merge(data.0, data, by = by, all.x = TRUE, all.y = FALSE)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Merging
     for (i in 1:datasets$m) {
@@ -119,7 +120,7 @@ mergethem <- function(datasets, data, by = "ID") {
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "mimids"
+    class(output) <- c("mimids", "list")
     return(output)
 
   }
@@ -137,7 +138,8 @@ mergethem <- function(datasets, data, by = "ID") {
     data.0 <- merge(data.0, data, by = by, all.x = TRUE, all.y = FALSE)
 
     #Preparing the list
-    datasetslist <- list(data.0)
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
 
     #Binding
     for (i in 1:datasets$m) {
@@ -158,7 +160,7 @@ mergethem <- function(datasets, data, by = "ID") {
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "wimids"
+    class(output) <- c("wimids", "list")
     return(output)
 
   }

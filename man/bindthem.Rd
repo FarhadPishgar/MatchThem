@@ -18,7 +18,7 @@ This function returns an object of the \code{mimids} or \code{wimids} class afte
 The \code{bindthem()} function binds a data frame to each imputed dataset of the \code{mimids} or \code{wimids} class objects in a row-wise fashion.
 }
 \details{
-This functions can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
+This function can be used similar to the \code{cbind()} function (from the \pkg{mice} package).
 }
 \examples{
 \donttest{

@@ -14,7 +14,7 @@
 #' @param reestimate This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the matching method (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
 #'
-#' @description The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment groups of imputed datasets of a \code{mids} or \code{amelia} class object.
+#' @description The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treatment subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
 #'
 #' @details The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the treatment indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets = NULL, method = "nearest", model = "logit", ratio = 1, caliper = 0, ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 #'
@@ -24,7 +24,7 @@
 #' @seealso \code{\link[=with]{with}}
 #' @seealso \code{\link[=pool]{pool}}
 #'
-#' @author Farhad Pishgar
+#' @author Farhad Pishgar and Noah Greifer
 #'
 #' @references Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
@@ -129,44 +129,25 @@ matchthem <- function (formula, datasets,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
 
-      # #Matched dataset
-      # matched.dataset <- match2.data(model, environment = environment())
-
-      # all.list <- 1:nrow(datasets$data)
-      # inc.list <- matched.dataset$.id
-      # exc.list <- setdiff(all.list, inc.list)
-      # num.list <- nrow(matched.dataset) + 1
-      # if (length(exc.list != 0)) {
-      #   for (j in 1:length(exc.list)){
-      #     matched.dataset[num.list, ".id"] <- exc.list[j]
-      #     num.list <- num.list + 1
-      #   }
-      # }
-      # matched.dataset$.imp <- i
-      # matched.dataset <- matched.dataset[order(matched.dataset$.id),]
-      # row.names(matched.dataset) <- 1:nrow(datasets$data)
-
+      #Matched dataset
       dataset$weights <- model$weights
       dataset$distance <- model$distance
       dataset$discarded <- model$discarded
       dataset$subclass <- model$subclass
-      dataset$.id <- 1:nrow(datasets$data)
       dataset$.imp <- i
-      dataset$estimated.distance <- NULL
 
       #Updating the lists
-      # datasetslist[[i+1]] <- matched.dataset
       datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
 
     #The raw data
     dataset0 <- datasets$data
-    if (method != "exact") {dataset0$distance <- NA_real_}
+    dataset0$.id <- 1:nrow(datasets$data)
     dataset0$weights <- NA_real_
+    if (!is.null(datasetslist[[2]]$distance)) {dataset0$distance <- NA_real_}
     if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
     if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
-    dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the lists
@@ -185,7 +166,7 @@ matchthem <- function (formula, datasets,
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "mimids"
+    class(output) <- c("mimids", "list")
     cat("\n")
     return(output)
   }
@@ -196,8 +177,7 @@ matchthem <- function (formula, datasets,
     #Defining the lists
     datasetslist <- vector("list", datasets$m + 1)
     modelslist <- vector("list", datasets$m + 1)
-
-    pslist <- vector("list", datasets$m)
+    distancelist <- vector("list", datasets$m)
 
     #Calculating the averaged distances
     for (i in 1:datasets$m) {
@@ -218,14 +198,11 @@ matchthem <- function (formula, datasets,
                                 reestimate = FALSE, ...)
 
       #Distance
-      pslist[[i]] <- model$distance
-      # if (i == 1) d <- model$distance
-      # if (i != 1) d <- d + model$distance
+      distancelist[[i]] <- model$distance
     }
 
     #Updating the distance
-    d <- rowMeans(as.matrix(do.call("cbind", pslist)))
-    # d <- d / (datasets$m)
+    d <- rowMeans(as.matrix(do.call("cbind", distancelist)))
 
     #Matching each dataset
     for (i in 1:datasets$m) {
@@ -244,44 +221,25 @@ matchthem <- function (formula, datasets,
                                 reestimate = reestimate, ...)
 
       #Matched dataset
-      # matched.dataset <- match2.data(model, environment = environment())
-      # matched.dataset$estimated.distance <- NULL
-      #
-      # all.list <- 1:nrow(datasets$data)
-      # inc.list <- matched.dataset$.id
-      # exc.list <- setdiff(all.list, inc.list)
-      # num.list <- nrow(matched.dataset) + 1
-      # if (length(exc.list != 0)) {
-      #   for (j in 1:length(exc.list)){
-      #     matched.dataset[num.list, ".id"] <- exc.list[j]
-      #     num.list <- num.list + 1
-      #   }
-      # }
-      # matched.dataset$.imp <- i
-      # matched.dataset <- matched.dataset[order(matched.dataset$.id),]
-      # row.names(matched.dataset) <- 1:nrow(datasets$data)
-
       dataset$weights <- model$weights
       dataset$distance <- model$distance
       dataset$discarded <- model$discarded
       dataset$subclass <- model$subclass
-      dataset$.id <- 1:nrow(datasets$data)
-      dataset$.imp <- i
       dataset$estimated.distance <- NULL
+      dataset$.imp <- i
 
       #Updating the lists
-      # datasetslist[[i+1]] <- matched.dataset
       datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
 
     #The raw data
     dataset0 <- datasets$data
-    dataset0$distance <- NA_real_
+    dataset0$.id <- 1:nrow(datasets$data)
     dataset0$weights <- NA_real_
+    dataset0$distance <- NA_real_
     if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
     if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
-    dataset0$.id <- 1:nrow(datasets$data)
     dataset0$.imp <- 0
 
     #Updating the lists
@@ -300,7 +258,7 @@ matchthem <- function (formula, datasets,
                    others = others,
                    datasets = datasetslist,
                    original.datasets = originals)
-    class(output) <- "mimids"
+    class(output) <- c("mimids", "list")
     cat("\n")
     return(output)
   }
