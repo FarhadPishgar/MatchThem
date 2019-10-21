@@ -51,7 +51,7 @@ The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cra
 
 The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched observations from control and treatment groups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, coarsened exact, and optimal matching methods) are available (within each of these approaches and methods, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package offers a variety of options).
 
-The output of the `matchthem()` function will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` functions can be used to review detailed descriptions of these objects. Moreover, `matchthem.data()` function can be used to extract the matched datasets in these objects.
+The output of the `matchthem()` function will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` functions can be used to review detailed descriptions of these objects. Moreover, `complete()` function can be used to extract the matched datasets in these objects.
 
 ### Analyzing the Matched Datasets
 
