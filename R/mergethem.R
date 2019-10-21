@@ -56,7 +56,7 @@ mergethem <- function(datasets, data, by = "ID") {
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
-  if(!mice::is.mids(datasets) & !is.mimids(datasets) & !is.wimids(datasets)) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if((!(class(datasets) %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
   if(!is.data.frame(data)) {stop("The input for the data must be a data frame.")}
 
   if (mice::is.mids(datasets)) {
@@ -122,7 +122,6 @@ mergethem <- function(datasets, data, by = "ID") {
                    original.datasets = originals)
     class(output) <- c("mimids", "list")
     return(output)
-
   }
 
   if (is.wimids(datasets)) {
@@ -162,6 +161,5 @@ mergethem <- function(datasets, data, by = "ID") {
                    original.datasets = originals)
     class(output) <- c("wimids", "list")
     return(output)
-
   }
 }

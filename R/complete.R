@@ -55,6 +55,10 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
+  #Checking inputs format
+  if((!(class(object) %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+
+
   #Polishing variables
   data <- object
   action <- n
@@ -81,7 +85,7 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
       shape <- match.arg(action, c("all", "long", "broad", "repeated", "stacked"))
       shape <- ifelse(shape == "all" || mild, "mild", shape)
     } else {
-      stop("The input for the n argument is invalid.")
+      stop("The input for the 'n' argument is invalid.")
     }
 
     #Do it
