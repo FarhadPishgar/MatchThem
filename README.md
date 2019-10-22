@@ -9,7 +9,7 @@
 
 ## Introduction
 
-One of the major issues in the matching procedures is the presence of missing data on the covariates or outcome indicator since matching requires comparing the values of covariates for units in control and treatment subgroups or relies on the predictions from a logistic regression model and with missing values in the variables within the model, the comparison or predictions cannot be done for that observation. There are a couple of solutions to address this problem (including the complete-case analysis and the missingness pattern approach) and with flaws and limitations in these standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
+One of the major issues in the matching procedures is the presence of missing data on the covariates or outcome indicator since matching requires comparing the values of covariates for units in control and treatment subgroups or relies on the predictions from a logistic regression model and with missing values in the variables within the model, the comparison or predictions cannot be done for that unit. There are a couple of solutions to address this problem (including the complete-case analysis and the missingness pattern approach) and with flaws and limitations in these standard approaches, adopting algorithms to multiply impute the missing data is growing as a popular alternative.
 
 Matching of control and treated units in multiply imputed datasets can be achieved through different approaches:
 
