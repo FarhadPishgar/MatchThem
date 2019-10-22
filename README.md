@@ -14,7 +14,7 @@ One of the major issues in the matching procedures is the presence of missing da
 Matching of control and treatment observations in multiply imputed datasets can be achieved through different approaches:
 
 1. **The within (match-then-pool) approach**: In this approach, matching is done on each imputed dataset, using the observed and imputed covariate values, and the causal effect sizes obtained from analyzing the matched datasets are pooled together (please see the article by [Leyrat et al.](https://www.ncbi.nlm.nih.gov/pubmed/28573919) for more details).
-2. **The across (pool-then-match) approach**: In this approach, the calculated propensity scores for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. The matched datasets are analyzed and the causal effect sizes obtained from these analyses are pooled together (this approach is shown to produce inconsistent estimates of the causal effect size, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
+2. **The across (pool-then-match) approach**: In this approach, the calculated propensity scores for each observation across the imputed datasets are pooled and using this pooled measure, matching is done on the imputed datasets. The matched datasets are analyzed and the causal effects obtained from these analyses are pooled together (this approach is shown to produce inconsistent estimates of the causal effect size, please see the article by [Mitra et al.](https://www.ncbi.nlm.nih.gov/pubmed/22687877) for more details).
 
 The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are widely accepted statistical tools for imputing the ignorable missing data in the R platform. The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package simplifies the process of matching the imputed datasets obtained using these packages and enables credible adoption of the two matching approaches and several matching methods in practice. This package enables parametric models for causal inference to provide unbiased estimates through selecting matched observations from the control and treatment groups, analyzing the matched datasets, and pooling the obtained results on imputed datasets using Rubin’s rules.
 
@@ -40,8 +40,8 @@ Adopting algorithms to multiply impute the missing data, before the matching pro
 
 1. **Imputing the Missing Data in the Dataset**: The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
 2. **Matching the Imputed Datasets**: The `matchthem()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched observations from control and treatment groups of each imputed dataset (don't forget to check the extent of the balance in covariates after matching. You can use the [`cobalt`](https://cran.r-project.org/package=cobalt) package for this purpose, which is now compatible with the `mimids` (and the `wimids`) objects, as well as, the tools provided in the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package, itself).
-3. **Analyzing the Matched Datasets**: The `with()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate causal effect size by analyzing the matched datasets.
-4. **Pooling the Causal Effect Size Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect size estimates from the previous step using Rubin’s rules.
+3. **Analyzing the Matched Datasets**: The `with()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate causal effect by analyzing the matched datasets.
+4. **Pooling the Causal Effect Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect size estimates from the previous step using Rubin’s rules.
 
 ### Imputing the Missing Data in the Dataset
 
@@ -59,7 +59,7 @@ The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one 
 
 The output of the `with()` command will be saved in an object of the `mira` class. The `print()` and `summary()` commands can be used to review detailed descriptions of these objects.
 
-### Pooling the Causal Effect Size Estimates
+### Pooling the Causal Effect Estimates
 The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, provides the tools to easily pool the obtained causal effect size estimates from data analyses according to Rubin’s rules.
 
 The output of the `pool()` command will be saved in an object of the `mipo` class. The `print()` and `summary()` commands can be used to review detailed descriptions of these objects.
