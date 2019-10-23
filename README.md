@@ -56,7 +56,7 @@ The output of the `matchthem()` command will be saved in an object of the `mimid
 
 ### Assessing Balance on the Matched Datasets
 
-Function from the [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess average and maximum of the (absolute) standardized mean differences for all covariates as a measure of the extent of the balance in the imputed datasets after matching (please see this package reference manuals for details).
+Functions from the [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess average and maximum of the (absolute) standardized mean differences for all covariates as a measure of the extent of balance in the imputed datasets after matching (please see this package reference manual for details).
 
 ### Analyzing the Matched Datasets
 
