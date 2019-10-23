@@ -50,23 +50,27 @@ The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cra
 
 ### Matching the Imputed Datasets
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched units from control and treated subgroups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, coarsened exact, and optimal matching methods) are available (within each of these approaches and methods, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package offers a variety of options).
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched units from control and treated subgroups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, coarsened exact, and optimal matching methods) are available (within each of these approaches and methods, the `matchthem()` offers a variety of options).
 
-The output of the `matchthem()` command will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` commands can be used to review detailed descriptions of these objects. Moreover, `complete()` command can be used to extract the matched datasets in these objects.
+The output of the `matchthem()` command will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` can be used to review detailed descriptions of these objects. Moreover, `complete()` can be used to extract the matched datasets in these objects.
+
+### Assessing Balance on the Matched Datasets
+
+Function from the [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess average and maximum of the (absolute) standardized mean differences for all covariates as a measure of the extent of the balance in the imputed datasets after matching (please see this package reference manuals for details).
 
 ### Analyzing the Matched Datasets
 
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `with()`, provides an easy way to analyze each matched imputed dataset.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `with()`, provides an easy-to-use tool for analyzing each matched dataset.
 
-The output of the `with()` command will be saved in an object of the `mira` class. The `print()` and `summary()` commands can be used to review detailed descriptions of these objects.
+The output of the `with()` command will be saved in an object of the `mira` class. The `print()` and `summary()` can be used to review detailed descriptions of these objects.
 
 ### Pooling the Causal Effect Estimates
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, provides the tools to easily pool the obtained causal effect estimates from data analyses according to Rubin’s rules.
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, can be used to pool the obtained causal effect estimates from data analyses according to Rubin’s rules.
 
-The output of the `pool()` command will be saved in an object of the `mipo` class. The `print()` and `summary()` commands can be used to review detailed descriptions of these objects.
+The output of the `pool()` command will be saved in an object of the `mipo` class. The `print()` and `summary()` can be used to review detailed descriptions of these objects.
 
 ## Acknowledgments
-The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his beautiful works).
+The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
 
 We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
 
