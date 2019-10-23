@@ -72,7 +72,7 @@ The output of the `pool()` command will be saved in an object of the `mipo` 
 ## Acknowledgments
 The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
 
-We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing reference manual and vignette of this package.
+We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing the reference manual and vignette of this package.
 
 ## Authors
 Farhad Pishgar
