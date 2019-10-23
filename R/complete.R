@@ -65,6 +65,7 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
   #mids
   if ("mids" %in% class(object)) {
     output <- mice::complete(data = data, action = action, include = include, mild = mild, ...)
+    return(output)
   }
 
   #mimids and wimids
