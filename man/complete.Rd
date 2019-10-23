@@ -8,26 +8,26 @@ complete(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE,
   ...)
 }
 \arguments{
-\item{object}{This argument specifies an object of the \code{mide}, \code{mimids}, or \code{wimids} class.}
+\item{object}{This argument specifies an object of the \code{mids}, \code{mimids}, or \code{wimids} class.}
 
-\item{n}{This argument specifies the imputed dataset number, intended to extract its data. The input must be a positive integer, or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
+\item{n}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 
 \item{include}{This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
 
 \item{mild}{This argument specifies whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{n} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.}
 
-\item{all}{This argument specifies whether to include observations with a 0 estimated weights (only for \code{mimids} or \code{wimids} objects). The default is \code{TRUE}.}
+\item{all}{This argument specifies whether to include observations with a zero estimated weight (only for \code{mimids} or \code{wimids} objects). The default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to the function.}
 }
 \value{
-This function returns the imputed dataset within \code{mide}, \code{mimids}, or \code{wimids} class objects.
+This function returns the imputed dataset within \code{mids}, \code{mimids}, or \code{wimids} class objects.
 }
 \description{
-The \code{complete()} function extracts data from an object of the \code{mide}, \code{mimids}, or \code{wimids} class.
+The \code{complete()} function extracts data from an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
 }
 \details{
-The datasets within the \code{mide}, \code{mimids}, or \code{wimids} class objects are extracted.
+The datasets within the \code{mids}, \code{mimids}, or \code{wimids} class objects are extracted.
 }
 \examples{
 \donttest{

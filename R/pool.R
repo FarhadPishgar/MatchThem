@@ -96,7 +96,7 @@ pool <- function (object, dfcom = NULL) {
   #Large dataset
   if (is.null(dfcom)) {
     dfcom <- 999999
-    warning("The function cannot extract the 'dfcom' from the datasets, hence, large sample is assumed.")
+    warning("The function cannot extract the dfcom from the datasets, hence, large sample is assumed.")
   }
 
   #Pooling

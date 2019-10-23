@@ -84,7 +84,7 @@ with.wimids <- function(data, expr, ...) {
   else {
     svy.expr <- substitute(expr)
     svy.expr$design <- quote(design.i)
-    if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'weightthem()' function) in the 'expr' is unnecessary and may result in biased estimates.")
+    if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'weightthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
       data.i <- complete(data, i, all = FALSE)
       design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)

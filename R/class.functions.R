@@ -19,7 +19,7 @@ plot.mimids <- function(x, n = 1, type = "QQ", discrete.cutoff = 5,
   #Changes: Few
 
   #Checking inputs format
-  if(x$object$m < n) {stop("The input for the 'n' is out of bounds.")}
+  if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Polishing variables
   model <- x$models[[n + 1]]
@@ -47,7 +47,7 @@ print.mimids <- function(x, n = 1, digits = getOption("digits"), ...) {
   #Changes: Some
 
   #Checking inputs format
-  if(x$object$m < n) {stop("The input for the 'n' is out of bounds.")}
+  if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
   cat("Dataset: #", n,  "\n", sep = "")
@@ -74,7 +74,7 @@ summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   #Changes: Some
 
   #Checking inputs format
-  if(object$object$m < n) {stop("The input for the 'n' is out of bounds.")}
+  if(object$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
   cat("Dataset: #", n,  "\n", sep = "")
@@ -114,7 +114,7 @@ print.wimids <- function(x, n = 1, digits = getOption("digits"), ...) {
   #Changes: NA
 
   #Checking inputs format
-  if(x$object$m < n) {stop("The input for the 'n' is out of bounds.")}
+  if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
   cat("Dataset: #", n,  "\n", sep = "")
@@ -138,7 +138,7 @@ summary.wimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   #Changes: NA
 
   #Checking inputs format
-  if(object$object$m < n) {stop("The input for the 'n' is out of bounds.")}
+  if(object$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
   cat("Dataset: #", n,  "\n", sep = "")

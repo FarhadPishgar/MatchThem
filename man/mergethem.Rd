@@ -4,7 +4,7 @@
 \alias{mergethem}
 \title{Merges Imputed Datasets with Data Frames}
 \usage{
-mergethem(datasets, data, by = "ID")
+mergethem(datasets, data, by = NULL)
 }
 \arguments{
 \item{datasets}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}

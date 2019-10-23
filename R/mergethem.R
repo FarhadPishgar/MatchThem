@@ -43,7 +43,7 @@
 #' matched.datasets <- mergethem(matched.datasets, data, by = c("AGE", "SEX"))
 #' }
 
-mergethem <- function(datasets, data, by = "ID") {
+mergethem <- function(datasets, data, by = NULL) {
 
   #External function
 
@@ -56,7 +56,7 @@ mergethem <- function(datasets, data, by = "ID") {
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
-  if((!(class(datasets) %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if((!(class(datasets)[[1]] %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
   if(!is.data.frame(data)) {stop("The input for the data must be a data frame.")}
 
   if (mice::is.mids(datasets)) {
