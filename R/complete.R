@@ -46,6 +46,8 @@
 
 complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
+  #External function
+
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
   #URL: <https://github.com/stefvanbuuren/mice>
@@ -54,8 +56,14 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
+  #Importing functions
+  #' @importFrom mice is.mids complete
+  mice::is.mids
+  mice::complete
+  #' @export
+
   #Checking inputs format
-  if((!(class(object)[[1]] %in% c("mids", "mimids", "wimids")))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if((!(mice::is.mids(object) || (is.mimids(object)) || (is.wimids(object))))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
 
   #Polishing variables
   data <- object
@@ -63,13 +71,13 @@ complete <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, 
   m <- as.integer(data$object$m)
 
   #mids
-  if ("mids" %in% class(object)) {
+  if (mice::is.mids(object)) {
     output <- mice::complete(data = data, action = action, include = include, mild = mild, ...)
     return(output)
   }
 
   #mimids and wimids
-  if (("mimids" %in% class(object)) || ("wimids" %in% class(object))) {
+  if ((is.mimids(object)) || (is.wimids(object))) {
     #Shape
     if (is.numeric(action)) {
       action <- as.integer(action)
