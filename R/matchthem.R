@@ -65,6 +65,7 @@ matchthem <- function (formula, datasets,
 
   #Polishing variables
   formula <- stats::as.formula(formula)
+  original.call <- match.call()
   originals <- datasets
   if(approach == "pool-then-match") {approach <- "across"}
   if(approach == "match-then-pool") {approach <- "within"}
@@ -77,11 +78,10 @@ matchthem <- function (formula, datasets,
   if(!is.null(datasets$data$subclass)) {stop("The input for the datasets shouldn't have a variable named 'subclass'.")}
   if(!is.null(datasets$data$discarded)) {stop("The input for the datasets shouldn't have a variable named 'discarded'.")}
   if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' matching approch is selected.")}
-  if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
   if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
   if(approach == "across" && (!(method %in% c("nearest", "full", "subclass", "optimal")))) {stop("The input for the matching method must be 'nearest', 'full', 'subclass', or 'optimal', when the 'across' matching approch is selected.")}
   if(approach == "across" && distance == "mahalanobis" ) {stop("The input for the distance shouldn't be 'mahalanobis', when the 'across' matching approch is selected.")}
-
+  if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
 
   #Compatibility with amelia objects
   if (class(datasets) == "amelia") {
@@ -118,8 +118,7 @@ matchthem <- function (formula, datasets,
       if (!(method %in% c("genetic", "cem"))){
         if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
         if (i != 1) cat(" #", i, sep = "")
-      }
-      else {
+      } else {
         if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
         if (i != 1) cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
       }
@@ -159,7 +158,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), call. = original.call)
 
     #Returning output
     output <- list(object = matched.datasets,
@@ -251,7 +250,7 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals))
+    others <- list(approach. = approach, method. = method, source. = class(originals), call. = original.call)
 
     #Returning output
     output <- list(object = matched.datasets,

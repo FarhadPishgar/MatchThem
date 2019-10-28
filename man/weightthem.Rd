@@ -4,7 +4,8 @@
 \alias{weightthem}
 \title{Weights Multiply Imputed Datasets}
 \usage{
-weightthem(formula, datasets, approach = "within", method = "ps", ...)
+weightthem(formula, datasets, approach = "within", method = "ps",
+  estimand = "ATE", ...)
 }
 \arguments{
 \item{formula}{This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary exposure indicator and \code{x1} and \code{x2} are the potential confounders. Both the exposure indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.}
@@ -14,6 +15,8 @@ weightthem(formula, datasets, approach = "within", method = "ps", ...)
 \item{approach}{This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.}
 
 \item{method}{This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
+
+\item{estimand}{This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
 
 \item{...}{Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).}
 }
@@ -38,7 +41,7 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'ps')
+                                approach = 'within', method = 'ps', estimand = "ATT")
 }
 }
 \references{
