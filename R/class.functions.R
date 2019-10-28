@@ -26,7 +26,7 @@ plot.mimids <- function(x, n = 1, type = "QQ", discrete.cutoff = 5,
 
   #Plotting
   graphics::plot(x$models[[n+1]], discrete.cutoff = discrete.cutoff, type = type,
-                           numdraws = numdraws, interactive = interactive, which.xs = which.xs, ...)
+                 numdraws = numdraws, interactive = interactive, which.xs = which.xs, ...)
 }
 
 #' @export
