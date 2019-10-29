@@ -50,7 +50,7 @@ print.mimids <- function(x, n = 1, ...) {
   #Printing out
   output <- x$models[[n+1]]
   output$call <- x$others$call.
-  print(output, ...)
+  return(print(output, ...))
 }
 
 #' @export
@@ -101,7 +101,7 @@ print.wimids <- function(x, n = 1, ...) {
 
   #Printing
   output <- x$models[[n+1]]
-  print(output, ...)
+  return(print(output, ...))
 }
 
 #' @export
