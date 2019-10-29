@@ -98,6 +98,7 @@ matchthem <- function (formula, datasets,
     }
     imp.datasets <- do.call("rbind", as.list(noquote(implist)))
     datasets <- as2.mids(imp.datasets)
+    originals <- datasets
   }
 
   #Within
