@@ -11,13 +11,13 @@ Imports: dplyr, graphics, methods, mice, stats, survey
 Suggests: Amelia, cobalt, R.rsp
 URL: https://github.com/FarhadPishgar/MatchThem
 BugReports: https://github.com/FarhadPishgar/MatchThem/issues
-License: GPL-3
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: R.rsp
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-10-28 20:13:41 UTC; Farhad
+Packaged: 2019-10-29 09:02:06 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],
   Clémence Leyrat [ctb]

@@ -1,7 +1,6 @@
 #' @export
 
-plot.mimids <- function(x, n = 1, type = "QQ", discrete.cutoff = 5,
-                        numdraws = 5000, interactive = TRUE, which.xs = NULL, ...){
+plot.mimids <- function(x, n = 1, ...){
 
   #S3 method
 
@@ -25,13 +24,12 @@ plot.mimids <- function(x, n = 1, type = "QQ", discrete.cutoff = 5,
   cat("Plotting               | dataset: #", n,  "\n", sep = "")
 
   #Plotting
-  graphics::plot(x$models[[n+1]], discrete.cutoff = discrete.cutoff, type = type,
-                 numdraws = numdraws, interactive = interactive, which.xs = which.xs, ...)
+  plot(x$models[[n+1]], ...)
 }
 
 #' @export
 
-print.mimids <- function(x, n = 1, digits = getOption("digits"), ...) {
+print.mimids <- function(x, n = 1, ...) {
 
   #S3 method
 
@@ -52,13 +50,12 @@ print.mimids <- function(x, n = 1, digits = getOption("digits"), ...) {
   #Printing out
   output <- x$models[[n+1]]
   output$call <- x$others$call.
-  return(output)
+  print(output, ...)
 }
 
 #' @export
 
-summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = NULL,
-                           standardize = FALSE, covariates = FALSE, ...) {
+summary.mimids <- function(object, n = 1, ...) {
 
   #S3 method
 
@@ -77,7 +74,7 @@ summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   cat("Summarizing            | dataset: #", n,  "\n", sep = "")
 
   #Printing out
-  output <- summary(object$models[[n+1]])
+  output <- summary(object$models[[n+1]], ...)
   output$call <- object$others$call.
   return(output)
 
@@ -85,7 +82,7 @@ summary.mimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
 
 #' @export
 
-print.wimids <- function(x, n = 1, digits = getOption("digits"), ...) {
+print.wimids <- function(x, n = 1, ...) {
 
   #S3 method
 
@@ -104,13 +101,12 @@ print.wimids <- function(x, n = 1, digits = getOption("digits"), ...) {
 
   #Printing
   output <- x$models[[n+1]]
-  return(output)
+  print(output, ...)
 }
 
 #' @export
 
-summary.wimids <- function(object, n = 1, interactions = FALSE, addlvariables = NULL,
-                           standardize = FALSE, ...) {
+summary.wimids <- function(object, n = 1, ...) {
 
   #S3 method
 
@@ -128,6 +124,6 @@ summary.wimids <- function(object, n = 1, interactions = FALSE, addlvariables = 
   cat("Summarizing            | dataset: #", n,  "\n", sep = "")
 
   #Summarizing
-  output <- summary(object$models[[n+1]])
+  output <- summary(object$models[[n+1]], ...)
   return(output)
 }
