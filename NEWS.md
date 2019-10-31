@@ -4,14 +4,14 @@
 #### Matching and Weighting Multiply Imputed Datasets
 <!-- badges: end -->
 
-[![](https://img.shields.io/badge/CRAN%20version-0.8.1-orange.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.8.2-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/CRAN%20version-0.9.0-orange.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.9.0-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
 
-### Version 0.8.2
+### Version 0.9.0
 
-This is a spit and polish update to improve the documentation and to implement compatibility for robust estimation of standard errors (including the `svyglm()` and `svycoxph()` from the [`survey`](https://cran.r-project.org/package=survet) package, to be used as expressions within the `with()` function) and for new matching and weighting methods (including the `full`, `genetic`, `subclass`, `cem`, and `optimal` matching methods).
+This is an update to improve the documentation and to implement compatibility for robust estimation of standard errors (compatibility with the `svyglm()` and `svycoxph()`, from the [`survey`](https://cran.r-project.org/package=survet) package, to be used as expressions within the `with()` function) and for new matching and weighting methods (e.g. the `full`, `genetic`, and `cem` matching methods and `ebal` and `optweight` weighting methods). Moreover, `complete()` function is included in the package to replace the `matchthem.data()` and `weightthem.data()` and several minor bugs are fixed.
 
 ### Version 0.8.1
 
