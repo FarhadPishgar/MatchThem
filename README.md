@@ -29,7 +29,7 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 ## Suggested Workflow
 
-Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to map out this process into five steps (please see the package [cheat sheet](inst/doc/CHEATSHEET.pdf) for more details):
+Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to map out this process into five steps (please see the package [cheat sheet](inst/doc/cheatsheet.pdf) for more details):
 
 1. **Imputing the Missing Data in the Dataset**: [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages should be used to multiply impute the missing data in the dataset.
 2. **Matching the Imputed Datasets**: `matchthem()` from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched units from control and treated subgroups of each imputed dataset.
