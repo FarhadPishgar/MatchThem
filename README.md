@@ -29,8 +29,6 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 ## Suggested Workflow
 
-### Overview
-
 Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to map out this process into five steps:
 
 1. **Imputing the Missing Data in the Dataset**: The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
@@ -38,31 +36,6 @@ Adopting algorithms to multiply impute the missing data, before the matching pro
 3. **Assessing Balance on the Matched Datasets**: The [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess the extent of the balance for all covariates in the imputed datasets after matching.
 4. **Analyzing the Matched Datasets**: The `with()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate causal effect by analyzing the matched datasets.
 5. **Pooling the Causal Effect Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect estimates from the previous step using Rubin’s rules.
-
-### Imputing the Missing Data in the Dataset
-
-The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages and their main functions provide the necessary tools for multiply imputing ignorable missing data in a dataset (several points should be considered before choosing the appropriate method for the imputation procedure, please see these packages reference manuals for details).
-
-### Matching the Imputed Datasets
-
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and its main function, `matchthem()`, provides the essential tools for selecting matched units from control and treated subgroups of imputed datasets. Currently, two matching approaches (within and across matching approaches) and several matching methods (nearest neighbor, exact, full, genetic, subclassification, coarsened exact, and optimal matching methods) are available (within each of these approaches and methods, the `matchthem()` offers a variety of options).
-
-The output of the `matchthem()` command will be saved in an object of the `mimids` class. The `plot()`, `print()`, and `summary()` can be used to review detailed descriptions of these objects. Moreover, `complete()` can be used to extract the matched datasets in these objects.
-
-### Assessing Balance on the Matched Datasets
-
-Functions from the [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess average and maximum of the (absolute) standardized mean differences for all covariates as a measure of the extent of balance in the imputed datasets after matching (please see this package reference manual for details).
-
-### Analyzing the Matched Datasets
-
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `with()`, provides an easy-to-use tool for analyzing each matched dataset.
-
-The output of the `with()` command will be saved in an object of the `mira` class. The `print()` and `summary()` can be used to review detailed descriptions of these objects.
-
-### Pooling the Causal Effect Estimates
-The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package and one of its functions, `pool()`, can be used to pool the obtained causal effect estimates from data analyses according to Rubin’s rules.
-
-The output of the `pool()` command will be saved in an object of the `mipo` class. The `print()` and `summary()` can be used to review detailed descriptions of these objects.
 
 ## Acknowledgments
 The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
