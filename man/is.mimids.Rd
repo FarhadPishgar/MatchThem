@@ -13,14 +13,13 @@ is.mimids(object)
 This function returns a logical value indicating whether \code{object} is of the \code{mimids} class.
 }
 \description{
-The \code{is.mimids()} function checks whether class of objects is \code{mimids} or not.
+\code{is.mimids()} function checks whether class of objects is \code{mimids} or not.
 }
 \details{
 The class of objects is checked to be of the \code{mimids}.
 }
 \examples{
-\donttest{
-#Loading the dataset
+\donttest{#Loading the dataset
 data(dataset)
 
 #Multiply imputing the missing values
@@ -34,8 +33,7 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.dataset
 
 #Checking the 'matched.datasets' object
 is.mimids(matched.datasets)
-is(matched.datasets)
-}
+is(matched.datasets)}
 }
 \seealso{
 \code{\link[=matchthem]{matchthem}}

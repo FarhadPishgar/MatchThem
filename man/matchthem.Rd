@@ -17,7 +17,7 @@ matchthem(formula, datasets, approach = "within", method = "nearest",
 
 \item{method}{This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available (only the \code{"nearest"}, \code{"full"}, \code{"subclass"}, and \code{"optimal"} matching methods are compatible with the \code{"across"} approach). The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.}
 
-\item{distance}{This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available.}
+\item{distance}{This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
 
 \item{distance.options}{This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.}
 
@@ -31,14 +31,13 @@ matchthem(formula, datasets, approach = "within", method = "nearest",
 This function returns an object of the \code{mimids} (matched multiply imputed datasets) class, that includes matched subsets of the imputed datasets primarily passed to the function by the \code{datasets} argument.
 }
 \description{
-The \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
+\code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
 }
 \details{
-The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets = NULL, method = "nearest", model = "logit", ratio = 1, caliper = 0, ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
+The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 }
 \examples{
-\donttest{
-#Loading the dataset
+\donttest{#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -48,8 +47,7 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')
-}
+                              approach = 'within', method = 'nearest')}
 }
 \references{
 Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}

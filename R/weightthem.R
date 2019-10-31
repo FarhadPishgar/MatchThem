@@ -7,13 +7,13 @@
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary exposure indicator and \code{x1} and \code{x2} are the potential confounders. Both the exposure indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
 #' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies the method that will be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
+#' @param method This argument specifies the method that should be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
 #' @param estimand This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.
 #' @param ... Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).
 #'
-#' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treated observations in each imputed dataset of a \code{mids} or \code{amelia} class object.
+#' @description \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treated units in each imputed dataset of a \code{mids} or \code{amelia} class object.
 #'
-#' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets = NULL, method = "ps", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
+#' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
 #'
 #' @return This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.
 #'
@@ -24,13 +24,10 @@
 #' @author Farhad Pishgar and Noah Greifer
 #'
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
-#' @references Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Incomplete Political Science Data: An Alternative Algorithm for Multiple Imputation. \emph{American Political Science Review}, 95: 49–69. \url{http://j.mp/2oOrtGs}
 #'
 #' @export
 #'
-#' @examples
-#' \donttest{
-#' #Loading the dataset
+#' @examples \donttest{#Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -40,8 +37,7 @@
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps', estimand = "ATT")
-#' }
+#'                                 approach = 'within', method = 'ps', estimand = "ATT")}
 
 weightthem <- function (formula, datasets,
                         approach = "within",
@@ -50,10 +46,8 @@ weightthem <- function (formula, datasets,
   #External function
 
   #Importing functions
-  #' @importFrom mice complete
   #' @importFrom WeightIt weightit
   #' @importFrom stats as.formula
-  mice::complete
   WeightIt::weightit
   stats::as.formula
   #' @export
@@ -108,7 +102,7 @@ weightthem <- function (formula, datasets,
       if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
-      dataset <- mice::complete(datasets, i)
+      dataset <- complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
 
@@ -165,7 +159,7 @@ weightthem <- function (formula, datasets,
       if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
-      dataset <- mice::complete(datasets, i)
+      dataset <- complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
 
@@ -178,7 +172,7 @@ weightthem <- function (formula, datasets,
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
-      dataset <- mice::complete(datasets, i)
+      dataset <- complete(datasets, i)
       dataset$estimated.distance <- d
 
       #Printing out

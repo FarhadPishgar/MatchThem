@@ -4,7 +4,7 @@
 \alias{complete}
 \title{Extracts Imputed Datasets}
 \usage{
-complete(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE,
+complete(object, n = 1, include = FALSE, mild = FALSE, all = TRUE,
   ...)
 }
 \arguments{
@@ -24,14 +24,13 @@ complete(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE,
 This function returns the imputed dataset within \code{mids}, \code{mimids}, or \code{wimids} class objects.
 }
 \description{
-The \code{complete()} function extracts data from an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
+\code{complete()} function extracts data from an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
 }
 \details{
 The datasets within the \code{mids}, \code{mimids}, or \code{wimids} class objects are extracted.
 }
 \examples{
-\donttest{
-#Loading the dataset
+\donttest{#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -44,8 +43,7 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.dataset
                               approach = 'within', method = 'nearest')
 
 #Extracting the first imputed dataset
-matched.dataset.1 <- complete(matched.datasets, n = 1)
-}
+matched.dataset.1 <- complete(matched.datasets, n = 1)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}

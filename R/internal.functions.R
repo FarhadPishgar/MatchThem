@@ -173,3 +173,123 @@ pool2.fitlist <- function (fitlist, dfcom = NULL) {
   #Return the output
   return(output)
 }
+
+cbind <- function(datasets, data) {
+
+  #External function
+
+  #Importing functions
+  #' @importFrom mice is.mids complete
+  mice::is.mids
+  mice::complete
+
+  #Checking inputs format
+  if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
+  if(is.null(data)) {stop("The input for the data must be specified.")}
+  if((!(mice::is.mids(datasets) || (is.mimids(datasets)) || (is.wimids(datasets))))) {stop("The input for the datasets must be an object of the 'mids', 'mimids', or 'wimids' class.")}
+  if(!is.data.frame(data)) {stop("The input for the data must be a dataframe.")}
+
+  if (mice::is.mids(datasets)) {
+    #Polishing variables
+    data.0 <- datasets$data
+    data.0$.id <- 1:nrow(datasets$data)
+    data.0$.imp <- 0
+    data.0 <- cbind(data.0, data)
+
+    #Preparing the list
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
+
+    #Binding
+    for (i in 1:datasets$m) {
+      data.i <- mice::complete(datasets, i)
+      data.i$.id <- 1:nrow(datasets$data)
+      data.i$.imp <- i
+      data.i <- cbind(data.i, data)
+      datasetslist[[i+1]] <- data.i
+    }
+
+    #Returning output
+    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
+    new.datasets <- as2.mids(new.datasets)
+    return(new.datasets)
+  }
+
+  if (is.mimids(datasets)) {
+    #Polishing variables
+    modelslist <- datasets$models
+    others <- datasets$others
+    originals <- datasets$original.datasets
+    datasets <- datasets$object
+
+    data.0 <- datasets$data
+    data.0$.id <- 1:nrow(datasets$data)
+    data.0$.imp <- 0
+    data.0 <- cbind(data.0, data)
+
+    #Preparing the list
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
+
+    #Binding
+    for (i in 1:datasets$m) {
+      data.i <- mice::complete(datasets, i)
+      data.i$.id <- 1:nrow(datasets$data)
+      data.i$.imp <- i
+      data.i <- cbind(data.i, data)
+      datasetslist[[i+1]] <- data.i
+    }
+
+    #Prepating the output
+    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
+    matched.datasets <- as2.mids(new.datasets)
+
+    #Returning output
+    output <- list(object = matched.datasets,
+                   models = modelslist,
+                   others = others,
+                   datasets = datasetslist,
+                   original.datasets = originals)
+    class(output) <- c("mimids", "list")
+    return(output)
+  }
+
+  if (is.wimids(datasets)) {
+    #Polishing variables
+    modelslist <- datasets$models
+    others <- datasets$others
+    originals <- datasets$original.datasets
+    datasets <- datasets$object
+
+    data.0 <- datasets$data
+    data.0$.id <- 1:nrow(datasets$data)
+    data.0$.imp <- 0
+    data.0 <- cbind(data.0, data)
+
+    #Preparing the list
+    datasetslist <- vector("list", datasets$m + 1)
+    datasetslist[[1]] <- data.0
+
+    #Binding
+    for (i in 1:datasets$m) {
+      data.i <- mice::complete(datasets, i)
+      data.i$.id <- 1:nrow(datasets$data)
+      data.i$.imp <- i
+      data.i <- cbind(data.i, data)
+      datasetslist[[i+1]] <- data.i
+    }
+
+    #Prepating the output
+    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
+    weighted.datasets <- as2.mids(new.datasets)
+
+    #Returning output
+    output <- list(object = weighted.datasets,
+                   models = modelslist,
+                   others = others,
+                   datasets = datasetslist,
+                   original.datasets = originals)
+    class(output) <- c("wimids", "list")
+    return(output)
+  }
+}

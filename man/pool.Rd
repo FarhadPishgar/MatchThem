@@ -2,7 +2,7 @@
 % Please edit documentation in R/pool.R
 \name{pool}
 \alias{pool}
-\title{Combines Estimates by Rubin’s Rules}
+\title{Pools Estimates by Rubin's Rules}
 \usage{
 pool(object, dfcom = NULL)
 }
@@ -15,20 +15,20 @@ pool(object, dfcom = NULL)
 This function returns an object of the \code{mipo} class (multiple imputation pooled outcome).
 }
 \description{
-The \code{pool()} function combines the estimates from \code{n} repeated complete data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
+\code{pool()} function pools estimates from \code{n} repeated data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
 \enumerate{
  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
  \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
- \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mira} class;
+ \item Check the extent of balance of covariates across the matched datasets;
+ \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mira} class; and
  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
 }
 }
 \details{
-The \code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
+\code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
 }
 \examples{
-\donttest{
-#Loading the dataset
+\donttest{#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -45,8 +45,7 @@ models <- with(data = matched.datasets,
                exp = glm(KOA ~ OSP, family = binomial))
 
 #Pooling results obtained from analysing the datasets
-results <- pool(models)
-}
+results <- pool(models)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
