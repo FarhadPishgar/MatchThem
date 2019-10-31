@@ -15,7 +15,7 @@ This is an update to improve the documentation and to implement compatibility fo
 
 ### Version 0.8.2
 
-This is an split and polish update to improve the documentation and to fix few bugs.
+This is a spit and polish update to improve the documentation and to fix few bugs.
 
 ### Version 0.8.1
 
