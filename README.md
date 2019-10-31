@@ -31,11 +31,11 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 Adopting algorithms to multiply impute the missing data, before the matching procedure, and the matching procedure itself may seem to be complicated tasks. This suggested workflow tries to map out this process into five steps (please see the package [cheat sheet](inst/doc/CHEATSHEET.pdf) for more details):
 
-1. **Imputing the Missing Data in the Dataset**: The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset (the [`Amelia`](https://cran.r-project.org/package=Amelia) package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package only supports the former data type).
+1. **Imputing the Missing Data in the Dataset**: The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages can be used to multiply impute the missing data in the dataset.
 2. **Matching the Imputed Datasets**: The `matchthem()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to select matched units from control and treated subgroups of each imputed dataset.
-3. **Assessing Balance on the Matched Datasets**: The [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess the extent of the balance for all covariates in the imputed datasets after matching.
+3. **Assessing Balance on the Matched Datasets**: The [`cobalt`](https://cran.r-project.org/package=cobalt) package should be used to assess the extent of balance for all covariates in the imputed datasets after matching.
 4. **Analyzing the Matched Datasets**: The `with()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to estimate causal effect by analyzing the matched datasets.
-5. **Pooling the Causal Effect Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect estimates from the previous step using Rubin’s rules.
+5. **Pooling the Causal Effect Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect estimates from analyzing each dataset.
 
 ## Acknowledgments
 The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
