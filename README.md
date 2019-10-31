@@ -38,7 +38,7 @@ Adopting algorithms to multiply impute the missing data, before the matching pro
 5. **Pooling the Causal Effect Estimates**: The `pool()` command from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be used to pool the obtained causal effect estimates from analyzing each dataset.
 
 ## Acknowledgments
-The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (check his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
+The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed and kindly provided by Max Josino (please see his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) to see his works).
 
 We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing the reference manual and vignette of this package.
 
