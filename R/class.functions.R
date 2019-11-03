@@ -433,6 +433,8 @@ cbind.wimids <- function(datasets, data, ...) {
 
 ##### mira
 
+#
+
 df.residual.mira <- function(object, ...) {
 
   #Internal function
