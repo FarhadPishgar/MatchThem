@@ -1,9 +1,10 @@
 #' @title Evaluates an Expression in Matched or Weighted Imputed Datasets
 #'
+#' @name with
+#'
 #' @rdname with
 #'
-#' @method with mimids
-#' @method with wimids
+#' @aliases with with.mimids with.wimids
 #'
 #' @param data This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
 #' @param expr This argument specifies an expression of the usual syntax of R formula (it also accepts expressions from \pkg{survey} package, like \code{svyglm()}, please note that you shouldn't include the \code{weights = weights} argument, see the package vignette for details).
@@ -38,16 +39,6 @@
 #' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 #'                          method = c("", "", "mean", "polyreg",
 #'                                     "logreg", "logreg", "logreg"))
-#'
-#' #Matching the multiply imputed datasets
-#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                               approach = 'within', method = 'nearest')
-#'
-#' #Analyzing the matched datasets
-#' models <- with(data = matched.datasets,
-#'                exp = glm(KOA ~ OSP, family = binomial))
-#'
-#' #or
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

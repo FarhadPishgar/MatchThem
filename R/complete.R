@@ -2,7 +2,7 @@
 #'
 #' @rdname complete
 #'
-#' @aliases complete
+#' @aliases complete complete.mimids complete.wimids
 #'
 #' @param object This argument specifies an object of the \code{mids}, \code{mimids}, or \code{wimids} class.
 #' @param n This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
@@ -44,6 +44,7 @@
 complete <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
+  #S3 method
 
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
@@ -59,6 +60,7 @@ complete <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, .
 complete.mids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
+  #S3 method
 
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
@@ -74,14 +76,9 @@ complete.mids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TR
   mice::complete
   #' @export
 
-  #Polishing variables
-  data <- object
-  action <- n
-  m <- as.integer(data$object$m)
-
   #mids
   if (mice::is.mids(object)) {
-    output <- mice::complete(data = data, action = action, include = include, mild = mild, ...)
+    output <- mice::complete(data = object, action = n, include = include, mild = mild, ...)
     return(output)
   }
 }
@@ -89,6 +86,7 @@ complete.mids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TR
 complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
+  #S3 method
 
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
@@ -98,10 +96,6 @@ complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
-  #Importing functions
-  #' @importFrom mice is.mids complete
-  mice::is.mids
-  mice::complete
   #' @export
 
   #Polishing variables
@@ -170,6 +164,7 @@ complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
 complete.wimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
+  #S3 method
 
   #Based on: The mice::complete()
   #URL: <https://cran.r-project.org/package=mice>
@@ -179,10 +174,6 @@ complete.wimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
   #Authors: Stef van Buuren et al.
   #Changes: Some
 
-  #Importing functions
-  #' @importFrom mice is.mids complete
-  mice::is.mids
-  mice::complete
   #' @export
 
   #Polishing variables

@@ -2,6 +2,8 @@
 % Please edit documentation in R/complete.R
 \name{complete}
 \alias{complete}
+\alias{complete.mimids}
+\alias{complete.wimids}
 \title{Extracts Imputed Datasets}
 \usage{
 complete(object, n = 1, include = FALSE, mild = FALSE, all = TRUE,
