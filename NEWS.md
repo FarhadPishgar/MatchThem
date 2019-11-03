@@ -11,7 +11,7 @@
 
 ### Version 0.9.1
 
-This is a spit and polish update to improve the documentation and to fix minor bugs.
+This is an update to improve the documentation and to fix minor bugs.
 
 ### Version 0.9.0
 
