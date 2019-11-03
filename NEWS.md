@@ -5,9 +5,13 @@
 <!-- badges: end -->
 
 [![](https://img.shields.io/badge/CRAN%20version-0.9.0-orange.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.9.0-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.9.1-orange.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
+
+### Version 0.9.1
+
+This is a spit and polish update to improve the documentation and to fix minor bugs.
 
 ### Version 0.9.0
 
