@@ -152,3 +152,77 @@ pool2.fitlist <- function (fitlist, dfcom = NULL) {
   #Return the output
   return(output)
 }
+
+unrowname2. <- function (x) {
+
+  #Internal function
+
+  #Based on: The mice:::unrowname()
+  #URL: <https://cran.r-project.org/package=mice>
+  #URL: <https://github.com/stefvanbuuren/mice>
+  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
+  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
+  #Authors: Stef van Buuren et al.
+  #Changes: NA
+
+  rownames(x) <- NULL
+  return(x)
+}
+
+format2.perc <- function (probs, digits) {
+
+  #Internal function
+
+  #Based on: The mice:::format2.perc()
+  #URL: <https://cran.r-project.org/package=mice>
+  #URL: <https://github.com/stefvanbuuren/mice>
+  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
+  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
+  #Authors: Stef van Buuren et al.
+  #Changes: NA
+
+  paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), "%")
+}
+
+process2.mipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE) {
+
+  #Internal function
+
+  #Based on: The mice:::process_mipo()
+  #URL: <https://cran.r-project.org/package=mice>
+  #URL: <https://github.com/stefvanbuuren/mice>
+  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
+  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
+  #Authors: Stef van Buuren et al.
+  #Changes: NA
+
+  #Importing functions
+
+  #' @importFrom stats confint
+  stats::confint
+
+  if (exponentiate) {
+    #Save transformation function for use on confidence interval
+    trans <- exp
+  } else {
+    trans <- identity
+  }
+
+  CI <- NULL
+  if (conf.int) {
+    #Avoid "Waiting for profiling to be done..." message
+    CI <- suppressMessages(confint(x, level = conf.level))
+  }
+  z$estimate <- trans(z$estimate)
+
+  if (!is.null(CI)) {
+    z <- cbind(z[, c("estimate", "std.error", "statistic", "df", "p.value")],
+               trans(unrowname2.(CI)),
+               z[, c("riv", "lambda", "fmi", "ubar", "b", "t", "dfcom")])
+  } else {
+    z <- cbind(z[, c("estimate", "std.error", "statistic", "df", "p.value")],
+               z[, c("riv", "lambda", "fmi", "ubar", "b", "t", "dfcom")])
+  }
+
+  return(z)
+}

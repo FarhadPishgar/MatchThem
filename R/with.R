@@ -6,6 +6,8 @@
 #'
 #' @aliases with with.mimids with.wimids
 #'
+#' @method with mimids
+#'
 #' @param data This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
 #' @param expr This argument specifies an expression of the usual syntax of R formula (it also accepts expressions from \pkg{survey} package, like \code{svyglm()}, please note that you shouldn't include the \code{weights = weights} argument, see the package vignette for details).
 #' @param ... Additional arguments to be passed to \code{expr}.
@@ -97,12 +99,18 @@ with.mimids <- function(data, expr, ...) {
   }
 
   #Return the complete data analyses as a list of length nimp
-  output <- list(call = call, call1 = object$call, nmis = object$nmis, analyses = analyses)
+  output <- list(call = call, called = data$call, nmis = data$original.datasets$nmis, analyses = analyses)
 
   #Return the output
   oldClass(output) <- c("mira", "matrix")
   return(output)
 }
+
+#' @rdname with
+#'
+#' @method with wimids
+#'
+#' @export
 
 with.wimids <- function(data, expr, ...) {
 
@@ -153,7 +161,7 @@ with.wimids <- function(data, expr, ...) {
   }
 
   #Return the complete data analyses as a list of length nimp
-  output <- list(call = call, call1 = object$call, nmis = object$nmis, analyses = analyses)
+  output <- list(call = call, called = data$call, nmis = data$original.datasets$nmis, analyses = analyses)
 
   #Return the output
   oldClass(output) <- c("mira", "matrix")

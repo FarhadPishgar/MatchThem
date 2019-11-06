@@ -7,7 +7,7 @@ Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad
              person("Clémence", "Leyrat", role = "ctb", email = "Clemence.Leyrat@lshtm.ac.uk"))
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: MatchIt, WeightIt, R (>= 3.5.0)
-Imports: dplyr, graphics, methods, mice, stats, survey
+Imports: broom, dplyr, graphics, methods, mice, stats, survey
 Suggests: Amelia, cobalt, R.rsp
 URL: https://github.com/FarhadPishgar/MatchThem
 BugReports: https://github.com/FarhadPishgar/MatchThem/issues
@@ -17,7 +17,7 @@ LazyData: true
 VignetteBuilder: R.rsp
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-11-03 21:34:34 UTC; Farhad
+Packaged: 2019-11-06 19:41:08 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],
   Clémence Leyrat [ctb]

@@ -60,8 +60,9 @@ matchthem <- function (formula, datasets,
 
   #Polishing variables
   formula <- stats::as.formula(formula)
-  original.call <- match.call()
+  called <- match.call()
   originals <- datasets
+  classed <- class(originals)
   if(approach == "pool-then-match") {approach <- "across"}
   if(approach == "match-then-pool") {approach <- "within"}
 
@@ -84,13 +85,17 @@ matchthem <- function (formula, datasets,
     is.na(imp0) <- datasets$missMatrix
     imp0$.id <- 1:nrow(imp0)
     imp0$.imp <- 0
-    implist <- list(imp0)
+
+    implist <- vector("list", datasets$m + 1)
+    implist[[1]] <- imp0
+
     for (i in 1:datasets$m) {
       imp <- datasets$imputations[[i]]
       imp$.id <- 1:nrow(imp0)
       imp$.imp <- i
-      implist[i+1] <- list(imp)
+      implist[[i+1]] <- imp
     }
+
     imp.datasets <- do.call("rbind", as.list(noquote(implist)))
     datasets <- as2.mids(imp.datasets)
     originals <- datasets
@@ -154,14 +159,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), call. = original.call)
+    others <- list(source = originals, class = classed)
 
     #Returning output
-    output <- list(object = matched.datasets,
+    output <- list(call = called,
+                   object = matched.datasets,
                    models = modelslist,
-                   others = others,
                    datasets = datasetslist,
-                   original.datasets = originals)
+                   others = others)
     class(output) <- c("mimids", "list")
     cat("\n")
     return(output)
@@ -246,14 +251,14 @@ matchthem <- function (formula, datasets,
     matched.datasets <- as2.mids(matched.datasets)
 
     #Others
-    others <- list(approach. = approach, method. = method, source. = class(originals), call. = original.call)
+    others <- list(source = originals, class = classed)
 
     #Returning output
-    output <- list(object = matched.datasets,
+    output <- list(call = called,
+                   object = matched.datasets,
                    models = modelslist,
-                   others = others,
                    datasets = datasetslist,
-                   original.datasets = originals)
+                   others = others)
     class(output) <- c("mimids", "list")
     cat("\n")
     return(output)

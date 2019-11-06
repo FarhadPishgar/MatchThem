@@ -7,6 +7,8 @@
 \title{Evaluates an Expression in Matched or Weighted Imputed Datasets}
 \usage{
 \method{with}{mimids}(data, expr, ...)
+
+\method{with}{wimids}(data, expr, ...)
 }
 \arguments{
 \item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.}
