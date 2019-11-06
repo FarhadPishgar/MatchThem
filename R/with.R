@@ -99,7 +99,7 @@ with.mimids <- function(data, expr, ...) {
   }
 
   #Return the complete data analyses as a list of length nimp
-  output <- list(call = call, called = data$call, nmis = data$original.datasets$nmis, analyses = analyses)
+  output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
   oldClass(output) <- c("mira", "matrix")
@@ -161,7 +161,7 @@ with.wimids <- function(data, expr, ...) {
   }
 
   #Return the complete data analyses as a list of length nimp
-  output <- list(call = call, called = data$call, nmis = data$original.datasets$nmis, analyses = analyses)
+  output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
   oldClass(output) <- c("mira", "matrix")

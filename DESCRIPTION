@@ -17,7 +17,7 @@ LazyData: true
 VignetteBuilder: R.rsp
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-11-06 19:41:08 UTC; Farhad
+Packaged: 2019-11-06 20:10:25 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],
   Clémence Leyrat [ctb]
