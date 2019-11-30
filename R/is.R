@@ -93,3 +93,110 @@ is.wimids <- function(object) {
   output <- methods::is(object, "wimids")
   return(output)
 }
+
+#' @title Checks for the \code{mimira} Class
+#'
+#' @rdname is.mimira
+#'
+#' @aliases is.mimira
+#'
+#' @param object This argument specifies the object that should be checked to see if is of the \code{mimira} class or not.
+#'
+#' @description \code{is.mimira()} function checks whether class of objects is \code{mimira} or not.
+#'
+#' @details The class of objects is checked to be of the \code{mimira}.
+#'
+#' @return This function returns a logical value indicating whether \code{object} is of the \code{mimira} class.
+#'
+#' @seealso \code{\link[=with]{with}}
+#' @seealso \code{\link[=mimira]{mimira}}
+#'
+#' @author Farhad Pishgar
+#'
+#' @export
+#'
+#' @examples \donttest{#Loading the dataset
+#' data(osteoarthritis)
+#'
+#' #Multiply imputing the missing values
+#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
+#'                          method = c("", "", "mean", "polyreg",
+#'                                     "logreg", "logreg", "logreg"))
+#'
+#' #Estimating weights of observations in the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+#'                                 approach = 'within', method = 'nearest')
+#'
+#' #Analyzing the weighted datasets
+#' models <- with(data = weighted.datasets,
+#'                exp = svyglm(KOA ~ OSP, family = binomial))
+#'
+#' #Checking the 'models' object
+#' is.mimira(models)
+#' is(models)}
+
+is.mimira <- function(object) {
+
+  #Importing functions
+  #' @importFrom methods is
+  methods::is
+  #' @export
+
+  output <- methods::is(object, "mimira")
+  return(output)
+}
+
+#' @title Checks for the \code{mimipo} Class
+#'
+#' @rdname is.mimipo
+#'
+#' @aliases is.mimipo
+#'
+#' @param object This argument specifies the object that should be checked to see if is of the \code{mimipo} class or not.
+#'
+#' @description \code{is.mimipo()} function checks whether class of objects is \code{mimipo} or not.
+#'
+#' @details The class of objects is checked to be of the \code{mimipo}.
+#'
+#' @return This function returns a logical value indicating whether \code{object} is of the \code{mimipo} class.
+#'
+#' @seealso \code{\link[=pool]{pool}}
+#' @seealso \code{\link[=mimipo]{mimipo}}
+#'
+#' @author Farhad Pishgar
+#'
+#' @export
+#'
+#' @examples \donttest{#Loading the dataset
+#' data(osteoarthritis)
+#'
+#' #Multiply imputing the missing values
+#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
+#'                          method = c("", "", "mean", "polyreg",
+#'                                     "logreg", "logreg", "logreg"))
+#'
+#' #Estimating weights of observations in the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+#'                                 approach = 'within', method = 'nearest')
+#'
+#' #Analyzing the matched datasets
+#' models <- with(data = matched.datasets,
+#'                exp = glm(KOA ~ OSP, family = binomial))
+#'
+#' #Pooling results obtained from analysing the datasets
+#' results <- pool(models)
+#'
+#' #Checking the 'results' object
+#' is.mimipo(results)
+#' is(results)}
+
+is.mimipo <- function(object) {
+
+  #Importing functions
+  #' @importFrom methods is
+  methods::is
+  #' @export
+
+  output <- methods::is(object, "mimipo")
+  return(output)
+}

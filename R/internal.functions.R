@@ -184,7 +184,7 @@ format2.perc <- function (probs, digits) {
   paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), "%")
 }
 
-process2.mipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE) {
+process2.mimipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE) {
 
   #Internal function
 

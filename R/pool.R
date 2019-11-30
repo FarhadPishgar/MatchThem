@@ -4,7 +4,7 @@
 #'
 #' @aliases pool
 #'
-#' @param object This argument specifies an object of the \code{mira} class (produced by a previous call to \code{with()} function).
+#' @param object This argument specifies an object of the \code{mimira} class (produced by a previous call to \code{with()} function).
 #' @param dfcom This argument specifies a positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the warning \code{The function cannot extract the dfcom from the datasets, hence, large sample is assumed.} is printed and the parameter is set to \code{999999}).
 #'
 #' @description \code{pool()} function pools estimates from \code{n} repeated data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
@@ -12,13 +12,13 @@
 #'  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
 #'  \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
 #'  \item Check the extent of balance of covariates across the matched datasets;
-#'  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mira} class; and
-#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+#'  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
+#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 #' }
 #'
 #' @details \code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
 #'
-#' @return This function returns an object of the \code{mipo} class (multiple imputation pooled outcome).
+#' @return This function returns an object of the \code{mimipo} class.
 #'
 #' @seealso \code{\link[=with]{with}}
 #'
@@ -50,6 +50,49 @@
 pool <- function (object, dfcom = NULL) {
 
   #External function
+  #S3 method
+
+  #Based on: The mice::pool()
+  #URL: <https://cran.r-project.org/package=mice>
+  #URL: <https://github.com/stefvanbuuren/mice>
+  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
+  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
+  #Authors: Stef van Buuren et al.
+  #Changes: Few
+
+  UseMethod("pool")
+}
+
+pool.mira <- function (object, dfcom = NULL) {
+
+  #External function
+  #S3 method
+
+  #Based on: The mice::pool()
+  #URL: <https://cran.r-project.org/package=mice>
+  #URL: <https://github.com/stefvanbuuren/mice>
+  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
+  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
+  #Authors: Stef van Buuren et al.
+  #Changes: Few
+
+  #Importing functions
+  #' @importFrom mice is.mira pool
+  mice::is.mira
+  mice::pool
+  #' @export
+
+  #mids
+  if (mice::is.mira(object)) {
+    output <- mice::pool(object = object, dfcom = dfcom)
+    return(output)
+  }
+}
+
+pool.mimira <- function (object, dfcom = NULL) {
+
+  #External function
+  #S3 method
 
   #Based on: The mice::pool()
   #URL: <https://cran.r-project.org/package=mice>
@@ -61,15 +104,13 @@ pool <- function (object, dfcom = NULL) {
 
   #Importing functions
   #' @importFrom mice getfit
-  #' @importFrom mice as.mira
   #' @importFrom stats df.residual
   mice::getfit
-  mice::as.mira
   stats::df.residual
   #' @export
 
   #Polishing variables
-  if (!mice::is.mira(object)) stop("The input for the object must be an object of the 'mira' class.")
+  if (class(object)[[1]] != "mimira") stop("The input for the object must be an object of the 'mimira' class.")
 
   #Checking inputs format
   call <- match.call()
@@ -100,7 +141,7 @@ pool <- function (object, dfcom = NULL) {
   #Pooling
   pooled <- pool2.fitlist(mice::getfit(object), dfcom = dfcom)
   output <- list(call = call, m = m, pooled = pooled)
-  class(output) <- c("mipo", "data.frame")
+  class(output) <- c("mimipo", "data.frame")
 
   #Return the output
   return(output)

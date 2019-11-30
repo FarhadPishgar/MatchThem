@@ -4,7 +4,8 @@ Description: Provides the necessary tools for the pre-processing techniques of m
 Version: 0.9.1
 Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad.Pishgar@Gmail.com"),
              person("Noah", "Greifer", role = "aut", email = "Noah.Greifer@Gmail.com"),
-             person("Clémence", "Leyrat", role = "ctb", email = "Clemence.Leyrat@lshtm.ac.uk"))
+             person("Clémence", "Leyrat", role = "ctb", email = "Clemence.Leyrat@lshtm.ac.uk"),
+             person("Elizabeth", "Stuart", role = "ctb", email = "EStuart@jhu.edu"))
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: MatchIt, WeightIt, R (>= 3.5.0)
 Imports: broom, dplyr, graphics, methods, mice, stats, survey
@@ -17,7 +18,8 @@ LazyData: true
 VignetteBuilder: R.rsp
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-11-06 20:10:25 UTC; Farhad
+Packaged: 2019-11-30 19:39:53 UTC; Farhad
 Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],
-  Clémence Leyrat [ctb]
+  Clémence Leyrat [ctb],
+  Elizabeth Stuart [ctb]

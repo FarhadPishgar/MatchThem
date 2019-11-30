@@ -7,12 +7,12 @@
 pool(object, dfcom = NULL)
 }
 \arguments{
-\item{object}{This argument specifies an object of the \code{mira} class (produced by a previous call to \code{with()} function).}
+\item{object}{This argument specifies an object of the \code{mimira} class (produced by a previous call to \code{with()} function).}
 
 \item{dfcom}{This argument specifies a positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the warning \code{The function cannot extract the dfcom from the datasets, hence, large sample is assumed.} is printed and the parameter is set to \code{999999}).}
 }
 \value{
-This function returns an object of the \code{mipo} class (multiple imputation pooled outcome).
+This function returns an object of the \code{mimipo} class.
 }
 \description{
 \code{pool()} function pools estimates from \code{n} repeated data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
@@ -20,8 +20,8 @@ This function returns an object of the \code{mipo} class (multiple imputation po
  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
  \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
  \item Check the extent of balance of covariates across the matched datasets;
- \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mira} class; and
- \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+ \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
+ \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 }
 }
 \details{

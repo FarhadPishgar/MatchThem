@@ -17,13 +17,13 @@
 #'  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
 #'  \item Match or weight imputed datasets using a matching or weighting model by the \code{matchthem()} or \code{weightthem()} function, resulting in an object of the \code{mimids} or \code{wimids} class;
 #'  \item Check the extent of balance of covariates across the datasets;
-#'  \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mira} class; and
-#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+#'  \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
+#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 #' }
 #'
 #' @details \code{with()} performs a computation on the imputed datasets.
 #'
-#' @return This function returns an object of the \code{mira} class (multiply imputed repeated analyses).
+#' @return This function returns an object of the \code{mimira} class.
 #'
 #' @seealso \code{\link[=matchthem]{matchthem}}
 #' @seealso \code{\link[=weightthem]{weightthem}}
@@ -102,7 +102,7 @@ with.mimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  oldClass(output) <- c("mira", "matrix")
+  oldClass(output) <- c("mimira", "matrix")
   return(output)
 }
 
@@ -164,6 +164,6 @@ with.wimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  oldClass(output) <- c("mira", "matrix")
+  oldClass(output) <- c("mimira", "matrix")
   return(output)
 }

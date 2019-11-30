@@ -18,7 +18,7 @@
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }
 \value{
-This function returns an object of the \code{mira} class (multiply imputed repeated analyses).
+This function returns an object of the \code{mimira} class.
 }
 \description{
 \code{with()} function performs a statistical computation on the \code{n} imputed datasets of the \code{mimids} or \code{wimids} objects. The typical sequence of steps to do a matching or weighting procedure on the imputed datasets are:
@@ -26,8 +26,8 @@ This function returns an object of the \code{mira} class (multiply imputed repea
  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
  \item Match or weight imputed datasets using a matching or weighting model by the \code{matchthem()} or \code{weightthem()} function, resulting in an object of the \code{mimids} or \code{wimids} class;
  \item Check the extent of balance of covariates across the datasets;
- \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mira} class; and
- \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+ \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
+ \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 }
 }
 \details{

@@ -431,11 +431,11 @@ cbind.wimids <- function(datasets, data, ...) {
   }
 }
 
-##### mira
+##### mimira
 
 #' @export
 
-print.mira <- function(x, ...) {
+print.mimira <- function(x, ...) {
 
   #S3 method
 
@@ -447,11 +447,7 @@ print.mira <- function(x, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: NA
 
-  #Importing functions
-  #' @importFrom mice is.mira
-  mice::is.mira
-
-  if (mice::is.mira(x)) {
+  if (class(x)[[1]] == "mimira") {
     print.listof(x, ...)
   } else {
     print(x, ...)
@@ -461,7 +457,7 @@ print.mira <- function(x, ...) {
 
 #' @export
 
-summary.mira <- function(object, type = c("tidy", "glance", "summary"), ...) {
+summary.mimira <- function(object, type = c("tidy", "glance", "summary"), ...) {
 
   #S3 method
 
@@ -503,7 +499,7 @@ summary.mira <- function(object, type = c("tidy", "glance", "summary"), ...) {
 
 #
 
-df.residual.mira <- function(object, ...) {
+df.residual.mimira <- function(object, ...) {
 
   #Internal function
   #S3 method
@@ -524,11 +520,11 @@ df.residual.mira <- function(object, ...) {
   return(df.residual(fit))
 }
 
-##### mipo
+##### mimipo
 
 #' @export
 
-print.mipo <- function(x, ...) {
+print.mimipo <- function(x, ...) {
 
   #S3 method
 
@@ -548,7 +544,7 @@ print.mipo <- function(x, ...) {
 
 #' @export
 
-print.mipo.summary <- function(x, ...) {
+print.mimipo.summary <- function(x, ...) {
 
   #S3 method
 
@@ -566,7 +562,7 @@ print.mipo.summary <- function(x, ...) {
 
 #' @export
 
-summary.mipo <- function(object, type = c("tests", "all"), conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE, ...) {
+summary.mimipo <- function(object, type = c("tests", "all"), conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE, ...) {
 
   #S3 method
 
@@ -579,9 +575,7 @@ summary.mipo <- function(object, type = c("tests", "all"), conf.int = FALSE, con
   #Changes: NA
 
   #Importing functions
-  #' @importFrom mice getqbar
   #' @importFrom stats pt
-  mice::getqbar
   stats::pt
 
   type <- match.arg(type)
@@ -595,10 +589,10 @@ summary.mipo <- function(object, type = c("tests", "all"), conf.int = FALSE, con
                   std.error = std.error,
                   statistic = statistic,
                   p.value = p.value)
-  z <- process2.mipo(z, object,
-                     conf.int = conf.int,
-                     conf.level = conf.level,
-                     exponentiate = exponentiate)
+  z <- process2.mimipo(z, object,
+                       conf.int = conf.int,
+                       conf.level = conf.level,
+                       exponentiate = exponentiate)
 
   if (type == "tests") {
     out <- c("riv", "lambda", "fmi", "ubar", "b", "t", "dfcom")
@@ -606,13 +600,13 @@ summary.mipo <- function(object, type = c("tests", "all"), conf.int = FALSE, con
     z <- z[, keep]
   }
 
-  class(z) <- c("mipo.summary", "data.frame")
+  class(z) <- c("mimipo.summary", "data.frame")
   return(z)
 }
 
 #
 
-vcov.mipo <- function(object, ...) {
+vcov.mimipo <- function(object, ...) {
 
   #S3 method
 
@@ -632,7 +626,7 @@ vcov.mipo <- function(object, ...) {
 
 #
 
-confint.mipo <- function(object, parm, level = 0.95, ...) {
+confint.mimipo <- function(object, parm, level = 0.95, ...) {
 
   #S3 method
 
@@ -650,6 +644,7 @@ confint.mipo <- function(object, parm, level = 0.95, ...) {
   mice::getqbar
   stats::qt
 
+  class(object) <- c("mipo", "data.frame")
   pooled <- object$pooled
   cf <- mice::getqbar(object)
   df <- pooled$df
