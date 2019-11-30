@@ -37,3 +37,7 @@ Noah Greifer
 Clémence Leyrat
 
 [![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
+
+Elizabeth Stuart
+
+[![](https://img.shields.io/twitter/follow/Lizstuartdc.svg?color=informational&style=for-the-badge)](https://twitter.com/LizStuartdc)
