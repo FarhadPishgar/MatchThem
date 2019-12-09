@@ -126,9 +126,11 @@ pool.mimira <- function (object, dfcom = NULL) {
   if (!is.null(dfcom)) {
     dfcom <- max(dfcom, 1)
   } else {
-    dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
-    if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
-    if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
+    if (!is.null(object$analyses[[1]]$df.residual)) {
+      dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
+      if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
+      if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
+    }
     if (is.null(dfcom)) dfcom <- stats::df.residual(mice::getfit(mice::getfit(object), 1L))
   }
 

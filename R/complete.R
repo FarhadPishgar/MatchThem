@@ -57,7 +57,7 @@ complete <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, .
   UseMethod("complete")
 }
 
-complete.mids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
+complete.mids <- function(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
   #S3 method
