@@ -11,7 +11,7 @@
 
 ### Version 0.9.2
 
-This is an update to change the definition of the `complete()` and `pool()` functions.
+This is an update to change the definition of the `complete()` and `pool()` functions to evade name clashes with the [`tidyr`](https://cran.r-project.org/package=tidyr) and [`mice`](https://cran.r-project.org/package=mice) packages.
 
 ### Version 0.9.1
 
