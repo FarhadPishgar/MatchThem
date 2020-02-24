@@ -36,7 +36,7 @@ Farhad Pishgar
 
 Noah Greifer
 
-[![](https://img.shields.io/github/followers/ngreifer.svg?style=for-the-badge&color=informational&label=follow%20@NGreifer)](https://github.com/NGreifer)
+[![](https://img.shields.io/twitter/follow/Noah_Greifer.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
 
 Clémence Leyrat
 
