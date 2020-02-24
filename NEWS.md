@@ -4,10 +4,14 @@
 #### Matching and Weighting Multiply Imputed Datasets
 <!-- badges: end -->
 
-[![](https://img.shields.io/badge/CRAN%20version-0.9.1-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.9.1-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/CRAN%20version-0.9.2-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.9.2-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
+
+### Version 0.9.2
+
+This is an update to change the definition of the `complete()` and `pool()` functions.
 
 ### Version 0.9.1
 
