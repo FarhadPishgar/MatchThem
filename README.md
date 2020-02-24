@@ -4,8 +4,8 @@
 #### Matching and Weighting Multiply Imputed Datasets
 <!-- badges: end -->
 
-[![](https://img.shields.io/badge/CRAN%20version-0.9.1-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.9.1-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/CRAN%20version-0.9.2-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.9.2-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## Introduction
 
@@ -49,7 +49,7 @@ Farhad Pishgar
 
 Noah Greifer
 
-[![](https://img.shields.io/github/followers/ngreifer.svg?style=for-the-badge&color=informational&label=follow%20@NGreifer)](https://github.com/NGreifer)
+[![](https://img.shields.io/twitter/follow/Noah_Greifer.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
 
 Clémence Leyrat
 
