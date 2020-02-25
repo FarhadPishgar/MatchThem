@@ -6,6 +6,9 @@
 \alias{complete.wimids}
 \title{Extracts Imputed Datasets}
 \usage{
+complete(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE,
+  ...)
+
 \method{complete}{mimids}(object, n = 1, include = FALSE,
   mild = FALSE, all = TRUE, ...)
 
