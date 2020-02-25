@@ -47,8 +47,10 @@ weightthem <- function (formula, datasets,
 
   #Importing functions
   #' @importFrom WeightIt weightit
+  #' @importFrom mice complete
   #' @importFrom stats as.formula
   WeightIt::weightit
+  mice::complete
   stats::as.formula
   #' @export
 
@@ -107,7 +109,7 @@ weightthem <- function (formula, datasets,
       if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
 
@@ -164,7 +166,7 @@ weightthem <- function (formula, datasets,
       if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
 
@@ -177,7 +179,7 @@ weightthem <- function (formula, datasets,
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
-      dataset <- complete(datasets, i)
+      dataset <- mice::complete(datasets, i)
       dataset$estimated.distance <- d
 
       #Printing out

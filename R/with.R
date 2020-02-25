@@ -76,7 +76,7 @@ with.mimids <- function(data, expr, ...) {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete(data, i, all = FALSE)
+      data.i <- complete.mimids(data, i, all = FALSE)
       out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
       if (is.expression(out)){
         out <- eval(expr = out, envir = data.i, enclos = parent.frame())
@@ -88,7 +88,7 @@ with.mimids <- function(data, expr, ...) {
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete(data, i, all = FALSE)
+      data.i <- complete.mimids(data, i, all = FALSE)
       design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)
       out <- eval(expr = svy.expr)
       if (is.expression(out)){
@@ -138,7 +138,7 @@ with.wimids <- function(data, expr, ...) {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete(data, i, all = FALSE)
+      data.i <- complete.wimids(data, i, all = FALSE)
       out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
       if (is.expression(out)){
         out <- eval(expr = out, envir = data.i, enclos = parent.frame())
@@ -150,7 +150,7 @@ with.wimids <- function(data, expr, ...) {
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'weightthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete(data, i, all = FALSE)
+      data.i <- complete.wimids(data, i, all = FALSE)
       design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)
       out <- eval(expr = svy.expr)
       if (is.expression(out)){

@@ -8,7 +8,8 @@ merge.mids <- function(x, y, by = NULL, ...) {
   #S3 method
 
   #Importing functions
-  #' @importFrom mice is.mids
+  #' @importFrom mice complete is.mids
+  mice::complete
   mice::is.mids
   #' @export
 
@@ -28,7 +29,7 @@ merge.mids <- function(x, y, by = NULL, ...) {
 
     #Merging
     for (i in 1:x$m) {
-      data.i <- complete(x, i)
+      data.i <- mice::complete(x, i)
       data.i$.id <- 1:nrow(x$data)
       data.i$.imp <- i
       data.i <- merge(data.i, y, by = by, ...)
@@ -50,7 +51,8 @@ cbind.mids <- function(datasets, data, ...) {
   #S3 method
 
   #Importing functions
-  #' @importFrom mice is.mids
+  #' @importFrom mice complete is.mids
+  mice::complete
   mice::is.mids
 
   #Checking inputs format
@@ -72,7 +74,7 @@ cbind.mids <- function(datasets, data, ...) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- cbind(data.i, data, ...)
@@ -180,6 +182,10 @@ merge.mimids <- function(x, y, by = NULL, ...) {
   #External function
   #S3 method
 
+  #Importing functions
+  #' @importFrom mice complete
+  mice::complete
+
   #Checking inputs format
   if(!is.data.frame(y)) {stop("The input for the y must be a data frame.")}
 
@@ -201,7 +207,7 @@ merge.mimids <- function(x, y, by = NULL, ...) {
 
     #Merging
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- merge(data.i, y, by = by, ...)
@@ -230,6 +236,10 @@ cbind.mimids <- function(datasets, data, ...) {
   #Internal function
   #S3 method
 
+  #Importing functions
+  #' @importFrom mice complete
+  mice::complete
+
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
@@ -254,7 +264,7 @@ cbind.mimids <- function(datasets, data, ...) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- cbind(data.i, data, ...)
@@ -356,7 +366,7 @@ merge.wimids <- function(x, y, by = NULL, ...) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- merge(data.i, y, by = by, ...)
@@ -385,6 +395,10 @@ cbind.wimids <- function(datasets, data, ...) {
   #Internal function
   #S3 method
 
+  #Importing functions
+  #' @importFrom mice complete
+  mice::complete
+
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
   if(is.null(data)) {stop("The input for the data must be specified.")}
@@ -409,7 +423,7 @@ cbind.wimids <- function(datasets, data, ...) {
 
     #Binding
     for (i in 1:datasets$m) {
-      data.i <- complete(datasets, i)
+      data.i <- mice::complete(datasets, i)
       data.i$.id <- 1:nrow(datasets$data)
       data.i$.imp <- i
       data.i <- cbind(data.i, data, ...)

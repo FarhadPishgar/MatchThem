@@ -47,48 +47,6 @@
 #' #Pooling results obtained from analysing the datasets
 #' results <- pool(models)}
 
-pool <- function (object, dfcom = NULL) {
-
-  #External function
-  #S3 method
-
-  #Based on: The mice::pool()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: Few
-
-  UseMethod("pool")
-}
-
-pool.mira <- function (object, dfcom = NULL) {
-
-  #External function
-  #S3 method
-
-  #Based on: The mice::pool()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: Few
-
-  #Importing functions
-  #' @importFrom mice is.mira pool
-  mice::is.mira
-  mice::pool
-  #' @export
-
-  #mids
-  if (mice::is.mira(object)) {
-    output <- mice::pool(object = object, dfcom = dfcom)
-    return(output)
-  }
-}
-
 pool.mimira <- function (object, dfcom = NULL) {
 
   #External function
@@ -103,9 +61,10 @@ pool.mimira <- function (object, dfcom = NULL) {
   #Changes: Few
 
   #Importing functions
-  #' @importFrom mice getfit
+  #' @importFrom mice getfit pool
   #' @importFrom stats df.residual
   mice::getfit
+  mice::pool
   stats::df.residual
   #' @export
 
@@ -148,3 +107,5 @@ pool.mimira <- function (object, dfcom = NULL) {
   #Return the output
   return(output)
 }
+
+pool.default <- mice::pool
