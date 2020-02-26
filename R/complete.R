@@ -28,7 +28,8 @@
 #' @export
 #' 
 #' @importFrom mice complete
-#'
+#' @export complete
+#' 
 #' @examples \donttest{#Loading the dataset
 #' data(osteoarthritis)
 #'
