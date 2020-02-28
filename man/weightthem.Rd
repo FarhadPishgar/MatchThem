@@ -4,8 +4,14 @@
 \alias{weightthem}
 \title{Weights Multiply Imputed Datasets}
 \usage{
-weightthem(formula, datasets, approach = "within", method = "ps",
-  estimand = "ATE", ...)
+weightthem(
+  formula,
+  datasets,
+  approach = "within",
+  method = "ps",
+  estimand = "ATE",
+  ...
+)
 }
 \arguments{
 \item{formula}{This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary exposure indicator and \code{x1} and \code{x2} are the potential confounders. Both the exposure indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.}

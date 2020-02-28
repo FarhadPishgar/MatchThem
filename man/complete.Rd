@@ -4,16 +4,11 @@
 \alias{complete}
 \alias{complete.mimids}
 \alias{complete.wimids}
-\title{Extracts Imputed Datasets}
+\title{Extracts Imputed Datasets from a \code{mimids} or \code{wimids} Object}
 \usage{
-complete(object, n = 1L, include = FALSE, mild = FALSE, all = TRUE,
-  ...)
+\method{complete}{mimids}(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 
-\method{complete}{mimids}(object, n = 1, include = FALSE,
-  mild = FALSE, all = TRUE, ...)
-
-\method{complete}{wimids}(object, n = 1, include = FALSE,
-  mild = FALSE, all = TRUE, ...)
+\method{complete}{wimids}(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
 \item{object}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
@@ -60,6 +55,8 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \code{\link[=mimids]{mimids}}
 
 \code{\link[=wimids]{wimids}}
+
+\code{\link[mice]{complete}} in the \pkg{mice} package
 }
 \author{
 Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
