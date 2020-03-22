@@ -34,7 +34,12 @@ This function returns an object of the \code{mimira} class.
 \code{with()} performs a computation on the imputed datasets.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+library(survey)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values

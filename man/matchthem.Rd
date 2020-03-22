@@ -45,7 +45,11 @@ This function returns an object of the \code{mimids} (matched multiply imputed d
 The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values

@@ -33,7 +33,11 @@ This function returns the imputed dataset within \code{mimids} or \code{wimids} 
 The datasets within the \code{mimids} or \code{wimids} class objects are extracted.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values

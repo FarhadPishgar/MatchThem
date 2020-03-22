@@ -19,7 +19,11 @@ This function returns a logical value indicating whether \code{object} is of the
 The class of objects is checked to be of the \code{mimids}.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+
+#Loading the dataset
 data(dataset)
 
 #Multiply imputing the missing values

@@ -34,7 +34,12 @@
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading the dataset
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#' library(survey)
+#'
+#' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values

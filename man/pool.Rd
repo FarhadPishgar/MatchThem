@@ -28,7 +28,11 @@ This function returns an object of the \code{mimipo} class.
 \code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
