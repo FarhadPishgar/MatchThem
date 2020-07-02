@@ -23,6 +23,8 @@
 #' @seealso \code{\link[=mimids]{mimids}}
 #' @seealso \code{\link[=with]{with}}
 #' @seealso \code{\link[=pool]{pool}}
+#' @seealso \code{\link[=weightthem]{weightthem}}
+#' @seealso \code{\link[MatchIt:matchit]{MatchIt::matchit}}
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'

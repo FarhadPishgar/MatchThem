@@ -20,6 +20,8 @@
 #' @seealso \code{\link[=wimids]{wimids}}
 #' @seealso \code{\link[=with]{with}}
 #' @seealso \code{\link[=pool]{pool}}
+#' @seealso \code{\link[=matchthem]{matchthem}}
+#' @seealso \code{\link[WeightIt:weightit]{WeightIt::weightit}}
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'
