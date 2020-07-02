@@ -8,15 +8,15 @@
 #' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and matching observations based on them) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and matching based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
 #' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available (only the \code{"nearest"}, \code{"full"}, \code{"subclass"}, and \code{"optimal"} matching methods are compatible with the \code{"across"} approach). The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.
-#' @param distance This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
+#' @param distance This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available (please see \code{\link{matchit}} or the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
 #' @param distance.options This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.
 #' @param discard This argument specifies whether to discard observations that fall outside some measure of support of the distance score before matching and not allow them to be used at all in the matching procedure. Note that discarding observations may change the quantity of interest being estimated. The current options are \code{"none"} (discarding no observations before matching), \code{"both"} (discarding all observations, both the control and treated observations, that are outside the support of the distance measure), \code{"control"} (discarding only control observations outside the support of the distance measure of the treated observations), and \code{"treat"} (discarding only treated observations outside the support of the distance measure of the control observations). The default is \code{"none"}.
 #' @param reestimate This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.
-#' @param ... Additional arguments to be passed to the matching method (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
+#' @param ... Additional arguments to be passed to the matching method (please see \code{\link{matchit}} or the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
 #'
-#' @description \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
+#' @description \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated units of imputed datasets of a \code{mids} or \code{amelia} class object.
 #'
-#' @details The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
+#' @details The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounders to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 #'
 #' @return This function returns an object of the \code{mimids} (matched multiply imputed datasets) class, that includes matched subsets of the imputed datasets primarily passed to the function by the \code{datasets} argument.
 #'
@@ -69,18 +69,19 @@ matchthem <- function (formula, datasets,
   called <- match.call()
   originals <- datasets
   classed <- class(originals)
-  if(approach == "pool-then-match") {approach <- "across"}
-  if(approach == "match-then-pool") {approach <- "within"}
+  if (approach == "pool-then-match") {approach <- "across"}
+  else if(approach == "match-then-pool") {approach <- "within"}
 
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
-  if(class(datasets) != "mids" && class(datasets) != "amelia") {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
+  if(!inherits(datasets, "mids")  && !inherits(datasets, "amelia")) {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
   if(!is.null(datasets$data$distance)) {stop("The input for the datasets shouldn't have a variable named 'distance'.")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!is.null(datasets$data$subclass)) {stop("The input for the datasets shouldn't have a variable named 'subclass'.")}
   if(!is.null(datasets$data$discarded)) {stop("The input for the datasets shouldn't have a variable named 'discarded'.")}
   if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' matching approch is selected.")}
-  if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
+  # if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
+  approach <- match.arg(approach, c("within","across"))
   if(approach == "across" && (!(method %in% c("nearest", "full", "subclass", "optimal")))) {stop("The input for the matching method must be 'nearest', 'full', 'subclass', or 'optimal', when the 'across' matching approch is selected.")}
   if(approach == "across" && distance == "mahalanobis" ) {stop("The input for the distance shouldn't be 'mahalanobis', when the 'across' matching approch is selected.")}
   if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
@@ -124,10 +125,10 @@ matchthem <- function (formula, datasets,
       #Printing out
       if (!(method %in% c("genetic", "cem"))){
         if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
-        if (i != 1) cat(" #", i, sep = "")
+        else        cat(" #", i, sep = "")
       } else {
         if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
-        if (i != 1) cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
+        else        cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
       }
 
       #Building the model
@@ -173,7 +174,7 @@ matchthem <- function (formula, datasets,
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("mimids", "list")
+    class(output) <- "mimids"
     cat("\n")
     return(output)
   }
@@ -195,7 +196,7 @@ matchthem <- function (formula, datasets,
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      else        cat(" #", i, sep = "")
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -219,7 +220,7 @@ matchthem <- function (formula, datasets,
 
       #Printing out
       if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      else        cat(" #", i, sep = "")
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -265,7 +266,7 @@ matchthem <- function (formula, datasets,
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("mimids", "list")
+    class(output) <- "mimids"
     cat("\n")
     return(output)
   }
