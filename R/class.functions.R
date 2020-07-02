@@ -224,7 +224,7 @@ merge.mimids <- function(x, y, by = NULL, ...) {
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("mimids", "list")
+    class(output) <- "mimids"
     return(output)
   }
 }
@@ -281,7 +281,7 @@ cbind.mimids <- function(datasets, data, ...) {
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("mimids", "list")
+    class(output) <- "mimids"
     return(output)
   }
 }
@@ -383,7 +383,7 @@ merge.wimids <- function(x, y, by = NULL, ...) {
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("wimids", "list")
+    class(output) <- "wimids"
     return(output)
   }
 }
@@ -440,7 +440,7 @@ cbind.wimids <- function(datasets, data, ...) {
                    models = modelslist,
                    datasets = datasetslist,
                    others = others)
-    class(output) <- c("wimids", "list")
+    class(output) <- "wimids"
     return(output)
   }
 }
@@ -461,7 +461,7 @@ print.mimira <- function(x, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: NA
 
-  if (class(x)[[1]] == "mimira") {
+  if (inherits(x, "mimira")) {
     print.listof(x, ...)
   } else {
     print(x, ...)
