@@ -19,7 +19,11 @@
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading the dataset
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
 #' data(dataset)
 #'
 #' #Multiply imputing the missing values
@@ -67,7 +71,11 @@ is.mimids <- function(object) {
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading the dataset
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -77,7 +85,7 @@ is.mimids <- function(object) {
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'nearest')
+#'                                 approach = 'within', method = 'ps')
 #'
 #' #Checking the 'weighted.datasets' object
 #' is.wimids(weighted.datasets)
@@ -115,7 +123,12 @@ is.wimids <- function(object) {
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading the dataset
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#' library(survey)
+#'
+#' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -125,7 +138,7 @@ is.wimids <- function(object) {
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'nearest')
+#'                                 approach = 'within', method = 'ps')
 #'
 #' #Analyzing the weighted datasets
 #' models <- with(data = weighted.datasets,
@@ -167,7 +180,11 @@ is.mimira <- function(object) {
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading the dataset
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -177,7 +194,7 @@ is.mimira <- function(object) {
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'nearest')
+#'                                 approach = 'within', method = 'ps)
 #'
 #' #Analyzing the matched datasets
 #' models <- with(data = matched.datasets,

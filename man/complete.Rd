@@ -4,14 +4,14 @@
 \alias{complete}
 \alias{complete.mimids}
 \alias{complete.wimids}
-\title{Extracts Imputed Datasets from a \code{mimids} or \code{wimids} Object}
+\title{Extracts Imputed Datasets}
 \usage{
-\method{complete}{mimids}(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{mimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 
-\method{complete}{wimids}(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{wimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
-\item{object}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
+\item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
 
 \item{n}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 
@@ -33,7 +33,11 @@ This function returns the imputed dataset within \code{mimids} or \code{wimids} 
 The datasets within the \code{mimids} or \code{wimids} class objects are extracted.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -55,8 +59,6 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \code{\link[=mimids]{mimids}}
 
 \code{\link[=wimids]{wimids}}
-
-\code{\link[mice]{complete}} in the \pkg{mice} package
 }
 \author{
 Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes

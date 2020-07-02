@@ -18,30 +18,6 @@ This function returns a logical value indicating whether \code{object} is of the
 \details{
 The class of objects is checked to be of the \code{mimipo}.
 }
-\examples{
-\donttest{#Loading the dataset
-data(osteoarthritis)
-
-#Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg",
-                                    "logreg", "logreg", "logreg"))
-
-#Estimating weights of observations in the multiply imputed datasets
-weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'nearest')
-
-#Analyzing the matched datasets
-models <- with(data = matched.datasets,
-               exp = glm(KOA ~ OSP, family = binomial))
-
-#Pooling results obtained from analysing the datasets
-results <- pool(models)
-
-#Checking the 'results' object
-is.mimipo(results)
-is(results)}
-}
 \seealso{
 \code{\link[=pool]{pool}}
 

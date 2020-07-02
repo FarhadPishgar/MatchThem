@@ -19,7 +19,12 @@ This function returns a logical value indicating whether \code{object} is of the
 The class of objects is checked to be of the \code{mimira}.
 }
 \examples{
-\donttest{#Loading the dataset
+\donttest{#Loading libraries
+library(mice)
+library(MatchThem)
+library(survey)
+
+#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -29,7 +34,7 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'nearest')
+                                approach = 'within', method = 'ps')
 
 #Analyzing the weighted datasets
 models <- with(data = weighted.datasets,

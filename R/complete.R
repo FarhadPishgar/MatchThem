@@ -1,10 +1,12 @@
-#' @title Extracts Imputed Datasets from a \code{mimids} or \code{wimids} Object
+#' @title Extracts Imputed Datasets
 #'
 #' @name complete
 #'
+#' @rdname complete
+#'
 #' @aliases complete complete.mimids complete.wimids
 #'
-#' @param object This argument specifies an object of the \code{mimids} or \code{wimids} class.
+#' @param data This argument specifies an object of the \code{mimids} or \code{wimids} class.
 #' @param n This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
 #' @param include This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.
 #' @param mild This argument specifies whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{n} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.
@@ -19,18 +21,20 @@
 #'
 #' @seealso \code{\link[=mimids]{mimids}}
 #' @seealso \code{\link[=wimids]{wimids}}
-#' @seealso \code{\link[mice]{complete}} in the \pkg{mice} package
-#' 
+#'
 #' @author Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
 #'
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
 #'
-#' @export
-#' 
 #' @importFrom mice complete
+#'
 #' @export complete
-#' 
-#' @examples \donttest{#Loading the dataset
+#'
+#' @examples \donttest{#Loading libraries
+#' library(mice)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -45,14 +49,11 @@
 #' #Extracting the first imputed dataset
 #' matched.dataset.1 <- complete(matched.datasets, n = 1)}
 
-
-#' @rdname complete
-#'
 #' @method complete mimids
 #'
 #' @export
 
-complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
+complete.mimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
   #S3 method
@@ -68,7 +69,7 @@ complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
   #' @export
 
   #Polishing variables
-  data <- object
+  object <- data
   action <- n
   m <- as.integer(data$object$m)
 
@@ -136,7 +137,7 @@ complete.mimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
 #'
 #' @export
 
-complete.wimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
+complete.wimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
   #S3 method
@@ -152,7 +153,7 @@ complete.wimids <- function(object, n = 1, include = FALSE, mild = FALSE, all = 
   #' @export
 
   #Polishing variables
-  data <- object
+  object <- data
   action <- n
   m <- as.integer(data$object$m)
 
