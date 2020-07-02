@@ -197,7 +197,7 @@ is.mimira <- function(object) {
 #'                                 approach = 'within', method = 'ps')
 #'
 #' #Analyzing the matched datasets
-#' models <- with(data = matched.datasets,
+#' models <- with(data = weighted.datasets,
 #'                exp = glm(KOA ~ OSP, family = binomial))
 #'
 #' #Pooling results obtained from analysing the datasets
