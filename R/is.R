@@ -194,10 +194,10 @@ is.mimira <- function(object) {
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps)
+#'                                 approach = 'within', method = 'ps')
 #'
 #' #Analyzing the matched datasets
-#' models <- with(data = matched.datasets,
+#' models <- with(data = weighted.datasets,
 #'                exp = glm(KOA ~ OSP, family = binomial))
 #'
 #' #Pooling results obtained from analysing the datasets
