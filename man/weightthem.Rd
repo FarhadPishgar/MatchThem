@@ -20,11 +20,11 @@ weightthem(
 
 \item{approach}{This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.}
 
-\item{method}{This argument specifies the method that should be used to estimate weights. Currently, \code{"ps"} (propensity score weighting using generalized linear models), \code{"gbm"} (propensity score weighting using generalized boosted modeling), \code{"cbps"} (covariate balancing propensity score weighting), \code{"npcbps"} (non-parametric covariate balancing propensity score weighting), \code{"ebal"} (entropy balancing), \code{"ebcw"} (empirical balancing calibration weighting), \code{"optweight"} (optimization-based weighting), \code{"super"} (propensity score weighting using SuperLearner), and \code{"user-defined"} (weighting using a user-defined weighting function) are available (only the \code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"} weighting methods are compatible with the \code{"across"} approach). The default is \code{"ps"}. Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
+\item{method}{This argument specifies the method that should be used to estimate weights. See \code{\link{weightit}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
 
-\item{estimand}{This argument specifies the desired estimand. For binary and multinomial treatments, can be \code{"ATE"}, \code{"ATT"}, \code{"ATC"}, and, for some weighting methods, \code{"ATO"} or \code{"ATM"}. The default is \code{"ATE"}. Please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details.}
+\item{estimand}{This argument specifies the desired estimand. See \code{\link{weightit}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.}
 
-\item{...}{Additional arguments to be passed to the weighting method (please see the \pkg{WeightIt} package reference manual <https://cran.r-project.org/package=WeightIt> for more details).}
+\item{...}{Additional arguments to be passed to \code{weightit} (see \code{\link{weightit}} for more details).}
 }
 \value{
 This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.
@@ -50,7 +50,7 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'ps', estimand = "ATT")}
+                                approach = 'within', method = 'ps', estimand = 'ATT')}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
@@ -61,6 +61,10 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \code{\link[=with]{with}}
 
 \code{\link[=pool]{pool}}
+
+\code{\link[=matchthem]{matchthem}}
+
+\code{\link[WeightIt:weightit]{WeightIt::weightit}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

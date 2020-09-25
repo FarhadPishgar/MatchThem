@@ -4,7 +4,8 @@
 \name{osteoarthritis}
 \alias{osteoarthritis}
 \title{Data of 2,585 Participants in the OAI Project}
-\format{This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristics of that individual. The columns are:
+\format{
+This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristics of that individual. The columns are:
 \describe{
   \item{AGE}{Age of each unit (individual);}
   \item{SEX}{Gender of each unit (individual), coded as \code{0} (female) and \code{1} (male);}
@@ -13,7 +14,8 @@
   \item{SMK}{The smoking status of each unit, coded as \code{0} (non-smoker) and \code{1} (smoker);}
   \item{OSP}{Osteoporosis status of each unit (individual) at baseline, coded as \code{0} (negative) and \code{1} (positive); and}
   \item{KOA}{Knee osteoarthritis status of each unit (individual) in the follow-up, coded as \code{0} (at risk) and \code{1} (diagnosed).}
-}}
+}
+}
 \source{
 The information presented in the \code{osteoarthritis} dataset is based on the publicly available data of the Osteoarthritis Initiative (OAI) project (see \url{https://nda.nih.gov/oai/} for details), with changes.
 }

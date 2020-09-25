@@ -461,7 +461,7 @@ print.mimira <- function(x, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: NA
 
-  if (inherits(x, "mimira")) {
+  if (class(x)[[1]] == "mimira") {
     print.listof(x, ...)
   } else {
     print(x, ...)

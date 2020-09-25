@@ -74,6 +74,10 @@ Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Inco
 \code{\link[=with]{with}}
 
 \code{\link[=pool]{pool}}
+
+\code{\link[=weightthem]{weightthem}}
+
+\code{\link[MatchIt:matchit]{MatchIt::matchit}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

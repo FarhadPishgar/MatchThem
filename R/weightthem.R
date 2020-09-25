@@ -11,9 +11,9 @@
 #' @param estimand This argument specifies the desired estimand. See \code{\link{weightit}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.
 #' @param ... Additional arguments to be passed to \code{weightit} (see \code{\link{weightit}} for more details).
 #'
-#' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating balancing weights for each imputed dataset of a \code{mids} or \code{amelia} class object.
+#' @description \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treated units in each imputed dataset of a \code{mids} or \code{amelia} class object.
 #'
-#' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
+#' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
 #'
 #' @return This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.
 #'
@@ -43,7 +43,7 @@
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps', estimand = "ATT")}
+#'                                 approach = 'within', method = 'ps', estimand = 'ATT')}
 
 weightthem <- function (formula, datasets,
                         approach = "within",
@@ -65,20 +65,16 @@ weightthem <- function (formula, datasets,
   called <- match.call()
   originals <- datasets
   classed <- class(originals)
-  if (approach == "pool-then-weight") {approach <- "across"}
-  else if (approach == "weight-then-pool") {approach <- "within"}
+  if(approach == "pool-then-weight") {approach <- "across"}
+  if(approach == "weight-then-pool") {approach <- "within"}
 
   #Checking inputs format
   if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
-  if(!inherits(datasets, "mids")  && !inherits(datasets, "amelia")) {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
-  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' weighting approch is selected.")}
+  if(!inherits(datasets, "mids") && !inherits(datasets, "amelia")) {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
+  if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' weighting approch is selected..")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
-  # if(!(approach %in% c("within","across"))) {stop("The input for the weighting approach must be either 'within' or 'across'.")}
-  approach <- match.arg(approach, c("within","across"))
+  if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
   if(approach == "across" && (!(method %in% c("ps", "gbm", "cbps", "super")))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', or 'super', when the 'across' weighting approch is selected.")}
-  # The next two checks are done in weightit and should not happen here.
-  # if(!(method %in% c("ps", "gbm", "cbps", "npcbps", "ebal", "ebcw", "optweight", "super", "user-defined"))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'npcbps', 'ebal', 'ebcw', 'optweight', 'super', or 'user-defined'.")}
-  # if(!(estimand %in% c("ATE", "ATT", "ATC", "ATM", "ATO"))) {stop("The input for the estimand must be 'ATE', 'ATT', 'ATC', 'ATM', or 'ATO'.")}
 
   #Compatibility with amelia objects
   if (class(datasets) == "amelia") {
@@ -114,7 +110,7 @@ weightthem <- function (formula, datasets,
 
       #Printing out
       if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -171,7 +167,7 @@ weightthem <- function (formula, datasets,
 
       #Printing out
       if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -192,7 +188,7 @@ weightthem <- function (formula, datasets,
 
       #Printing out
       if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (i != 1) cat(" #", i, sep = "")
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,

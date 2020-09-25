@@ -21,7 +21,6 @@
 #'
 #' @seealso \code{\link[=mimids]{mimids}}
 #' @seealso \code{\link[=wimids]{wimids}}
-#' @seealso \code{\link[mice:complete]{mice::complete}}
 #'
 #' @author Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
 #'
@@ -137,80 +136,3 @@ complete.mimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TR
 #' @export
 
 complete.wimids <- complete.mimids
-#' complete.wimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
-#'
-#'   #External function
-#'   #S3 method
-#'
-#'   #Based on: The mice::complete()
-#'   #URL: <https://cran.r-project.org/package=mice>
-#'   #URL: <https://github.com/stefvanbuuren/mice>
-#'   #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-#'   #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-#'   #Authors: Stef van Buuren et al.
-#'   #Changes: Some
-#'
-#'   #' @export
-#'
-#'   #Polishing variables
-#'   object <- data
-#'   action <- n
-#'   m <- as.integer(data$object$m)
-#'
-#'   #mimids and wimids
-#'   if ((is.mimids(object)) || (is.wimids(object))) {
-#'     #Shape
-#'     if (is.numeric(action)) {
-#'       action <- as.integer(action)
-#'       idx <- action[action >= 0L & action <= m]
-#'       if (include && all(idx != 0L))
-#'         idx <- c(0L, idx)
-#'       shape <- ifelse(mild, "mild", "stacked")
-#'     } else if (is.character(action)) {
-#'       if (include)
-#'         idx <- 0L:m
-#'       else idx <- 1L:m
-#'       shape <- match.arg(action, c("all", "long", "broad", "repeated", "stacked"))
-#'       shape <- ifelse(shape == "all" || mild, "mild", shape)
-#'     } else {
-#'       stop("The input for the n argument is invalid.")
-#'     }
-#'
-#'     #Do it
-#'     mylist <- lapply(idx, function(j) {
-#'       out <- data$datasets[[j + 1]]
-#'       out <- out[!names(out) %in% c(".id", ".imp")]
-#'       if (!all) out <- out[out$weights > 0, , drop = FALSE]
-#'       out
-#'     })
-#'
-#'     #Return the output
-#'     if (shape == "stacked") {
-#'       return(do.call("rbind", mylist))
-#'     }
-#'
-#'     if (shape == "mild") {
-#'       names(mylist) <- as.character(idx)
-#'       class(mylist) <- c("mild", "list")
-#'       return(mylist)
-#'     }
-#'
-#'     if (shape == "long") {
-#'       cmp <- do.call("rbind", mylist)
-#'       cmp <- data.frame(.imp = rep(idx, each = nrow(mylist[[1]])),
-#'                         .id = rep.int(1L:nrow(mylist[[1]]), length(idx)), cmp)
-#'       if (is.integer(attr(mylist[[1]], "row.names")))
-#'         row.names(cmp) <- seq_len(nrow(cmp))
-#'       else row.names(cmp) <- as.character(seq_len(nrow(cmp)))
-#'       return(cmp)
-#'     }
-#'
-#'     cmp <- do.call("cbind", mylist)
-#'     names(cmp) <- paste(rep.int(names(mylist[[1]]), m), rep.int(idx, rep.int(ncol(mylist[[1]]), length(idx))), sep = ".")
-#'     if (shape == "broad")
-#'       return(cmp)
-#'     else {
-#'       return(cmp[, order(rep.int(seq_len(ncol(mylist[[1]])), length(idx)))])
-#'     }
-#'   }
-#' }
