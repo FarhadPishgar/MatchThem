@@ -11,11 +11,11 @@
 
 ### Version 0.9.4
 
-Bugs are everywhere.
+This is an update to improve documentation and to fix several bugs.
 
 ### Version 0.9.3
 
-This is an update to kill few bugs.
+This is an update to fix few bugs.
 
 ### Version 0.9.2
 
