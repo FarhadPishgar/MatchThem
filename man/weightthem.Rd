@@ -45,7 +45,9 @@ This function returns an object of the \code{wimids} (weighted multiply imputed 
 The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confunders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
 }
 \examples{
-\donttest{#Loading libraries
+\donttest{#1
+
+#Loading libraries
 library(mice)
 library(MatchThem)
 
@@ -59,7 +61,24 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'ps', estimand = 'ATT')}
+                                approach = 'within', method = 'ps', estimand = 'ATT')
+
+#2
+
+Loading libraries
+library(Amelia)
+library(MatchThem)
+
+#Loading the dataset
+data(osteoarthritis)
+
+#Multiply imputing the missing values
+imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+
+#Estimating weights of observations in the multiply imputed datasets
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+                                approach = 'across', method = 'ps', estimand = 'ATT',
+                                trim = TRUE, trim.at = 0.9, trim.lower = FALSE)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}

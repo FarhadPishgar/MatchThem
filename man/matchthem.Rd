@@ -45,7 +45,9 @@ This function returns an object of the \code{mimids} (matched multiply imputed d
 The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 }
 \examples{
-\donttest{#Loading libraries
+\donttest{#1
+
+#Loading libraries
 library(mice)
 library(MatchThem)
 
@@ -59,7 +61,23 @@ imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')}
+                              approach = 'within', method = 'nearest')
+
+#2
+
+Loading libraries
+library(Amelia)
+library(MatchThem)
+
+#Loading the dataset
+data(osteoarthritis)
+
+#Multiply imputing the missing values
+imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+
+#Matching the multiply imputed datasets
+matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+                              approach = 'across', method = 'nearest')}
 }
 \references{
 Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}

@@ -29,16 +29,14 @@ This function returns an object of the \code{mimipo} class.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
+library(Amelia)
 library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg",
-                                    "logreg", "logreg", "logreg"))
+imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 
 #Matching the multiply imputed datasets
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,

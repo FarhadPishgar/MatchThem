@@ -34,7 +34,9 @@
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading libraries
+#' @examples \donttest{#1
+#' 
+#' #Loading libraries
 #' library(mice)
 #' library(MatchThem)
 #'
@@ -48,7 +50,23 @@
 #'
 #' #Matching the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                               approach = 'within', method = 'nearest')}
+#'                               approach = 'within', method = 'nearest')
+#'
+#' #2
+#' 
+#' Loading libraries
+#' library(Amelia)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
+#' data(osteoarthritis)
+#'
+#' #Multiply imputing the missing values
+#' imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+#'
+#' #Matching the multiply imputed datasets
+#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+#'                               approach = 'across', method = 'nearest')}
 
 matchthem <- function (formula, datasets,
                        approach = "within",
