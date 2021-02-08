@@ -10,6 +10,9 @@ weightthem(
   approach = "within",
   method = "ps",
   estimand = "ATE",
+  trim = FALSE,
+  trim.at = 0,
+  trim.lower = FALSE,
   ...
 )
 }
@@ -23,6 +26,12 @@ weightthem(
 \item{method}{This argument specifies the method that should be used to estimate weights. See \code{\link{weightit}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
 
 \item{estimand}{This argument specifies the desired estimand. See \code{\link{weightit}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.}
+
+\item{trim}{This argument specifies whether to trim large weights by setting all weights higher than a given quantile to the weight of that quantile. The input must be a logical value. The default is \code{FALSE}.}
+
+\item{trim.at}{This argument specifies the quantile of the weights above which weights are to be trimmed at (i.e., a single number between 0.5 and 1) or the number of weights to be trimmed (e.g., \code{trim.at = 3} sets the top 3 weights to the 4th largest weight). The default is \code{0}}
+
+\item{trim.lower}{This argument specifies whether to trim at the lower quantile (e.g., \code{trim.at = 0.9, trim.lower = TRUE} trim at both 0.1 and 0.9 quantiles). The input must be a logical value. The default is \code{FALSE}.}
 
 \item{...}{Additional arguments to be passed to \code{weightit} (see \code{\link{weightit}} for more details).}
 }

@@ -9,6 +9,9 @@
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
 #' @param method This argument specifies the method that should be used to estimate weights. See \code{\link{weightit}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, and \code{"super"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
 #' @param estimand This argument specifies the desired estimand. See \code{\link{weightit}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.
+#' @param trim This argument specifies whether to trim large weights by setting all weights higher than a given quantile to the weight of that quantile. The input must be a logical value. The default is \code{FALSE}.
+#' @param trim.at This argument specifies the quantile of the weights above which weights are to be trimmed at (i.e., a single number between 0.5 and 1) or the number of weights to be trimmed (e.g., \code{trim.at = 3} sets the top 3 weights to the 4th largest weight). The default is \code{0}
+#' @param trim.lower This argument specifies whether to trim at the lower quantile (e.g., \code{trim.at = 0.9, trim.lower = TRUE} trim at both 0.1 and 0.9 quantiles). The input must be a logical value. The default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to \code{weightit} (see \code{\link{weightit}} for more details).
 #'
 #' @description \code{weightthem()} function enables parametric models for causal inference to work better by estimating weights of the control and treated units in each imputed dataset of a \code{mids} or \code{amelia} class object.
@@ -47,7 +50,8 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", estimand = "ATE", ...) {
+                        method = "ps", estimand = "ATE",
+                        trim = FALSE, trim.at = 0, trim.lower = FALSE, ...) {
 
   #External function
 
@@ -116,6 +120,11 @@ weightthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
+      
+      #Trimming
+      if (trim == TRUE) {
+        suppressMessages(model <- WeightIt::trim(model, at = trim.at, lower = trim.lower))
+      }
 
       #Dataset
       dataset$weights <- model$weights
@@ -194,6 +203,11 @@ weightthem <- function (formula, datasets,
       model <- WeightIt::weightit(formula, dataset,
                                   method = "ps",
                                   ps = dataset$estimated.distance, estimand = estimand, ...)
+      
+      #Trimming
+      if (trim == TRUE) {
+        suppressMessages(model <- WeightIt::trim(model, at = trim.at, lower = trim.lower))
+      }
 
       #Dataset
       dataset$weights <- model$weights
