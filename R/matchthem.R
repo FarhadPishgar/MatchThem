@@ -125,11 +125,11 @@ matchthem <- function (formula, datasets,
 
       #Printing out
       if (!(method %in% c("genetic", "cem"))){
-        if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
-        if (i != 1) cat(" #", i, sep = "")
+        if (i == 1) message("Matching Observations  | dataset: #", i, appendLF = FALSE)
+        if (i != 1) message(" #", i, appendLF = FALSE)
       } else {
-        if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
-        if (i != 1) cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
+        if (i == 1) message("Matching Observations  | dataset: #", i, "\n", appendLF = FALSE)
+        if (i != 1) message("\n", "Matching Observations  | dataset: #", i, "\n", appendLF = FALSE)
       }
 
       #Building the model
@@ -176,7 +176,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "mimids"
-    cat("\n")
+    message("\n", appendLF = FALSE)
     return(output)
   }
 
@@ -196,8 +196,8 @@ matchthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
 
       #Printing out
-      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      if (i == 1) message("Estimating distances   | dataset: #", i, appendLF = FALSE)
+      if (i != 1) message(" #", i, appendLF = FALSE)
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -220,8 +220,8 @@ matchthem <- function (formula, datasets,
       dataset$estimated.distance <- d
 
       #Printing out
-      if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      if (i == 1) message("\n", "Matching Observations  | dataset: #", i, appendLF = FALSE)
+      if (i != 1) message(" #", i, appendLF = FALSE)
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -268,7 +268,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "mimids"
-    cat("\n")
+    message("\n", appendLF = FALSE)
     return(output)
   }
 }

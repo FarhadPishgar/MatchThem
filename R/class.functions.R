@@ -114,7 +114,7 @@ plot.mimids <- function(x, n = 1, ...){
   if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat("Plotting               | dataset: #", n, "\n", sep = "")
+  message("Plotting               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Plotting
   plot(x$models[[n+1]], ...)
@@ -139,7 +139,7 @@ print.mimids <- function(x, n = 1, ...) {
   if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat("Printing               | dataset: #", n, "\n", sep = "")
+  message("Printing               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Printing out
   output <- x$models[[n+1]]
@@ -166,7 +166,7 @@ summary.mimids <- function(object, n = 1, ...) {
   if(object$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat("Summarizing            | dataset: #", n, "\n", sep = "")
+  message("Summarizing            | dataset: #", n, "\n", appendLF = FALSE)
 
   #Printing out
   output <- summary(object$models[[n+1]], ...)
@@ -306,7 +306,7 @@ print.wimids <- function(x, n = 1, ...) {
   if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat("Printing               | dataset: #", n, "\n", sep = "")
+  message("Printing               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Printing
   output <- x$models[[n+1]]
@@ -331,7 +331,7 @@ summary.wimids <- function(object, n = 1, ...) {
   if(object$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat("Summarizing            | dataset: #", n, "\n", sep = "")
+  message("Summarizing            | dataset: #", n, "\n", appendLF = FALSE)
 
   #Summarizing
   output <- summary(object$models[[n+1]], ...)
@@ -550,7 +550,7 @@ print.mimipo <- function(x, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: NA
 
-  cat("Pooling estimates      | number of datasets: ", x$m, "\n", sep = "")
+  message("Pooling estimates      | number of datasets: ", x$m, "\n", appendLF = FALSE)
 
   print.data.frame(x$pooled, ...)
   invisible(x)

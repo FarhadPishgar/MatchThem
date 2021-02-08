@@ -113,8 +113,8 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      if (i == 1) message("Estimating weights     | dataset: #", i, appendLF = FALSE)
+      if (i != 1) message(" #", i, appendLF = FALSE)
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -159,7 +159,7 @@ weightthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "wimids"
-    cat("\n")
+    message("\n", appendLF = FALSE)
     return(output)
   }
 
@@ -175,8 +175,8 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      if (i == 1) message("Estimating distances   | dataset: #", i, appendLF = FALSE)
+      if (i != 1) message(" #", i, appendLF = FALSE)
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -196,8 +196,8 @@ weightthem <- function (formula, datasets,
       dataset$estimated.distance <- d
 
       #Printing out
-      if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
-      if (i != 1) cat(" #", i, sep = "")
+      if (i == 1) message("\n", "Estimating weights     | dataset: #", i, appendLF = FALSE)
+      if (i != 1) message(" #", i, appendLF = FALSE)
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
@@ -243,7 +243,7 @@ weightthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "wimids"
-    cat("\n")
+    message("\n", appendLF = FALSE)
     return(output)
   }
 }
