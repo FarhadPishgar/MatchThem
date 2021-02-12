@@ -52,7 +52,7 @@
 #' 
 #' #2
 #' 
-#' Loading libraries
+#' #Loading libraries
 #' library(Amelia)
 #' library(MatchThem)
 #'
@@ -75,10 +75,11 @@ weightthem <- function (formula, datasets,
   #External function
 
   #Importing functions
-  #' @importFrom WeightIt weightit
+  #' @importFrom WeightIt weightit trim
   #' @importFrom mice complete
   #' @importFrom stats as.formula
   WeightIt::weightit
+  WeightIt::trim
   mice::complete
   stats::as.formula
   #' @export

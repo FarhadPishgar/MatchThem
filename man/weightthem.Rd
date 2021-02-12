@@ -65,7 +65,7 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datas
 
 #2
 
-Loading libraries
+#Loading libraries
 library(Amelia)
 library(MatchThem)
 

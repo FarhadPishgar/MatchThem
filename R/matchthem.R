@@ -54,7 +54,7 @@
 #'
 #' #2
 #' 
-#' Loading libraries
+#' #Loading libraries
 #' library(Amelia)
 #' library(MatchThem)
 #'

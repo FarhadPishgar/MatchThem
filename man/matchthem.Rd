@@ -65,7 +65,7 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.dataset
 
 #2
 
-Loading libraries
+#Loading libraries
 library(Amelia)
 library(MatchThem)
 
