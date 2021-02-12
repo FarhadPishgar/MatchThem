@@ -1,5 +1,7 @@
 as2.mids <- function(long, where = NULL, .imp = ".imp", .id = ".id") {
 
+  #Converts an Imputed Dataset (long format) Into a 'mids' Object
+  
   #Internal function
   #S3 method
 
@@ -66,6 +68,8 @@ as2.mids <- function(long, where = NULL, .imp = ".imp", .id = ".id") {
 
 barnard2.rubin <- function(m, b, t, dfcom = 999999) {
 
+  #Calculates the Degrees of Freedom
+  
   #Internal function
 
   #Based on: The mice:::barnard.rubin()
@@ -84,6 +88,8 @@ barnard2.rubin <- function(m, b, t, dfcom = 999999) {
 }
 
 pool2.fitlist <- function (fitlist, dfcom = NULL) {
+  
+  #Combine Estimates by Rubin’s Rules
 
   #Internal function
 
@@ -154,7 +160,9 @@ pool2.fitlist <- function (fitlist, dfcom = NULL) {
 }
 
 unrowname2. <- function (x) {
-
+  
+  #Removes Row Names
+  
   #Internal function
 
   #Based on: The mice:::unrowname()
@@ -171,6 +179,8 @@ unrowname2. <- function (x) {
 
 format2.perc <- function (probs, digits) {
 
+  #Outputs Probabilities in the Percentage Format
+  
   #Internal function
 
   #Based on: The mice:::format2.perc()
@@ -186,6 +196,8 @@ format2.perc <- function (probs, digits) {
 
 process2.mimipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE) {
 
+  #Process 'mimipo' Objects
+  
   #Internal function
 
   #Based on: The mice:::process_mipo()
