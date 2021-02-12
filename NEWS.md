@@ -11,7 +11,7 @@
 
 ### Version 0.9.4
 
-This is an update to improve documentation and to fix several bugs. The `weightthem()` is also updated to support trimming of extreme weights (thanks [Nicolas](https://twitter.com/n_hueb)).
+This is an update to improve documentation and to fix several bugs. The `weightthem()` function is also updated to support trimming of extreme weights (thanks [Nicolas](https://twitter.com/n_hueb)!).
 
 ### Version 0.9.3
 
