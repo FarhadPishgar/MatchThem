@@ -71,21 +71,21 @@ matchthem <- function (formula, datasets,
   called <- match.call()
   originals <- datasets
   classed <- class(originals)
-  if (approach == "pool-then-match") {approach <- "across"}
-  else if(approach == "match-then-pool") {approach <- "within"}
+  if (identical(approach, "pool-then-match")) {approach <- "across"}
+  else if (identical(approach, "match-then-pool")) {approach <- "within"}
 
   #Checking inputs format
-  if(is.null(datasets)) {stop("The input for the datasets must be specified.")}
+  if(missing(datasets) || length(datasets) == 0) {stop("The input for the datasets must be specified.")}
   if(!inherits(datasets, "mids")  && !inherits(datasets, "amelia")) {stop("The input for the datasets must be an object of the 'mids' or 'amelia' class.")}
   if(!is.null(datasets$data$distance)) {stop("The input for the datasets shouldn't have a variable named 'distance'.")}
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
   if(!is.null(datasets$data$subclass)) {stop("The input for the datasets shouldn't have a variable named 'subclass'.")}
   if(!is.null(datasets$data$discarded)) {stop("The input for the datasets shouldn't have a variable named 'discarded'.")}
   if(!is.null(datasets$data$estimated.distance) && approach == "across") {stop("The input for the datasets shouldn't have a variable named 'estimated.distance', when the 'across' matching approch is selected.")}
-  # if(!(approach %in% c("within","across"))) {stop("The input for the matching approach must be either 'within' or 'across'.")}
+
   approach <- match.arg(approach, c("within","across"))
-  if(approach == "across" && (!(method %in% c("nearest", "full", "subclass", "optimal")))) {stop("The input for the matching method must be 'nearest', 'full', 'subclass', or 'optimal', when the 'across' matching approch is selected.")}
-  if(approach == "across" && distance == "mahalanobis" ) {stop("The input for the distance shouldn't be 'mahalanobis', when the 'across' matching approch is selected.")}
+  if(approach == "across" && (!(method %in% c("nearest", "full", "subclass", "optimal", "genetic")))) {stop("The input for the matching method must be 'nearest', 'full', 'subclass', 'optimal', or 'genetic' when the 'across' matching approch is selected.")}
+  if(approach == "across" && distance == "mahalanobis" ) {stop("The input for the distance should not be 'mahalanobis' when the 'across' matching approch is selected.")}
   if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
 
   #Compatibility with amelia objects
@@ -202,7 +202,7 @@ matchthem <- function (formula, datasets,
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
-                                method = "nearest", distance = distance,
+                                method = NULL, distance = distance,
                                 distance.options = distance.options,
                                 discard = "none",
                                 reestimate = FALSE, ...)
@@ -225,10 +225,10 @@ matchthem <- function (formula, datasets,
       else        cat(" #", i, sep = "")
 
       #Building the model
-      model <- MatchIt::matchit(formula, dataset,
+      model <- MatchIt::matchit(formula, data = dataset,
                                 method = method, distance = dataset$estimated.distance,
-                                distance.options = distance.options, discard = discard,
-                                reestimate = reestimate, ...)
+                                distance.options = NULL, discard = discard,
+                                reestimate = FALSE, ...)
 
       #Matched dataset
       dataset$weights <- model$weights
