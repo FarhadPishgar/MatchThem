@@ -115,7 +115,7 @@ pool.mimira <- function (object, dfcom = NULL) {
   #' @export
 
   #Polishing variables
-  if (class(object)[[1]] != "mimira") stop("The input for the object must be an object of the 'mimira' class.")
+  if (!"mimira" %in% class(object)) stop("The input for the object must be an object of the 'mimira' class.")
 
   #Checking inputs format
   call <- match.call()
@@ -131,7 +131,7 @@ pool.mimira <- function (object, dfcom = NULL) {
   if (!is.null(dfcom)) {
     dfcom <- max(dfcom, 1)
   } else {
-    if (!is.null(object$analyses[[1]]$df.residual)) {
+    if (is.list(object$analyses[[1]]) && !is.null(object$analyses[[1]]$df.residual)) {
       dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
       if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
       if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
@@ -144,6 +144,8 @@ pool.mimira <- function (object, dfcom = NULL) {
     dfcom <- 999999
     warning("The function cannot extract the dfcom from the datasets, hence, large sample is assumed.")
   }
+
+  if (!is.finite(dfcom)) dfcom <- 999999
 
   #Pooling
   pooled <- pool2.fitlist(mice::getfit(object), dfcom = dfcom)
