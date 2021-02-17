@@ -83,7 +83,7 @@ barnard2.rubin <- function(m, b, t, dfcom = 999999) {
   dfold * dfobs / (dfold + dfobs)
 }
 
-pool2.fitlist <- function (fitlist, dfcom = NULL) {
+pool2.fitlist <- function(fitlist, dfcom = NULL) {
 
   #Internal function
 
@@ -118,6 +118,9 @@ pool2.fitlist <- function (fitlist, dfcom = NULL) {
 
   #Combine y.level and term into term (for multinom)
   if ("y.level" %in% names(w)) w$term <- paste(w$y.level, w$term, sep = ":")
+
+  #Rename robust.se to std.error for coxph objects
+  if ("robust.se" %in% names(w)) w$std.error <- w$robust.se
 
   #Address the problem with checking in an unusual way, just to keep the original codes of the mice package
   .data <- NULL
