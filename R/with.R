@@ -69,7 +69,11 @@ with.mimids <- function(data, expr, ...) {
 
   #Importing functions
   #' @importFrom survey svydesign
+  #' @importFrom mice complete
+  #' @importFrom MatchIt match.data
   survey::svydesign
+  mice::complete
+  MatchIt::match.data
   #' @export
 
   #Polishing variables
@@ -81,10 +85,13 @@ with.mimids <- function(data, expr, ...) {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete.mimids(data, i, all = FALSE)
-      out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
+      # data.i <- complete.mimids(data, i, all = FALSE)
+      data.i <- mice::complete(data$others$source, i)
+      m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
+
+      out <- eval(expr = con.expr, envir = m.data.i, enclos = parent.frame())
       if (is.expression(out)){
-        out <- eval(expr = out, envir = data.i, enclos = parent.frame())
+        out <- eval(expr = out, envir = m.data.i, enclos = parent.frame())
       }
       out
     })
@@ -93,8 +100,11 @@ with.mimids <- function(data, expr, ...) {
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete.mimids(data, i, all = FALSE)
-      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = data.i)
+      # data.i <- complete.mimids(data, i, all = FALSE)
+      data.i <- mice::complete(data$others$source, i)
+      m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
+
+      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = m.data.i)
       out <- eval(expr = svy.expr)
       if (is.expression(out)){
         out <- eval(expr = out)
@@ -107,7 +117,7 @@ with.mimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  oldClass(output) <- c("mimira", "matrix")
+  class(output) <- "mimira"
   return(output)
 }
 
@@ -169,6 +179,6 @@ with.wimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  oldClass(output) <- c("mimira", "matrix")
+  class(output) <- "mimira"
   return(output)
 }
