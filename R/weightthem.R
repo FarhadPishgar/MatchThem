@@ -7,9 +7,10 @@
 #' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary exposure indicator and \code{x1} and \code{x2} are the potential confounders. Both the exposure indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
 #' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies the method that should be used to estimate weights. See \code{\link{weightit}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
-#' @param estimand This argument specifies the desired estimand. See \code{\link{weightit}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.
-#' @param ... Additional arguments to be passed to \code{weightit} (see \code{\link{weightit}} for more details).
+#' @param method This argument specifies the method that should be used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
+#' @param estimand This argument specifies the desired estimand. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.
+#' @param printFlag The argument controls whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.
+#' @param ... Additional arguments to be passed to \code{weightit()} (see \code{\link[WeightIt:weightit]{weightit()}} for more details).
 #'
 #' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating balancing weights for each imputed dataset of a \code{mids} or \code{amelia} class object.
 #'
@@ -47,7 +48,7 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", estimand = "ATE", ...) {
+                        method = "ps", estimand = "ATE", printFlag = TRUE, ...) {
 
   #External function
 
@@ -109,8 +110,10 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (i == 1) cat("Estimating weights     | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("Estimating weights     | dataset: #", i))
+        else        cat2(paste0(" #", i))
+      }
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -150,7 +153,7 @@ weightthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "wimids"
-    cat("\n")
+    if (printFlag) cat2("\n")
     return(output)
   }
 
@@ -166,8 +169,10 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("Estimating distances   | dataset: #", i))
+        else        cat2(paste0(" #", i))
+      }
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -187,8 +192,10 @@ weightthem <- function (formula, datasets,
       dataset$estimated.distance <- d
 
       #Printing out
-      if (i == 1) cat("\n", "Estimating weights     | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("\n", "Estimating weights     | dataset: #", i))
+        else        cat2(paste0(" #", i))
+      }
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
@@ -229,7 +236,7 @@ weightthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "wimids"
-    cat("\n")
+    if (printFlag) cat2("\n")
     return(output)
   }
 }

@@ -229,3 +229,47 @@ process2.mimipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponenti
 
   return(z)
 }
+
+is_suppressed <- function() {
+
+  #Internal function
+
+  #Used to determine if suppressMessages() is active for use in cat2()
+  #From https://github.com/r-lib/usethis/pull/937
+
+  #' @importFrom rlang message_cnd
+  rlang::message_cnd
+
+  withRestarts(
+    muffleMessage = function(...) TRUE,
+    {
+      signalCondition(rlang::message_cnd())
+      FALSE
+    }
+  )
+}
+
+cat2 <- function(...) {
+
+  #Internal function
+
+  #Equivalent to cat() but will not display if surrounded by suppressMessages()
+  #From https://github.com/r-lib/usethis/pull/937 with additional code from
+  #rlang:::default_message_file
+
+  #' @importFrom rlang message_cnd
+  rlang::is_interactive
+
+  if (!is_suppressed()) {
+
+    #Check if interactive; if so, print to stdout(), otherwise, to stderr()
+    if (rlang::is_interactive() && sink.number("output") == 0 && sink.number("message") == 2) {
+      file <- stdout()
+    }
+    else {
+      file <- stderr()
+    }
+
+    cat(..., file = file)
+  }
+}

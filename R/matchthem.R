@@ -12,6 +12,7 @@
 #' @param distance.options This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.
 #' @param discard This argument specifies whether to discard observations that fall outside some measure of support of the distance score before matching and not allow them to be used at all in the matching procedure. Note that discarding observations may change the quantity of interest being estimated. The current options are \code{"none"} (discarding no observations before matching), \code{"both"} (discarding all observations, both the control and treated observations, that are outside the support of the distance measure), \code{"control"} (discarding only control observations outside the support of the distance measure of the treated observations), and \code{"treat"} (discarding only treated observations outside the support of the distance measure of the control observations). The default is \code{"none"}.
 #' @param reestimate This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.
+#' @param printFlag The argument controls whether a message displaying the status of the matching is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{matchit()} to control printing of other messages.
 #' @param ... Additional arguments to be passed to the matching method (please see \code{\link{matchit}} or the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).
 #'
 #' @description \code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated units of imputed datasets of a \code{mids} or \code{amelia} class object.
@@ -53,7 +54,7 @@
 matchthem <- function (formula, datasets,
                        approach = "within",
                        method = "nearest", distance = "logit", distance.options = list(),
-                       discard = "none", reestimate = FALSE, ...) {
+                       discard = "none", reestimate = FALSE, printFlag = TRUE, ...) {
 
   #External function
 
@@ -125,12 +126,9 @@ matchthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
 
       #Printing out
-      if (!(method %in% c("genetic", "cem"))){
-        if (i == 1) cat("Matching Observations  | dataset: #", i, sep = "")
-        else        cat(" #", i, sep = "")
-      } else {
-        if (i == 1) cat("Matching Observations  | dataset: #", i, "\n", sep = "")
-        else        cat("\n", "Matching Observations  | dataset: #", i, "\n", sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("\n", "Matching Observations  | dataset: #", i))
+        else        cat2(paste0(" #", i))
       }
 
       #Building the model
@@ -177,7 +175,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "mimids"
-    cat("\n")
+    if (printFlag) cat2("\n")
     return(output)
   }
 
@@ -197,8 +195,10 @@ matchthem <- function (formula, datasets,
       dataset$.id <- 1:nrow(datasets$data)
 
       #Printing out
-      if (i == 1) cat("Estimating distances   | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("Estimating distances   | dataset: #", i))
+        else        cat2(paste0(" #", i))
+      }
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -221,8 +221,10 @@ matchthem <- function (formula, datasets,
       dataset$estimated.distance <- d
 
       #Printing out
-      if (i == 1) cat("\n", "Matching Observations  | dataset: #", i, sep = "")
-      else        cat(" #", i, sep = "")
+      if (printFlag) {
+        if (i == 1) cat2(paste0("\n", "Matching Observations  | dataset: #", i))
+        else        cat2(paste0(" #", i))
+      }
 
       #Building the model
       model <- MatchIt::matchit(formula, data = dataset,
@@ -269,7 +271,7 @@ matchthem <- function (formula, datasets,
                    datasets = datasetslist,
                    others = others)
     class(output) <- "mimids"
-    cat("\n")
+    if (printFlag) cat2("\n")
     return(output)
   }
 }
