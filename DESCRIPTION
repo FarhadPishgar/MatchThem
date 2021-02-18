@@ -9,7 +9,7 @@ Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad
              person("Elizabeth", "Stuart", role = "ctb", email = "EStuart@jhu.edu"))
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: MatchIt, WeightIt, R (>= 3.5.0)
-Imports: broom, dplyr, graphics, methods, mice, stats, survey
+Imports: broom, dplyr, graphics, methods, mice, rlang, stats, survey
 Suggests: Amelia, cobalt (>= 4.0.0), R.rsp
 URL: https://github.com/FarhadPishgar/MatchThem
 BugReports: https://github.com/FarhadPishgar/MatchThem/issues
