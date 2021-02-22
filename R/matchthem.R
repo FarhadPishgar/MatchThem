@@ -60,7 +60,7 @@ matchthem <- function (formula, datasets,
 
   #Importing functions
   #' @importFrom MatchIt matchit
-  #' @importFrom mice complete
+  #' @importFrom mice complete as.mids
   #' @importFrom stats as.formula
   MatchIt::matchit
   mice::complete
@@ -90,7 +90,7 @@ matchthem <- function (formula, datasets,
   if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
 
   #Compatibility with amelia objects
-  if (class(datasets) == "amelia") {
+  if ("amelia" %in% class(datasets)) {
     imp0 <- datasets$imputations[[1]]
     is.na(imp0) <- datasets$missMatrix
     imp0$.id <- 1:nrow(imp0)
@@ -107,7 +107,7 @@ matchthem <- function (formula, datasets,
     }
 
     imp.datasets <- do.call("rbind", as.list(noquote(implist)))
-    datasets <- as2.mids(imp.datasets)
+    datasets <- mice::as.mids(imp.datasets)
     originals <- datasets
   }
 
@@ -163,7 +163,7 @@ matchthem <- function (formula, datasets,
 
     #Binding the datasets
     matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- as2.mids(matched.datasets)
+    matched.datasets <- mice::as.mids(matched.datasets)
 
     #Others
     others <- list(source = originals, class = classed)
@@ -259,7 +259,7 @@ matchthem <- function (formula, datasets,
 
     #Binding the datasets
     matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- as2.mids(matched.datasets)
+    matched.datasets <- mice::as.mids(matched.datasets)
 
     #Others
     others <- list(source = originals, class = classed)

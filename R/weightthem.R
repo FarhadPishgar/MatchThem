@@ -54,7 +54,7 @@ weightthem <- function (formula, datasets,
 
   #Importing functions
   #' @importFrom WeightIt weightit
-  #' @importFrom mice complete
+  #' @importFrom mice complete as.mids
   #' @importFrom stats as.formula
   WeightIt::weightit
   mice::complete
@@ -95,7 +95,7 @@ weightthem <- function (formula, datasets,
     }
 
     imp.datasets <- do.call("rbind", as.list(noquote(implist)))
-    datasets <- as2.mids(imp.datasets)
+    datasets <- mice::as.mids(imp.datasets)
     originals <- datasets
   }
 
@@ -141,7 +141,7 @@ weightthem <- function (formula, datasets,
 
     #Binding the datasets
     weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- as2.mids(weighted.datasets)
+    weighted.datasets <- mice::as.mids(weighted.datasets)
 
     #Others
     others <- list(source = originals, class = classed)
@@ -224,7 +224,7 @@ weightthem <- function (formula, datasets,
 
     #Binding the datasets
     weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- as2.mids(weighted.datasets)
+    weighted.datasets <- mice::as.mids(weighted.datasets)
 
     #Others
     others <- list(source = originals, class = classed)

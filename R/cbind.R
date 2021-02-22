@@ -88,7 +88,7 @@ cbind.mimids <- function(..., deparse.level = 1) {
 
   #Prepating the output
   new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-  matched.datasets <- as2.mids(new.datasets)
+  matched.datasets <- mice::as.mids(new.datasets)
   others$source <- do.call("cbind", c(list(others$source), dots[-1]), quote = TRUE) #cbind.mids from mice
 
   #Returning output

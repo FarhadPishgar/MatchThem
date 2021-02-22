@@ -127,7 +127,7 @@ merge.mimids <- function(x, y, by = NULL, ...) {
 
     #Prepating the output
     new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- as2.mids(new.datasets)
+    matched.datasets <- mice::as.mids(new.datasets)
 
     #Returning output
     output <- list(call = call,
@@ -230,7 +230,7 @@ merge.wimids <- function(x, y, by = NULL, ...) {
 
     #Prepating the output
     new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- as2.mids(new.datasets)
+    weighted.datasets <- mice::as.mids(new.datasets)
 
     #Returning output
     output <- list(call = call,
