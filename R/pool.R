@@ -67,6 +67,8 @@ pool <- function (object, dfcom = NULL) {
   UseMethod("pool")
 }
 
+#' @export
+
 pool.mira <- function (object, dfcom = NULL) {
 
   #External function
@@ -93,6 +95,8 @@ pool.mira <- function (object, dfcom = NULL) {
   }
 }
 
+#' @export
+
 pool.mimira <- function (object, dfcom = NULL) {
 
   #External function
@@ -107,50 +111,33 @@ pool.mimira <- function (object, dfcom = NULL) {
   #Changes: Few
 
   #Importing functions
-  #' @importFrom mice getfit pool
-  #' @importFrom stats df.residual
-  mice::getfit
+  #' @importFrom mice pool getfit
+  #' @importFrom utils packageVersion
   mice::pool
-  stats::df.residual
   #' @export
 
-  #Polishing variables
-  if (!"mimira" %in% class(object)) stop("The input for the object must be an object of the 'mimira' class.")
-
-  #Checking inputs format
   call <- match.call()
-  m <- length(object$analyses)
 
-  #Deal with imputed datasets with m = 1
-  if (m == 1) {
-    warning("The input for the object has only 1 imputed dataset, hence, no pooling is done.")
-    return(mice::getfit(object, 1))
-  }
+  dfcom <- get.dfcom2(object, dfcom)
 
-  #Handling the (unequal) dfcoms
-  if (!is.null(dfcom)) {
-    dfcom <- max(dfcom, 1)
-  } else {
-    if (is.list(object$analyses[[1]]) && !is.null(object$analyses[[1]]$df.residual)) {
-      dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
-      if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
-      if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
+  #Make sure robust SEs are used for coxph models
+  #Not needed for mice version >= 3.13.2
+  if (utils::packageVersion("mice") < "3.13.2") {
+    model <- mice::getfit(object, 1L)
+    if (inherits(model, "coxph")) {
+      for (i in seq_along(object$analyses)) {
+        #Remove naive.var so summary.coxph uses var as std.error
+        object$analyses[[i]]$naive.var <- NULL
+      }
     }
-    if (is.null(dfcom)) dfcom <- stats::df.residual(mice::getfit(mice::getfit(object), 1L))
   }
 
-  #Large dataset
-  if (is.null(dfcom)) {
-    dfcom <- 999999
-    warning("The function cannot extract the dfcom from the datasets, hence, large sample is assumed.")
-  }
+  output <- mice::pool(object, dfcom = dfcom)
 
-  if (!is.finite(dfcom)) dfcom <- 999999
+  output$call <- NULL
+  output <- c(list(call = call), as.list(output))
 
-  #Pooling
-  pooled <- pool2.fitlist(mice::getfit(object), dfcom = dfcom)
-  output <- list(call = call, m = m, pooled = pooled)
-  class(output) <- c("mimipo", "data.frame")
+  class(output) <- c("mimipo", "mipo", "data.frame")
 
   #Return the output
   return(output)
