@@ -117,7 +117,7 @@ with.mimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  class(output) <- "mimira"
+  class(output) <- c("mimira", "mira")
   return(output)
 }
 
@@ -179,6 +179,6 @@ with.wimids <- function(data, expr, ...) {
   output <- list(call = call, called = data$call, nmis = data$others$source$nmis, analyses = analyses)
 
   #Return the output
-  class(output) <- "mimira"
+  class(output) <- c("mimira", "mira")
   return(output)
 }
