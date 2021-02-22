@@ -42,11 +42,9 @@
 is.mimids <- function(object) {
 
   #Importing functions
-  #' @importFrom methods is
-  methods::is
   #' @export
 
-  output <- methods::is(object, "mimids")
+  output <- inherits(object, "mimids")
   return(output)
 }
 
@@ -94,11 +92,9 @@ is.mimids <- function(object) {
 is.wimids <- function(object) {
 
   #Importing functions
-  #' @importFrom methods is
-  methods::is
   #' @export
 
-  output <- methods::is(object, "wimids")
+  output <- inherits(object, "wimids")
   return(output)
 }
 
@@ -151,11 +147,9 @@ is.wimids <- function(object) {
 is.mimira <- function(object) {
 
   #Importing functions
-  #' @importFrom methods is
-  methods::is
   #' @export
 
-  output <- methods::is(object, "mimira")
+  output <- inherits(object, "mimira")
   return(output)
 }
 
@@ -210,10 +204,8 @@ is.mimira <- function(object) {
 is.mimipo <- function(object) {
 
   #Importing functions
-  #' @importFrom methods is
-  methods::is
   #' @export
 
-  output <- methods::is(object, "mimipo")
+  output <- inherits(object, "mimipo")
   return(output)
 }
