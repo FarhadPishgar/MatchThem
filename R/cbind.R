@@ -3,7 +3,7 @@
 #' @aliases cbind.mimids cbind.wimids
 #'
 #' @param ... Objects to combine columnwise. The first should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.
-#' @param deparse.level Passed to \code{\link[base]{cbind}}.
+#' @param deparse.level Ignored.
 #'
 #' @description This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
 #'
@@ -51,57 +51,20 @@ cbind.mimids <- function(..., deparse.level = 1) {
 
   #Checking inputs format
   if(...length() == 1) return(..1)
-  if(!(is.mimids(..1)) && !(is.wimids(..1))) {stop("The first argument must be a 'mimids' or 'wimids' object.")}
-
-  # for (i in seq_len(...length())[-1]) {
-  #   if(!is.data.frame(...elt(i))) {
-  #     stop(paste0("Each other supplied input must be a data frame, matrix, or atomic vector when the first argument is a '", class(x), "' object."))
-  #   }
-  # }
+  if(!(is.mimids(..1)) && !(is.wimids(..1)))
+    stop("The first argument must be a 'mimids' or 'wimids' object.")
 
   dots <- list(...)
+  classed <- class(dots[[1]])
   x <- dots[[1]]
+  dots[[1]] <- x$object
 
-  #Polishing variables
-  call <- x$call
-  modelslist <- x$models
-  others <- x$others
-  datasets <- x$object
-
-  data.0 <- datasets$data
-  data.0$.id <- 1:nrow(datasets$data)
-  data.0$.imp <- 0
-  data.0 <- do.call("cbind", c(list(data.0), dots[-1], list(deparse.level = deparse.level)), quote = TRUE)
-
-  #Preparing the list
-  datasetslist <- vector("list", datasets$m + 1)
-  datasetslist[[1]] <- data.0
-
-  #Binding
-  for (i in 1:datasets$m) {
-    data.i <- mice::complete(datasets, i)
-    data.i$.id <- 1:nrow(datasets$data)
-    data.i$.imp <- i
-    data.i <- do.call("cbind", c(list(data.i), dots[-1], list(deparse.level = deparse.level)), quote = TRUE)
-    datasetslist[[i+1]] <- data.i
-  }
-
-  #Prepating the output
-  new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-  matched.datasets <- mice::as.mids(new.datasets)
-  others$source <- do.call("cbind", c(list(others$source), dots[-1]), quote = TRUE) #cbind.mids from mice
+  x$object <- do.call(mice::cbind, dots)
 
   #Returning output
-  output <- list(call = call,
-                 object = matched.datasets,
-                 models = modelslist,
-                 datasets = datasetslist,
-                 others = others)
-  class(output) <- class(x)
-  return(output)
+  return(x)
 
 }
-
 
 #' @rdname cbind.mimids
 #' @export
