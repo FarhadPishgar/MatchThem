@@ -9,6 +9,10 @@
 
 ## What's New
 
+### Version 0.10.0
+
+`mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. `coxph()` when used with `with()` now correctly uses the robust standard errors. `cbind()` methods have been exported and documented. Printed messages can now be suppressed with `supressMessages()`. `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs.
+
 ### Version 0.9.3
 
 This is an update to kill few bugs.
