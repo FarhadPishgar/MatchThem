@@ -91,9 +91,21 @@ complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all
     stop("The input for the action argument is invalid.")
   }
 
+  #Select created variables from matchit/weightit models to add
+  if (is.mimids(data)) {
+    modelvars <- c("weights", "subclass", "distance", "discard")
+  }
+  else modelvars <- "weights"
+
+  modelvars <- intersect(modelvars, names(object$models[[2]]))
+
   #Do it
   mylist <- lapply(idx, function(j) {
     out <- mice::complete(data$object, j)
+    for (v in modelvars) {
+      out[[v]] <- if (j == 0) NA_real_ else object$models[[j + 1]][[v]]
+    }
+    out
   })
 
   #Return the output
