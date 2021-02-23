@@ -85,61 +85,6 @@ summary.mimids <- function(object, n = 1, ...) {
 
 }
 
-#
-
-merge.mimids <- function(x, y, by = NULL, ...) {
-  #NG: I don't think we need to export this. cbind.mimids() should be sufficient.
-
-  #External function
-  #S3 method
-
-  #Importing functions
-  #' @importFrom mice complete
-  mice::complete
-
-  #Checking inputs format
-  if(!is.data.frame(y)) {stop("The input for the y must be a data frame.")}
-
-  if (is.mimids(x)) {
-    #Polishing variables
-    call <- x$call
-    modelslist <- x$models
-    others <- x$others
-    datasets <- x$object
-
-    data.0 <- datasets$data
-    data.0$.id <- 1:nrow(datasets$data)
-    data.0$.imp <- 0
-    data.0 <- merge(data.0, y, by = by, ...)
-
-    #Preparing the list
-    datasetslist <- vector("list", datasets$m + 1)
-    datasetslist[[1]] <- data.0
-
-    #Merging
-    for (i in 1:datasets$m) {
-      data.i <- mice::complete(datasets, i)
-      data.i$.id <- 1:nrow(datasets$data)
-      data.i$.imp <- i
-      data.i <- merge(data.i, y, by = by, ...)
-      datasetslist[[i+1]] <- data.i
-    }
-
-    #Prepating the output
-    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- mice::as.mids(new.datasets)
-
-    #Returning output
-    output <- list(call = call,
-                   object = matched.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
-    class(output) <- "mimids"
-    return(output)
-  }
-}
-
 ##### wimids
 
 #' @export
@@ -190,57 +135,6 @@ summary.wimids <- function(object, n = 1, ...) {
   #Summarizing
   output <- summary(object$models[[n+1]], ...)
   return(output)
-}
-
-#
-
-merge.wimids <- function(x, y, by = NULL, ...) {
-  #NG: I don't think we need to export this. cbind.wimids() should be sufficient.
-
-  #External function
-  #S3 method
-
-  #Checking inputs format
-  if(!is.data.frame(y)) {stop("The input for the y must be a data frame.")}
-
-  if (is.wimids(x)) {
-    #Polishing variables
-    call <- x$call
-    modelslist <- x$models
-    others <- x$others
-    datasets <- x$object
-
-    data.0 <- datasets$data
-    data.0$.id <- 1:nrow(datasets$data)
-    data.0$.imp <- 0
-    data.0 <- merge(data.0, y, by = by, ...)
-
-    #Preparing the list
-    datasetslist <- vector("list", datasets$m + 1)
-    datasetslist[[1]] <- data.0
-
-    #Binding
-    for (i in 1:datasets$m) {
-      data.i <- mice::complete(datasets, i)
-      data.i$.id <- 1:nrow(datasets$data)
-      data.i$.imp <- i
-      data.i <- merge(data.i, y, by = by, ...)
-      datasetslist[[i+1]] <- data.i
-    }
-
-    #Prepating the output
-    new.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- mice::as.mids(new.datasets)
-
-    #Returning output
-    output <- list(call = call,
-                   object = weighted.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
-    class(output) <- "wimids"
-    return(output)
-  }
 }
 
 ##### mimipo
