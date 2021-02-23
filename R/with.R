@@ -48,7 +48,8 @@
 #'                                     "logreg", "logreg", "logreg"))
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
-#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
 #'                                 approach = 'within', method = 'ps')
 #'
 #' #Analyzing the weighted datasets
@@ -84,6 +85,7 @@ with.mimids <- function(data, expr, ...) {
   if (substr(substitute(expr)[1], 1, 3) != "svy") {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
+    if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
     analyses <- lapply(seq_len(object$m), function(i) {
       # data.i <- complete.mimids(data, i, all = FALSE)
       data.i <- mice::complete(data$others$source, i)
@@ -152,6 +154,7 @@ with.wimids <- function(data, expr, ...) {
   if (substr(substitute(expr)[1], 1, 3) != "svy") {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
+    if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
     analyses <- lapply(seq_len(object$m), function(i) {
       data.i <- complete.wimids(data, i, all = FALSE)
       out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
