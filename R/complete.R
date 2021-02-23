@@ -7,7 +7,7 @@
 #' @aliases complete complete.mimids complete.wimids
 #'
 #' @param data This argument specifies an object of the \code{mimids} or \code{wimids} class.
-#' @param n This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
+#' @param action This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
 #' @param include This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.
 #' @param mild This argument specifies whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{n} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.
 #' @param all This argument specifies whether to include observations with a zero estimated weight. The default is \code{TRUE}.
@@ -54,7 +54,7 @@
 #'
 #' @export
 
-complete.mimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
+complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 
   #External function
   #S3 method
@@ -71,7 +71,6 @@ complete.mimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TR
 
   #Polishing variables
   object <- data
-  action <- n
   m <- as.integer(data$object$m)
 
   #mimids and wimids
@@ -89,38 +88,45 @@ complete.mimids <- function(data, n = 1, include = FALSE, mild = FALSE, all = TR
     shape <- match.arg(action, c("all", "long", "broad", "repeated", "stacked"))
     shape <- if (shape == "all" || mild) "mild" else shape
   } else {
-    stop("The input for the n argument is invalid.")
+    stop("The input for the action argument is invalid.")
   }
 
   #Do it
   mylist <- lapply(idx, function(j) {
-    out <- data$datasets[[j + 1]]
-    out <- out[!names(out) %in% c(".id", ".imp")]
-    if (!all) out <- out[out$weights > 0, , drop = FALSE]
-    out
+    out <- mice::complete(data$object, j)
   })
 
   #Return the output
   if (shape == "stacked") {
-    return(do.call("rbind", mylist))
+    cmp <- do.call("rbind", mylist)
+    if (!all) cmp <- subset(cmp, weights > 0)
+    return(cmp)
   }
 
   if (shape == "mild") {
+    if (!all) {
+      for (i in seq_along(mylist)) {
+        mylist[[i]] <- subset(mylist[[i]], weights > 0)
+      }
+    }
     names(mylist) <- as.character(idx)
     class(mylist) <- "mild"
     return(mylist)
   }
 
   if (shape == "long") {
-    cmp <- do.call("rbind", mylist)
-    cmp <- data.frame(.imp = rep(idx, each = nrow(mylist[[1]])),
-                      .id = rep.int(1L:nrow(mylist[[1]]), length(idx)), cmp)
+    cmp <- do.call("rbind", lapply(idx, function(i) data.frame(.imp = i, .id = seq_len(nrow(mylist[[i]])),
+                                                               mylist[[i]])))
     if (is.integer(attr(mylist[[1]], "row.names")))
       row.names(cmp) <- seq_len(nrow(cmp))
     else row.names(cmp) <- as.character(seq_len(nrow(cmp)))
+
+    if (!all) cmp <- subset(cmp, weights > 0)
+
     return(cmp)
   }
 
+  if (!all) stop(paste0("'all' cannot be set to FALSE if action = '", shape, "'."))
   cmp <- do.call("cbind", mylist)
   names(cmp) <- paste(rep.int(names(mylist[[1]]), m), rep.int(idx, rep.int(ncol(mylist[[1]]), length(idx))), sep = ".")
   if (shape == "broad")
