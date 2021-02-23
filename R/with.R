@@ -43,9 +43,7 @@
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg",
-#'                                     "logreg", "logreg", "logreg"))
+#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10)
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
@@ -87,8 +85,8 @@ with.mimids <- function(data, expr, ...) {
     con.expr$weights <- quote(weights)
     if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
     analyses <- lapply(seq_len(object$m), function(i) {
-      # data.i <- complete.mimids(data, i, all = FALSE)
-      data.i <- mice::complete(data$others$source, i)
+
+      data.i <- mice::complete(data$object, i)
       m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
 
       out <- eval(expr = con.expr, envir = m.data.i, enclos = parent.frame())
@@ -102,8 +100,8 @@ with.mimids <- function(data, expr, ...) {
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
-      # data.i <- complete.mimids(data, i, all = FALSE)
-      data.i <- mice::complete(data$others$source, i)
+
+      data.i <- mice::complete(data$object, i)
       m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
 
       design.i <- survey::svydesign(~ 1, weights = ~ weights, data = m.data.i)
