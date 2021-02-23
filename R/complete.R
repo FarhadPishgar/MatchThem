@@ -99,14 +99,14 @@ complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all
   #Return the output
   if (shape == "stacked") {
     cmp <- do.call("rbind", mylist)
-    if (!all) cmp <- subset(cmp, weights > 0)
+    if (!all) cmp <- cmp[cmp$weights > 0, ,drop = FALSE]
     return(cmp)
   }
 
   if (shape == "mild") {
     if (!all) {
       for (i in seq_along(mylist)) {
-        mylist[[i]] <- subset(mylist[[i]], weights > 0)
+        mylist[[i]] <- mylist[[i]][mylist[[i]]$weights > 0, ,drop = FALSE]
       }
     }
     names(mylist) <- as.character(idx)
@@ -121,7 +121,7 @@ complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all
       row.names(cmp) <- seq_len(nrow(cmp))
     else row.names(cmp) <- as.character(seq_len(nrow(cmp)))
 
-    if (!all) cmp <- subset(cmp, weights > 0)
+    if (!all) cmp <- cmp[cmp$weights > 0, ,drop = FALSE]
 
     return(cmp)
   }
