@@ -16,7 +16,7 @@
 #'
 #' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
 #'
-#' @return This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.
+#' @return This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class.
 #'
 #' @seealso \code{\link[=wimids]{wimids}}
 #' @seealso \code{\link[=with]{with}}
@@ -62,7 +62,6 @@ weightthem <- function (formula, datasets,
   #' @export
 
   #Polishing variables
-  formula <- stats::as.formula(formula)
   called <- match.call()
   originals <- datasets
   classed <- class(originals)
@@ -149,9 +148,7 @@ weightthem <- function (formula, datasets,
     #Returning output
     output <- list(call = called,
                    object = weighted.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
+                   models = modelslist)
     class(output) <- "wimids"
     if (printFlag) cat2("\n")
     return(output)
@@ -232,9 +229,7 @@ weightthem <- function (formula, datasets,
     #Returning output
     output <- list(call = called,
                    object = weighted.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
+                   models = modelslist)
     class(output) <- "wimids"
     if (printFlag) cat2("\n")
     return(output)

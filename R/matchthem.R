@@ -68,7 +68,6 @@ matchthem <- function (formula, datasets,
   #' @export
 
   #Polishing variables
-  formula <- stats::as.formula(formula)
   called <- match.call()
   originals <- datasets
   classed <- class(originals)
@@ -171,9 +170,7 @@ matchthem <- function (formula, datasets,
     #Returning output
     output <- list(call = called,
                    object = matched.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
+                   models = modelslist)
     class(output) <- "mimids"
     if (printFlag) cat2("\n")
     return(output)
@@ -267,9 +264,7 @@ matchthem <- function (formula, datasets,
     #Returning output
     output <- list(call = called,
                    object = matched.datasets,
-                   models = modelslist,
-                   datasets = datasetslist,
-                   others = others)
+                   models = modelslist)
     class(output) <- "mimids"
     if (printFlag) cat2("\n")
     return(output)
