@@ -102,7 +102,6 @@ weightthem <- function (formula, datasets,
   if (approach == "within") {
 
     #Defining the lists
-    datasetslist <- vector("list", datasets$m + 1)
     modelslist <- vector("list", datasets$m + 1)
 
     #Longing the datasets
@@ -119,46 +118,15 @@ weightthem <- function (formula, datasets,
       model <- WeightIt::weightit(formula, dataset,
                                   method = method, estimand = estimand, ...)
 
-      #Dataset
-      dataset$weights <- model$weights
-      dataset$.id <- 1:nrow(datasets$data)
-      dataset$.imp <- i
-
       #Updating the lists
-      datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
-
-    #The raw data
-    dataset0 <- datasets$data
-    dataset0$weights <- NA_real_
-    dataset0$.id <- 1:nrow(datasets$data)
-    dataset0$.imp <- 0
-
-    #Updating the lists
-    datasetslist[[1]] <- dataset0
-
-    #Binding the datasets
-    weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- mice::as.mids(weighted.datasets)
-
-    #Others
-    others <- list(source = originals, class = classed)
-
-    #Returning output
-    output <- list(call = called,
-                   object = weighted.datasets,
-                   models = modelslist)
-    class(output) <- "wimids"
-    if (printFlag) cat2("\n")
-    return(output)
   }
 
   #Across
   if (approach == "across") {
 
     #Defining the lists
-    datasetslist <- vector("list", datasets$m + 1)
     modelslist <- vector("list", datasets$m + 1)
     distancelist <- vector("list", datasets$m)
 
@@ -186,7 +154,6 @@ weightthem <- function (formula, datasets,
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {
       dataset <- mice::complete(datasets, i)
-      dataset$estimated.distance <- d
 
       #Printing out
       if (printFlag) {
@@ -197,41 +164,19 @@ weightthem <- function (formula, datasets,
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
                                   method = "ps",
-                                  ps = dataset$estimated.distance, estimand = estimand, ...)
-
-      #Dataset
-      dataset$weights <- model$weights
-      dataset$.id <- 1:nrow(datasets$data)
-      dataset$.imp <- i
-      dataset$estimated.distance <- NULL
+                                  ps = d, estimand = estimand, ...)
 
       #Updating the list
-      datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
-
-    #Raw data
-    dataset0 <- datasets$data
-    dataset0$weights <- NA_real_
-    dataset0$.id <- 1:nrow(datasets$data)
-    dataset0$.imp <- 0
-
-    #Updating the list
-    datasetslist[[1]] <- dataset0
-
-    #Binding the datasets
-    weighted.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    weighted.datasets <- mice::as.mids(weighted.datasets)
-
-    #Others
-    others <- list(source = originals, class = classed)
-
-    #Returning output
-    output <- list(call = called,
-                   object = weighted.datasets,
-                   models = modelslist)
-    class(output) <- "wimids"
-    if (printFlag) cat2("\n")
-    return(output)
   }
+
+  #Returning output
+  output <- list(call = called,
+                 object = datasets,
+                 models = modelslist,
+                 approach = approach)
+  class(output) <- "wimids"
+  if (printFlag) cat2("\n")
+  return(output)
 }

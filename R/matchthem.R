@@ -122,7 +122,6 @@ matchthem <- function (formula, datasets,
 
       #Building the model
       dataset <- mice::complete(datasets, i)
-      dataset$.id <- 1:nrow(datasets$data)
 
       #Printing out
       if (printFlag) {
@@ -136,51 +135,15 @@ matchthem <- function (formula, datasets,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
 
-      #Matched dataset
-      dataset$weights <- model$weights
-      dataset$distance <- model$distance
-      dataset$discarded <- model$discarded
-      dataset$subclass <- model$subclass
-      dataset$.imp <- i
-
-      #Updating the lists
-      datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
 
-    #The raw data
-    dataset0 <- datasets$data
-    dataset0$.id <- 1:nrow(datasets$data)
-    dataset0$weights <- NA_real_
-    if (!is.null(datasetslist[[2]]$distance)) {dataset0$distance <- NA_real_}
-    if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
-    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
-    dataset0$.imp <- 0
-
-    #Updating the lists
-    datasetslist[[1]] <- dataset0
-
-    #Binding the datasets
-    matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- mice::as.mids(matched.datasets)
-
-    #Others
-    others <- list(source = originals, class = classed)
-
-    #Returning output
-    output <- list(call = called,
-                   object = matched.datasets,
-                   models = modelslist)
-    class(output) <- "mimids"
-    if (printFlag) cat2("\n")
-    return(output)
   }
 
   #Across
   if (approach == "across") {
 
     #Defining the lists
-    datasetslist <- vector("list", datasets$m + 1)
     modelslist <- vector("list", datasets$m + 1)
     distancelist <- vector("list", datasets$m)
 
@@ -189,7 +152,6 @@ matchthem <- function (formula, datasets,
 
       #Building the model
       dataset <- mice::complete(datasets, i)
-      dataset$.id <- 1:nrow(datasets$data)
 
       #Printing out
       if (printFlag) {
@@ -214,8 +176,6 @@ matchthem <- function (formula, datasets,
     #Matching each dataset
     for (i in 1:datasets$m) {
       dataset <- mice::complete(datasets, i)
-      dataset$.id <- 1:nrow(datasets$data)
-      dataset$estimated.distance <- d
 
       #Printing out
       if (printFlag) {
@@ -225,48 +185,21 @@ matchthem <- function (formula, datasets,
 
       #Building the model
       model <- MatchIt::matchit(formula, data = dataset,
-                                method = method, distance = dataset$estimated.distance,
+                                method = method, distance = d,
                                 distance.options = NULL, discard = discard,
                                 reestimate = FALSE, ...)
 
-      #Matched dataset
-      dataset$weights <- model$weights
-      dataset$distance <- model$distance
-      dataset$discarded <- model$discarded
-      dataset$subclass <- model$subclass
-      dataset$estimated.distance <- NULL
-      dataset$.imp <- i
-
       #Updating the lists
-      datasetslist[[i+1]] <- dataset
       modelslist[[i+1]] <- model
     }
-
-    #The raw data
-    dataset0 <- datasets$data
-    dataset0$.id <- 1:nrow(datasets$data)
-    dataset0$weights <- NA_real_
-    dataset0$distance <- NA_real_
-    if (!is.null(datasetslist[[2]]$discarded)) {dataset0$discarded <- NA_real_}
-    if (!is.null(datasetslist[[2]]$subclass)) {dataset0$subclass <- NA_real_}
-    dataset0$.imp <- 0
-
-    #Updating the lists
-    datasetslist[[1]] <- dataset0
-
-    #Binding the datasets
-    matched.datasets <- do.call("rbind", as.list(noquote(datasetslist)))
-    matched.datasets <- mice::as.mids(matched.datasets)
-
-    #Others
-    others <- list(source = originals, class = classed)
-
-    #Returning output
-    output <- list(call = called,
-                   object = matched.datasets,
-                   models = modelslist)
-    class(output) <- "mimids"
-    if (printFlag) cat2("\n")
-    return(output)
   }
+
+  #Returning output
+  output <- list(call = called,
+                 object = datasets,
+                 models = modelslist,
+                 approach = approach)
+  class(output) <- "mimids"
+  if (printFlag) cat2("\n")
+  return(output)
 }
