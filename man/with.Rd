@@ -43,12 +43,11 @@ library(survey)
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg",
-                                    "logreg", "logreg", "logreg"))
+imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10)
 
 #Estimating weights of observations in the multiply imputed datasets
-weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
                                 approach = 'within', method = 'ps')
 
 #Analyzing the weighted datasets

@@ -30,7 +30,7 @@ weightthem(
 \item{...}{Additional arguments to be passed to \code{weightit()} (see \code{\link[WeightIt:weightit]{weightit()}} for more details).}
 }
 \value{
-This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class, that includes weights of observations of the imputed datasets (listed as the \code{weights} variables in each) primarily passed to the function by the \code{datasets} argument.
+This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class.
 }
 \description{
 The \code{weightthem()} function enables parametric models for causal inference to work better by estimating balancing weights for each imputed dataset of a \code{mids} or \code{amelia} class object.

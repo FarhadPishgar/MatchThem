@@ -6,14 +6,14 @@
 \alias{complete.wimids}
 \title{Extracts Imputed Datasets}
 \usage{
-\method{complete}{mimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{mimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 
-\method{complete}{wimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{wimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
 \item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
 
-\item{n}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
+\item{action}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 
 \item{include}{This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
 

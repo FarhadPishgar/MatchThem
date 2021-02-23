@@ -12,7 +12,7 @@
 \arguments{
 \item{...}{Objects to combine columnwise. The first should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.}
 
-\item{deparse.level}{Passed to \code{\link[base]{cbind}}.}
+\item{deparse.level}{Ignored.}
 }
 \value{
 An object with the same class as the first input object with the additional variables added to the components.
