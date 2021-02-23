@@ -13,6 +13,7 @@ matchthem(
   distance.options = list(),
   discard = "none",
   reestimate = FALSE,
+  printFlag = TRUE,
   ...
 )
 }
@@ -25,7 +26,7 @@ matchthem(
 
 \item{method}{This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available (only the \code{"nearest"}, \code{"full"}, \code{"subclass"}, and \code{"optimal"} matching methods are compatible with the \code{"across"} approach). The default is \code{"nearest"}. Note that within each of these matching methods, \pkg{MatchThem} offers a variety of options.}
 
-\item{distance}{This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
+\item{distance}{This argument specifies the method that should be used to estimate the distance measure (the \code{"mahalanobis"} method for distance measure is not compatible with the \code{"across"} approach). The default is logistic regression, \code{"logit"}. A variety of other methods are available (please see \code{\link{matchit}} or the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
 
 \item{distance.options}{This optional argument specifies the arguments that are passed to the model for estimating the distance measure. The input to this argument should be a list.}
 
@@ -33,16 +34,18 @@ matchthem(
 
 \item{reestimate}{This argument specifies whether the model for estimating the distance measure should be reestimated after observations are discarded. The input must be a logical value. The default is \code{FALSE}.}
 
-\item{...}{Additional arguments to be passed to the matching method (please see the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
+\item{printFlag}{The argument controls whether a message displaying the status of the matching is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{matchit()} to control printing of other messages.}
+
+\item{...}{Additional arguments to be passed to the matching method (please see \code{\link{matchit}} or the \pkg{MatchIt} package reference manual <https://cran.r-project.org/package=MatchIt> for more details).}
 }
 \value{
 This function returns an object of the \code{mimids} (matched multiply imputed datasets) class, that includes matched subsets of the imputed datasets primarily passed to the function by the \code{datasets} argument.
 }
 \description{
-\code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated subgroups of imputed datasets of a \code{mids} or \code{amelia} class object.
+\code{matchthem()} function enables parametric models for causal inference to work better by selecting matched subsets of the control and treated units of imputed datasets of a \code{mids} or \code{amelia} class object.
 }
 \details{
-The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounder to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
+The matching is done using the \code{matchthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounders to be used in the matching model. There are a number of matching options. The default syntax is \code{matchthem(formula, datasets, approach = "within", method = "nearest", distance = "logit", ...)}. Summaries of the results can be seen graphically using \code{plot()} or numerically using \code{summary()} functions. The \code{print()} function also prints out the output.
 }
 \examples{
 \donttest{#Loading libraries
@@ -74,6 +77,10 @@ Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Inco
 \code{\link[=with]{with}}
 
 \code{\link[=pool]{pool}}
+
+\code{\link[=weightthem]{weightthem}}
+
+\code{\link[MatchIt:matchit]{MatchIt::matchit}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

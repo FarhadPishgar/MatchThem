@@ -59,6 +59,8 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \code{\link[=mimids]{mimids}}
 
 \code{\link[=wimids]{wimids}}
+
+\code{\link[mice:complete]{mice::complete}}
 }
 \author{
 Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
