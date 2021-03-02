@@ -11,7 +11,19 @@
 
 ### Version 1.0.0
 
-`mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. `coxph()` when used with `with()` now correctly uses the robust standard errors. `cbind()` methods have been exported and documented. Printed messages can now be suppressed with `supressMessages()`. `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. This may make old code that directly interfaced with the `mimids` and `wimids` internals no longer operate correctly, but any code that relied on `with()`, `pool()`, and `complete()` should still operate as before.
+* `mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. 
+
+* `coxph()` when used with `with()` now correctly uses the robust standard errors. 
+
+* A `cluster` argument has been added to `with.mimids()` to control whether cluster robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the `survey` package. The default is to include pair membership  when present and there are 20 or more unique subclasses (i.e., pairs). This works by supplying the pair membership variable (`subclass`) to the `ids` argument of `svydesign()`.
+
+* `cbind()` methods have been exported and documented. 
+
+* Printed messages can now be suppressed with `supressMessages()` or by setting the new `printFlag` option in `matchthem()` and `weightthem()`. 
+
+* `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. 
+
+* `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. This may make old code that directly interfaced with the `mimids` and `wimids` internals no longer operate correctly, but any code that relied on `with()`, `pool()`, and `complete()` should still operate as before.
 
 ### Version 0.9.3
 

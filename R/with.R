@@ -10,6 +10,7 @@
 #'
 #' @param data This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
 #' @param expr This argument specifies an expression of the usual syntax of R formula (it also accepts expressions from \pkg{survey} package, like \code{svyglm()}, please note that you shouldn't include the \code{weights = weights} argument, see the package vignette for details).
+#' @param cluster When a function from \pkg{survey} (e.g., \code{\link[=survey:svyglm]{svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{link[=survey:svydesign]{svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
 #' @param ... Additional arguments to be passed to \code{expr}.
 #'
 #' @description \code{with()} function performs a statistical computation on the \code{n} imputed datasets of the \code{mimids} or \code{wimids} objects. The typical sequence of steps to do a matching or weighting procedure on the imputed datasets are:
@@ -54,7 +55,7 @@
 #' models <- with(data = weighted.datasets,
 #'                exp = svyglm(KOA ~ OSP, family = binomial))}
 
-with.mimids <- function(data, expr, ...) {
+with.mimids <- function(data, expr, cluster, ...) {
 
   #S3 method
 
@@ -84,6 +85,7 @@ with.mimids <- function(data, expr, ...) {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
     if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
+    if (!missing(cluster)) warning("The 'cluster' argument can only be used with functions from the survey package (e.g., svyglm()). Ignoring 'cluster'.")
     analyses <- lapply(seq_len(object$m), function(i) {
 
       data.i <- mice::complete(data$object, i)
@@ -104,7 +106,13 @@ with.mimids <- function(data, expr, ...) {
       data.i <- mice::complete(data$object, i)
       m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
 
-      design.i <- survey::svydesign(~ 1, weights = ~ weights, data = m.data.i)
+      if ((missing(cluster) && !is.null(m.data.i$subclass) && nlevels(m.data.i$subclass) >= 20) ||
+          (!missing(cluster) && isTRUE(cluster) && !is.null(m.data.i$subclass))){
+        ids = ~subclass
+      }
+      else ids = ~1
+
+      design.i <- survey::svydesign(ids = ids, weights = ~ weights, data = m.data.i)
       out <- eval(expr = svy.expr)
       if (is.expression(out)){
         out <- eval(expr = out)
