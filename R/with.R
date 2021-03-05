@@ -89,7 +89,7 @@ with.mimids <- function(data, expr, cluster, ...) {
     analyses <- lapply(seq_len(object$m), function(i) {
 
       data.i <- mice::complete(data$object, i)
-      m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
+      m.data.i <- MatchIt::match.data(data$models[[i]], data = data.i)
 
       out <- eval(expr = con.expr, envir = m.data.i, enclos = parent.frame())
       if (is.expression(out)){
@@ -100,19 +100,21 @@ with.mimids <- function(data, expr, cluster, ...) {
   } else {
     svy.expr <- substitute(expr)
     svy.expr$design <- quote(design.i)
+    missing.cluster <- missing(cluster)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
 
       data.i <- mice::complete(data$object, i)
-      m.data.i <- MatchIt::match.data(data$models[[i + 1]], data = data.i)
+      m.data.i <- MatchIt::match.data(data$models[[i]], data = data.i)
 
-      if ((missing(cluster) && !is.null(m.data.i$subclass) && nlevels(m.data.i$subclass) >= 20) ||
-          (!missing(cluster) && isTRUE(cluster) && !is.null(m.data.i$subclass))){
-        ids = ~subclass
+      if ((missing.cluster && !is.null(m.data.i$subclass) && nlevels(m.data.i$subclass) >= 20) ||
+          (!missing.cluster && isTRUE(cluster) && !is.null(m.data.i$subclass))){
+        design.i <- survey::svydesign(ids = ~subclass, weights = ~ weights, data = m.data.i)
       }
-      else ids = ~1
+      else {
+        design.i <- survey::svydesign(ids = ~1, weights = ~ weights, data = m.data.i)
+      }
 
-      design.i <- survey::svydesign(ids = ids, weights = ~ weights, data = m.data.i)
       out <- eval(expr = svy.expr)
       if (is.expression(out)){
         out <- eval(expr = out)

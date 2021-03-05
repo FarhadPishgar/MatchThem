@@ -89,7 +89,7 @@ matchthem <- function (formula, datasets,
   if(!(method %in% c("nearest", "exact", "full", "genetic", "subclass", "cem", "optimal"))) {stop("The input for the matching method must be either 'nearest', 'exact', 'full', 'genetic', 'subclass', 'cem', or 'optimal'.")}
 
   #Compatibility with amelia objects
-  if ("amelia" %in% class(datasets)) {
+  if (inherits(datasets, "amelia")) {
     imp0 <- datasets$imputations[[1]]
     is.na(imp0) <- datasets$missMatrix
     imp0$.id <- 1:nrow(imp0)
@@ -114,8 +114,7 @@ matchthem <- function (formula, datasets,
   if (approach == "within") {
 
     #Defining the lists
-    datasetslist <- vector("list", datasets$m + 1)
-    modelslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -135,7 +134,7 @@ matchthem <- function (formula, datasets,
                                 distance.options = distance.options, discard = discard,
                                 reestimate = reestimate, ...)
 
-      modelslist[[i+1]] <- model
+      modelslist[[i]] <- model
     }
 
   }
@@ -144,7 +143,7 @@ matchthem <- function (formula, datasets,
   if (approach == "across") {
 
     #Defining the lists
-    modelslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m)
     distancelist <- vector("list", datasets$m)
 
     #Calculating the averaged distances
@@ -163,7 +162,7 @@ matchthem <- function (formula, datasets,
       model <- MatchIt::matchit(formula, dataset,
                                 method = NULL, distance = distance,
                                 distance.options = distance.options,
-                                discard = "none",
+                                discard = modelslist[[i]]$discard,
                                 reestimate = FALSE, ...)
 
       #Distance
@@ -190,7 +189,7 @@ matchthem <- function (formula, datasets,
                                 reestimate = FALSE, ...)
 
       #Updating the lists
-      modelslist[[i+1]] <- model
+      modelslist[[i]] <- model
     }
   }
 

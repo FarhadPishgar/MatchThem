@@ -8,7 +8,6 @@
 #' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
 #' @param method This argument specifies the method that should be used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
-#' @param estimand This argument specifies the desired estimand. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.
 #' @param printFlag The argument controls whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.
 #' @param ... Additional arguments to be passed to \code{weightit()} (see \code{\link[WeightIt:weightit]{weightit()}} for more details).
 #'
@@ -48,7 +47,7 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", estimand = "ATE", printFlag = TRUE, ...) {
+                        method = "ps", printFlag = TRUE, ...) {
 
   #External function
 
@@ -77,7 +76,7 @@ weightthem <- function (formula, datasets,
   if(approach == "across" && (!(method %in% c("ps", "gbm", "cbps", "super", "bart")))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'super', or 'bart' when the 'across' weighting approch is selected.")}
 
   #Compatibility with amelia objects
-  if (class(datasets) == "amelia") {
+  if (inherits(datasets, "amelia")) {
     imp0 <- datasets$imputations[[1]]
     is.na(imp0) <- datasets$missMatrix
     imp0$.id <- 1:nrow(imp0)
@@ -102,7 +101,7 @@ weightthem <- function (formula, datasets,
   if (approach == "within") {
 
     #Defining the lists
-    modelslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m)
 
     #Longing the datasets
     for (i in 1:datasets$m) {
@@ -116,10 +115,10 @@ weightthem <- function (formula, datasets,
       #Building the model
       dataset <- mice::complete(datasets, i)
       model <- WeightIt::weightit(formula, dataset,
-                                  method = method, estimand = estimand, ...)
+                                  method = method, ...)
 
       #Updating the lists
-      modelslist[[i+1]] <- model
+      modelslist[[i]] <- model
     }
   }
 
@@ -127,7 +126,7 @@ weightthem <- function (formula, datasets,
   if (approach == "across") {
 
     #Defining the lists
-    modelslist <- vector("list", datasets$m + 1)
+    modelslist <- vector("list", datasets$m)
     distancelist <- vector("list", datasets$m)
 
     #Calculating the averaged distances
@@ -141,8 +140,8 @@ weightthem <- function (formula, datasets,
 
       #Building the model
       dataset <- mice::complete(datasets, i)
-      model <- WeightIt::weightit(formula, dataset,
-                                  method = method, estimand = estimand, ...)
+      modelslist[[i]] <- model <- WeightIt::weightit(formula, dataset,
+                                  method = method, ...)
 
       #Measures
       distancelist[[i]] <- model$ps
@@ -164,10 +163,10 @@ weightthem <- function (formula, datasets,
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
                                   method = "ps",
-                                  ps = d, estimand = estimand, ...)
+                                  ps = d, ...)
 
       #Updating the list
-      modelslist[[i+1]] <- model
+      modelslist[[i]][c("weights", "ps")] <- model[c("weights", "ps")]
     }
   }
 

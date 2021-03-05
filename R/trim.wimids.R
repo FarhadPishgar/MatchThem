@@ -47,7 +47,7 @@ trim.wimids <- function (w, at = 0, lower = FALSE, ...) {
   #' @importFrom WeightIt trim
   WeightIt::trim
 
-  for (i in seq_along(w$models)[-1]) {
+  for (i in seq_along(w$models)) {
     suppressMessages(w$models[[i]] <- WeightIt::trim(w$models[[i]], at = at, lower = lower, ...))
   }
   return(w)
