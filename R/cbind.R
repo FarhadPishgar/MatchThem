@@ -9,7 +9,7 @@
 #'
 #' @return An object with the same class as the first input object with the additional variables added to the components.
 #'
-#' @seealso \code{\link[mice:cbind.mids]{mice::cbind.mids}}
+#' @seealso \code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'
