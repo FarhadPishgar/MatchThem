@@ -32,7 +32,7 @@ cat2 <- function(...) {
 
     #Check if interactive; if so, print to stdout(), otherwise, to stderr()
     if (rlang::is_interactive() && sink.number("output") == 0 && sink.number("message") == 2) {
-      file <- stdout()
+      file <- ""
     }
     else {
       file <- stderr()
@@ -67,7 +67,7 @@ get.dfcom2 <- function(object, dfcom = NULL) {
   }
   else dfcom <- NULL
 
-  if (!"mimira" %in% class(object)) stop("The input for the object must be an object of the 'mimira' class.")
+  if (!inherits(object, "mimira")) stop("The input for the object must be an object of the 'mimira' class.")
 
   glanced <- try(summary(mice::getfit(object), type = "glance"), silent = TRUE)
 
