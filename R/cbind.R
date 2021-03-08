@@ -5,6 +5,8 @@
 #' @param ... Objects to combine columnwise. The first should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.
 #' @param deparse.level Ignored.
 #'
+#' @method cbind mimids
+#'
 #' @description This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
 #'
 #' @return An object with the same class as the first input object with the additional variables added to the components.
@@ -37,8 +39,8 @@
 #' pool(with(weighted.datasets, svyglm(KOA ~ OSP + logAGE, family = quasibinomial)))
 #'}
 
+
 #' @export
-#' @method cbind mimids
 cbind.mimids <- function(..., deparse.level = 1) {
 
   #Internal function
@@ -69,5 +71,4 @@ cbind.mimids <- function(..., deparse.level = 1) {
 #' @rdname cbind.mimids
 #' @export
 #' @method cbind wimids
-
 cbind.wimids <- cbind.mimids
