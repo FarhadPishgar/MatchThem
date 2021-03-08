@@ -11,17 +11,17 @@
 \method{complete}{wimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
-\item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
+\item{data}{An object of the \code{mimids} or \code{wimids} class.}
 
 \item{action}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 
-\item{include}{This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
+\item{include}{Whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
 
-\item{mild}{This argument specifies whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{n} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.}
+\item{mild}{Whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{action} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.}
 
-\item{all}{This argument specifies whether to include observations with a zero estimated weight. The default is \code{TRUE}.}
+\item{all}{Whether to include observations with a zero estimated weight. The default is \code{TRUE}.}
 
-\item{...}{Additional arguments to be passed to the function.}
+\item{...}{Ignored.}
 }
 \value{
 This function returns the imputed dataset within \code{mimids} or \code{wimids} class objects.

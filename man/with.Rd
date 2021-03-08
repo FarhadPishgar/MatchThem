@@ -6,7 +6,7 @@
 \alias{with.wimids}
 \title{Evaluates an Expression in Matched or Weighted Imputed Datasets}
 \usage{
-\method{with}{mimids}(data, expr, ...)
+\method{with}{mimids}(data, expr, cluster, ...)
 
 \method{with}{wimids}(data, expr, ...)
 }
@@ -14,6 +14,8 @@
 \item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.}
 
 \item{expr}{This argument specifies an expression of the usual syntax of R formula (it also accepts expressions from \pkg{survey} package, like \code{svyglm()}, please note that you shouldn't include the \code{weights = weights} argument, see the package vignette for details).}
+
+\item{cluster}{When a function from \pkg{survey} (e.g., \code{\link[survey:svyglm]{svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).}
 
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }

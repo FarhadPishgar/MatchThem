@@ -9,7 +9,6 @@ weightthem(
   datasets,
   approach = "within",
   method = "ps",
-  estimand = "ATE",
   printFlag = TRUE,
   ...
 )
@@ -22,8 +21,6 @@ weightthem(
 \item{approach}{This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.}
 
 \item{method}{This argument specifies the method that should be used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.}
-
-\item{estimand}{This argument specifies the desired estimand. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. For binary and multinomial treatments, the default is \code{"ATE"}.}
 
 \item{printFlag}{The argument controls whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.}
 

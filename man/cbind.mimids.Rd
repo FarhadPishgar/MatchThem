@@ -46,7 +46,7 @@ pool(with(weighted.datasets, svyglm(KOA ~ OSP + logAGE, family = quasibinomial))
 }
 }
 \seealso{
-\code{\link[mice:cbind.mids]{mice::cbind.mids}}
+\code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
 }
 \author{
 Farhad Pishgar and Noah Greifer
