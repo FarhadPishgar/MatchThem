@@ -38,7 +38,7 @@ print.mimids <- function(x, n = 1, ...) {
   #S3 method
 
   #Checking inputs format
-  if(x$object$m < n) {stop("The input for the n is out of bounds.")}
+  if(x$object$m < n) stop("The input for 'n' is out of bounds.")
 
   #Printing out
   cat2("Printing               | dataset: #", n, "\n", sep = "")
@@ -46,7 +46,7 @@ print.mimids <- function(x, n = 1, ...) {
   #Printing out
   output <- x$models[[n]]
   output$call <- x$call
-  return(print(output, ...))
+  print(output, ...)
 }
 
 #' @export
@@ -57,16 +57,24 @@ summary.mimids <- function(object, n = 1, ...) {
   #S3 method
 
   #Checking inputs format
-  if(object$object$m < n) {stop("The input for the n is out of bounds.")}
-
-  #Printing out
-  cat2("Summarizing            | dataset: #", n, "\n", sep = "")
+  if(object$object$m < n) {stop("The input for 'n' is out of bounds.")}
 
   #Printing out
   output <- summary(object$models[[n]], ...)
   output$call <- object$call
-  return(output)
+  attr(output, ".imp") <- n
+  class(output) <- c("summary.mimids", class(output))
+  output
 
+}
+
+#' @export
+
+print.summary.mimids <- function(x, ...) {
+  #Printing out
+  cat2("Summarizing            | dataset: #", attr(x, ".imp"), "\n", sep = "")
+
+  NextMethod("print")
 }
 
 ##### wimids
@@ -79,14 +87,14 @@ print.wimids <- function(x, n = 1, ...) {
   #S3 method
 
   #Checking inputs format
-  if(x$object$m < n) {stop("The input for the n is out of bounds.")}
+  if(x$object$m < n) {stop("The input for 'n' is out of bounds.")}
 
   #Printing out
   cat2("Printing               | dataset: #", n, "\n", sep = "")
 
   #Printing
   output <- x$models[[n]]
-  return(print(output, ...))
+  print(output, ...)
 }
 
 #' @export
@@ -104,15 +112,18 @@ summary.wimids <- function(object, n = 1, ...) {
   #Changes: NA
 
   #Checking inputs format
-  if(object$object$m < n) {stop("The input for the n is out of bounds.")}
-
-  #Printing out
-  cat2("Summarizing            | dataset: #", n, "\n", sep = "")
+  if(object$object$m < n) {stop("The input for 'n' is out of bounds.")}
 
   #Summarizing
   output <- summary(object$models[[n]], ...)
-  return(output)
+  output$call <- object$call
+  attr(output, ".imp") <- n
+  class(output) <- c("summary.wimids", class(output))
+  output
 }
+
+#' @export
+print.summary.wimids <- print.summary.mimids
 
 ##### mimipo
 
