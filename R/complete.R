@@ -6,8 +6,8 @@
 #'
 #' @aliases complete complete.mimids complete.wimids
 #'
-#' @param data An object of the \code{mimids} or \code{wimids} class.
-#' @param action This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
+#' @param data An \code{mimids} or \code{wimids} object
+#' @param action The imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
 #' @param include Whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.
 #' @param mild Whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{action} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.
 #' @param all Whether to include observations with a zero estimated weight. The default is \code{TRUE}.
@@ -15,15 +15,13 @@
 #'
 #' @description \code{complete()} function extracts data from an object of the \code{mimids} or \code{wimids} class.
 #'
-#' @details The datasets within the \code{mimids} or \code{wimids} class objects are extracted.
+#' @details \code{complete()} works by running \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object stored within the \code{mimids} or \code{wimids} object and appending the outputs of the matching or weighting procedure. For \code{mimids} objects, the appended outputs include the matching weights, the propensity score (if included), pair membership (if included), and whether each unit was discarded. For \code{wimids} objects, the appended output is the estimated weights.
 #'
-#' @return This function returns the imputed dataset within \code{mimids} or \code{wimids} class objects.
+#' @return This function returns the imputed dataset within the supplied \code{mimids} or \code{wimids} objects.
 #'
 #' @seealso \code{\link[=mimids]{mimids}}
 #' @seealso \code{\link[=wimids]{wimids}}
 #' @seealso \code{\link[mice:complete]{mice::complete}}
-#'
-#' @author Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
 #'
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
 #'
@@ -32,23 +30,23 @@
 #' @export complete
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg",
-#'                                     "logreg", "logreg", "logreg"))
+#' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Matching the multiply imputed datasets
-#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                               approach = 'within', method = 'nearest')
+#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                               imputed.datasets,
+#'                               approach = 'within',
+#'                               method = 'nearest')
 #'
 #' #Extracting the first imputed dataset
-#' matched.dataset.1 <- complete(matched.datasets, n = 1)}
+#' matched.dataset.1 <- complete(matched.datasets, n = 1)
+#' head(matched.dataset.1)}
 
 #' @method complete mimids
 #'

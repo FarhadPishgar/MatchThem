@@ -7,56 +7,55 @@
 pool(object, dfcom = NULL)
 }
 \arguments{
-\item{object}{This argument specifies an object of the \code{mimira} class (produced by a previous call to \code{with()} function).}
+\item{object}{An object of the \code{mimira} class (produced by a previous call to \code{with()}).}
 
-\item{dfcom}{This argument specifies a positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the warning \code{The function cannot extract the dfcom from the datasets, hence, large sample is assumed.} is printed and the parameter is set to \code{999999}).}
+\item{dfcom}{A positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the parameter is set to \code{999999}).}
 }
 \value{
-This function returns an object of the \code{mimipo} class.
+This function returns an object of the \code{mipo} class. Methods for \code{mipo} objects (e.g., \code{print()}, \code{summary}, etc.) are available in \pkg{mice}, which does not need to be attached to use them.
 }
 \description{
-\code{pool()} function pools estimates from \code{n} repeated data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
+\code{pool()} pools estimates from the ana;yses done withi neach imputed dataset. The typical sequence of steps to do a matching procedure on the imputed datasets are:
 \enumerate{
- \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
- \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
- \item Check the extent of balance of covariates across the matched datasets;
+ \item Impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
+ \item Match or weight each imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
+ \item Check the extent of balance of covariates across the matched datasets (using functions in \pkg{cobalt});
  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
- \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
+ \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
 }
 }
 \details{
-\code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
+\code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules. It calls \code{\link[mice:pool]{mice::pool()}} after computing the model degrees of freedom.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
 library(MatchThem)
+library(survey)
 
 #Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg",
-                                    "logreg", "logreg", "logreg"))
+imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
-#Matching the multiply imputed datasets
-matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')
+#Weighting the multiply imputed datasets
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
+                                approach = 'within',
+                                method = 'ps')
 
-#Analyzing the matched datasets
-models <- with(data = matched.datasets,
-               exp = glm(KOA ~ OSP, family = binomial))
+#Analyzing the weighted datasets
+models <- with(weighted.datasets,
+               svyglm(KOA ~ OSP, family = quasibinomial))
 
-#Pooling results obtained from analysing the datasets
-results <- pool(models)}
+#Pooling results obtained from analyzing the datasets
+results <- pool(models)
+summary(results)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
 }
 \seealso{
-\code{\link[=with]{with}}
-}
-\author{
-Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
+\code{\link[=with]{with()}}
+\code{\link[mice:pool]{mice::pool()}}
 }

@@ -16,7 +16,6 @@
 #' @author Farhad Pishgar and Noah Greifer
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #' library(survey)
 #'
@@ -24,19 +23,19 @@
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg",
-#'                                     "logreg", "logreg", "logreg"))
+#' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Weighting the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
 #'                                approach = 'within')
 #'
 #' #Adding additional variables
-#' weighted.datasets <- cbind(weighted.datasets, logAGE = log(osteoarthritis$AGE))
+#' weighted.datasets <- cbind(weighted.datasets,
+#'                            logAGE = log(osteoarthritis$AGE))
 #'
 #' #Using the additional variables in an analysis
-#' pool(with(weighted.datasets, svyglm(KOA ~ OSP + logAGE, family = quasibinomial)))
+#' pool(with(weighted.datasets,
+#'           svyglm(KOA ~ OSP + logAGE, family = quasibinomial)))
 #'}
 
 

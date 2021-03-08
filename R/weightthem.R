@@ -4,18 +4,18 @@
 #'
 #' @aliases weightthem
 #'
-#' @param formula This argument takes the usual syntax of R formula, \code{z ~ x1 + x2}, where \code{z} is a binary exposure indicator and \code{x1} and \code{x2} are the potential confounders. Both the exposure indicator and the potential confounders must be contained in the imputed datasets, which is specified as \code{datasets} (see below). All of the usual R syntax for formula works. For example, \code{x1:x2} represents the first order interaction term between \code{x1} and \code{x2} and \code{I(x1^2)} represents the square term of \code{x1}. See \code{help(formula)} for details.
-#' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} or \code{mice.mids()} functions from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
-#' @param approach This argument specifies a matching approach. Currently, \code{"within"} (calculating distance measures within each imputed dataset and weighting observations based on them ) and \code{"across"} (calculating distance measures within each imputed dataset, averaging distance measure for each observation across imputed datasets, and weighting based on the averaged measures) approaches are available. The default is \code{"within"} which has been shown to produce unbiased results.
-#' @param method This argument specifies the method that should be used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} (propensity score weighting). Note that within each of these weighting methods, \pkg{MatchThem} offers a variety of options.
-#' @param printFlag The argument controls whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.
-#' @param ... Additional arguments to be passed to \code{weightit()} (see \code{\link[WeightIt:weightit]{weightit()}} for more details).
+#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.
+#' @param datasets The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
+#' @param approach The approach used to combine information across imputed datasets. Currently, \code{"within"} (estimating weights within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights to be applied to all datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.
+#' @param method The method used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.
+#' @param printFlag Whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.
+#' @param ... Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{weightit()}} for more details.
 #'
-#' @description The \code{weightthem()} function enables parametric models for causal inference to work better by estimating balancing weights for each imputed dataset of a \code{mids} or \code{amelia} class object.
+#' @description \code{weightthem()} performs weighting in the supplied imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[WeightIt:weightit]{WeightIt::weightit()}} on each of the imputed datasets with the supplied arguments.
 #'
-#' @details The weighting is done using the \code{weightthem(z ~ x1, ...)} command, where \code{z} is the exposure indicator and \code{x1} represents the potential confounders to be used in the weighting model. The default syntax is \code{weightthem(formula, datasets, approach = "within", method = "ps", estimand = "ATE", ...)}. Summaries of the results can be seen numerically using \code{summary()} function. The \code{print()} function also prints out the output.
+#' @details If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{weightthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[WeightIt:weightit]{WeightIt::weightit()}} on each one, storing the output of each \code{weightit()} call and the \code{mids} in the output. All arguments supplied to \code{weightthem()} except \code{datasets}, \code{approach}, and \code{printFlag} (distinct from \code{weightit()}'s \code{verbose} argument) are passed directly to \code{weightit()}. With the across method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{weightit()}.
 #'
-#' @return This function returns an object of the \code{wimids} (weighted multiply imputed datasets) class.
+#' @return An object of the \code{\link{wimids}} (weighted multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{weightit()} on each imputed dataset.
 #'
 #' @seealso \code{\link[=wimids]{wimids}}
 #' @seealso \code{\link[=with]{with}}
@@ -30,20 +30,21 @@
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-#'                          method = c("", "", "mean", "polyreg",
-#'                                     "logreg", "logreg", "logreg"))
+#' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
-#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps', estimand = "ATT")}
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps',
+#'                                 estimand = "ATT")
+#' #See ?pool for a complete analysis.}
 
 weightthem <- function (formula, datasets,
                         approach = "within",

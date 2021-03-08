@@ -22,22 +22,24 @@ An object of class \code{wimids}, identical to the original object except with \
 Trims (i.e., truncates) large weights by setting all weights higher than that at a given quantile to the weight at the quantile. This can be useful in controlling extreme weights, which can reduce effective sample size by enlarging the variability of the weights.
 }
 \details{
-\code{trim.wimids} works by calling \code{\link[WeightIt:trim]{WeightIt::trim()}} on each \code{weightit} object stored in the \code{models} component of the \code{wimid} object. Because \code{trim()} itself is not exported from \pkg{MatchThem}, it must be called using \code{WeightIt::trim()} or by attaching \pkg{WeightIt} (i.e., running \code{library(WeightIt)}) before use. See Example.
+\code{trim.wimids()} works by calling \code{\link[WeightIt:trim]{WeightIt::trim()}} on each \code{weightit} object stored in the \code{models} component of the \code{wimid} object. Because \code{trim()} itself is not exported from \pkg{MatchThem}, it must be called using \code{WeightIt::trim()} or by attaching \pkg{WeightIt} (i.e., running \code{library(WeightIt)}) before use. See Example.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
 library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5)
+imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
 #Estimating weights of observations in the multiply imputed datasets
-weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'ps', estimand = "ATE")
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
+                                approach = 'within',
+                                method = 'ps',
+                                estimand = "ATE")
 
 #Trimming the top 10\% of weights in each dataset
 #to the 90th percentile
