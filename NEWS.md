@@ -5,17 +5,31 @@
 <!-- badges: end -->
 
 [![](https://img.shields.io/badge/CRAN%20version-0.9.3-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-0.9.4-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/github%20version-0.9.3-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
 
-### Version 0.9.4
+### Version 1.0.0
 
-This is an update to improve documentation and to fix several bugs. The `weightthem()` function is also updated to support trimming of extreme weights (thanks [Nicolas](https://twitter.com/n_hueb)!).
+* `mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. 
+
+* `coxph()` when used with `with()` now correctly uses the robust standard errors. 
+
+* A `cluster` argument has been added to `with.mimids()` to control whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the `survey` package. The default is to include pair membership  when present and there are 20 or more unique subclasses (i.e., pairs). This works by supplying the pair membership variable (`subclass`) to the `ids` argument of `svydesign()`.
+
+* `cbind()` methods have been exported and documented. 
+
+* Printed messages can now be suppressed with `supressMessages()` or by setting the new `printFlag` option in `matchthem()` and `weightthem()`. 
+
+* `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. `mice` has been added to Depends.
+
+* `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. This may make old code that directly interfaced with the `mimids` and `wimids` internals no longer operate correctly, but any code that relied on `with()`, `pool()`, and `complete()` should still operate as before.
+
+* Added `trim.wimids()` to trim estimated weights. This relies on `WeightIt::trim()` and uses the same syntax. Unless `WeightIt` has been attached (i.e., using `library(WeightIt)`), `trim.wimids()` must be called using `WeightIt::trim(.)`.
 
 ### Version 0.9.3
 
-This is an update to fix few bugs.
+This is an update to kill few bugs.
 
 ### Version 0.9.2
 

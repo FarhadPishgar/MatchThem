@@ -6,51 +6,51 @@
 \alias{complete.wimids}
 \title{Extracts Imputed Datasets}
 \usage{
-\method{complete}{mimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{mimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 
-\method{complete}{wimids}(data, n = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
+\method{complete}{wimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
-\item{data}{This argument specifies an object of the \code{mimids} or \code{wimids} class.}
+\item{data}{An \code{mimids} or \code{wimids} object}
 
-\item{n}{This argument specifies the imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
+\item{action}{The imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 
-\item{include}{This argument specifies whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
+\item{include}{Whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.}
 
-\item{mild}{This argument specifies whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{n} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.}
+\item{mild}{Whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{action} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.}
 
-\item{all}{This argument specifies whether to include observations with a zero estimated weight. The default is \code{TRUE}.}
+\item{all}{Whether to include observations with a zero estimated weight. The default is \code{TRUE}.}
 
-\item{...}{Additional arguments to be passed to the function.}
+\item{...}{Ignored.}
 }
 \value{
-This function returns the imputed dataset within \code{mimids} or \code{wimids} class objects.
+This function returns the imputed dataset within the supplied \code{mimids} or \code{wimids} objects.
 }
 \description{
 \code{complete()} function extracts data from an object of the \code{mimids} or \code{wimids} class.
 }
 \details{
-The datasets within the \code{mimids} or \code{wimids} class objects are extracted.
+\code{complete()} works by running \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object stored within the \code{mimids} or \code{wimids} object and appending the outputs of the matching or weighting procedure. For \code{mimids} objects, the appended outputs include the matching weights, the propensity score (if included), pair membership (if included), and whether each unit was discarded. For \code{wimids} objects, the appended output is the estimated weights.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
 library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- mice(osteoarthritis, m = 5, maxit = 10,
-                         method = c("", "", "mean", "polyreg",
-                                    "logreg", "logreg", "logreg"))
+imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
 #Matching the multiply imputed datasets
-matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')
+matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                              imputed.datasets,
+                              approach = 'within',
+                              method = 'nearest')
 
 #Extracting the first imputed dataset
-matched.dataset.1 <- complete(matched.datasets, n = 1)}
+matched.dataset.1 <- complete(matched.datasets, n = 1)
+head(matched.dataset.1)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
@@ -59,7 +59,6 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 \code{\link[=mimids]{mimids}}
 
 \code{\link[=wimids]{wimids}}
-}
-\author{
-Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
+
+\code{\link[mice:complete]{mice::complete}}
 }

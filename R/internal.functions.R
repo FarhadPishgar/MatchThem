@@ -1,240 +1,101 @@
-as2.mids <- function(long, where = NULL, .imp = ".imp", .id = ".id") {
+is_suppressed <- function() {
 
-  #Converts an Imputed Dataset (long format) Into a 'mids' Object
-  
+  #Internal function
+
+  #Used to determine if suppressMessages() is active for use in cat2()
+  #From https://github.com/r-lib/usethis/pull/937
+
+  #' @importFrom rlang message_cnd
+  rlang::message_cnd
+
+  withRestarts(
+    muffleMessage = function(...) TRUE,
+    {
+      signalCondition(rlang::message_cnd())
+      FALSE
+    }
+  )
+}
+
+cat2 <- function(...) {
+
+  #Internal function
+
+  #Equivalent to cat() but will not display if surrounded by suppressMessages()
+  #From https://github.com/r-lib/usethis/pull/937 with additional code from
+  #rlang:::default_message_file
+
+  #' @importFrom rlang message_cnd
+  rlang::is_interactive
+
+  if (!is_suppressed()) {
+
+    #Check if interactive; if so, print to stdout(), otherwise, to stderr()
+    if (rlang::is_interactive() && sink.number("output") == 0 && sink.number("message") == 2) {
+      file <- ""
+    }
+    else {
+      file <- stderr()
+    }
+
+    cat(..., file = file)
+  }
+}
+
+get.dfcom2 <- function(object, dfcom = NULL) {
+  # residual degrees of freedom of model fitted on hypothetically complete data
+  # Unlike mice, using minimum across imputations to be conservative
+
   #Internal function
   #S3 method
 
-  #Based on: The mice::as.mids()
+  #Based on: mice:::get.dfcom()
   #URL: <https://cran.r-project.org/package=mice>
   #URL: <https://github.com/stefvanbuuren/mice>
   #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
   #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
   #Authors: Stef van Buuren et al.
-  #Changes: Few
+  #Changes: Several
 
   #Importing functions
-  #' @importFrom mice mice
-  #' @importFrom stats na.omit
-  mice::mice
-  stats::na.omit
+  #' @importFrom mice getfit
+  #' @importFrom rlang is_bare_numeric
+  #' @importFrom stats residuals coef
 
-  if (is.numeric(.imp)) .imp <- names(long)[.imp]
-  if (is.numeric(.id)) .id <- names(long)[.id]
-  if (!.imp %in% names(long)) stop("Imputation index `.imp` not found")
+  if (rlang::is_bare_numeric(dfcom, 1) && is.finite(dfcom)) {
+    return(max(dfcom, 1L))
+  }
+  else dfcom <- NULL
 
-  # no missings allowed in .imp
-  imps <- unlist(long[, .imp], use.names = FALSE)
-  if (anyNA(imps)) stop("Missing values in imputation index `.imp`")
+  if (!inherits(object, "mimira")) stop("The input for the object must be an object of the 'mimira' class.")
 
-  # number of records within .imp should be the same
-  if (any(diff(table(imps))) != 0)
-    stop("Unequal group sizes in imputation index `.imp`")
+  glanced <- try(summary(mice::getfit(object), type = "glance"), silent = TRUE)
 
-  # get original data part
-  keep <- setdiff(names(long), stats::na.omit(c(.imp, .id)))
-  data <- long[imps == 0, keep, drop = FALSE]
-  n <- nrow(data)
-  if (n == 0)
-    stop("Original data not found.\n Use `complete(..., action = 'long', include = TRUE)` to save original data.")
+  if (!inherits(glanced, "try-error")) {
 
-  # determine m
-  m <- length(unique(imps)) - 1
+    # try to extract from df.residual
+    if ("df.residual" %in% names(glanced)) {
+      dfcom <- min(glanced$df.residual)
+    }
+    else {
 
-  # use mice to get info on data
-  if (is.null(where)) where <- is.na(matrix(nrow = n, ncol = length(keep)))
-  colnames(where) <- keep
-
-  ini <- mice::mice(data, m = m, where = where, maxit = 0,
-                    remove.collinear = FALSE, allow.na = TRUE)
-
-  # store any .id as row names
-  if (!is.na(.id))
-    rownames(ini$data) <- unlist(long[imps == 0, .id], use.names = FALSE)
-
-  # copy imputations from long into proper ini$imp elements
-  names  <- names(ini$imp)
-  for (i in seq_along(names)) {
-    varname <- names[i]
-    if(!is.null(ini$imp[[varname]])) {
-      for(j in seq_len(m)) {
-        idx <- imps == j & where[, varname]
-        ini$imp[[varname]][j] <- long[idx, varname]
+      # try n - p (or nevent - p for Cox model)
+      model <- mice::getfit(object, 1L)
+      if (inherits(model, "coxph") && "nevent" %in% names(glanced)) {
+        dfcom <- min(glanced$nevent - length(coef(model)))
+      }
+      else {
+        if (!"nobs" %in% names(glanced)) {
+          glanced$nobs <- min(lengths(lapply(object$analyses, stats::residuals)), na.rm = TRUE)
+        }
+        dfcom <- min(glanced$nobs - length(coef(model)))
       }
     }
   }
-  return(ini)
-}
 
-barnard2.rubin <- function(m, b, t, dfcom = 999999) {
+  # not found
+  # warning("Infinite sample size assumed.")
+  if (is.null(dfcom) || !is.finite(dfcom)) dfcom <- 999999
 
-  #Calculates the Degrees of Freedom
-  
-  #Internal function
-
-  #Based on: The mice:::barnard.rubin()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: NA
-
-  lambda <- (1 + 1 / m) * b / t
-  lambda[lambda < 1e-04] <- 1e-04
-  dfold <- (m - 1) / lambda ^ 2
-  dfobs <- (dfcom + 1) / (dfcom + 3) * dfcom * (1 - lambda)
-  dfold * dfobs / (dfold + dfobs)
-}
-
-pool2.fitlist <- function (fitlist, dfcom = NULL) {
-  
-  #Combine Estimates by Rubin’s Rules
-
-  #Internal function
-
-  #Based on: The mice:::pool.fitlist()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: Few
-
-  #Importing functions
-  #' @importFrom dplyr mutate
-  #' @importFrom dplyr group_by
-  #' @importFrom dplyr summarize
-  #' @importFrom dplyr select
-  #' @importFrom dplyr %>%
-  #' @importFrom mice getfit
-  #' @importFrom stats sd
-  #' @importFrom stats var
-  dplyr::mutate
-  dplyr::group_by
-  dplyr::summarize
-  dplyr::select
-  dplyr::`%>%`
-  mice::getfit
-  stats::sd
-  stats::var
-
-  #Preparing the summary
-  w <- summary(fitlist, type = "tidy", exponentiate = FALSE)
-
-  #Combine y.level and term into term (for multinom)
-  if ("y.level" %in% names(w)) w$term <- paste(w$y.level, w$term, sep = ":")
-
-  #Address the problem with checking in an unusual way, just to keep the original codes of the mice package
-  .data <- NULL
-  b <- NULL
-  df <- NULL
-  m <- NULL
-  param <- NULL
-  riv <- NULL
-  term <- NULL
-  ubar <- NULL
-
-  #Rubin's rules for scalar estimates
-  output <- w %>%
-    dplyr::mutate(param = rep_len(1L:length(unique(term)), length.out = dplyr::n())) %>%
-    dplyr::group_by(param) %>%
-    dplyr::summarize(m = dplyr::n(),
-                     term = .data$term[1L],
-                     qbar = mean(.data$estimate),
-                     ubar = mean(.data$std.error ^ 2),
-                     b = stats::var(.data$estimate),
-                     t = ubar + (1 + 1 / m) * b,
-                     dfcom = dfcom,
-                     df = barnard2.rubin(m, b, t, dfcom),
-                     riv = (1 + 1 / m) * b / ubar,
-                     lambda = (1 + 1 / m) * b / t,
-                     fmi = (riv + 2 / (df + 3)) / (riv + 1)) %>%
-    dplyr::select(-m, -param)
-  output <- data.frame(output[, -1L],
-                       row.names = output$term)
-  names(output)[1L] <- "estimate"
-
-  #Return the output
-  return(output)
-}
-
-unrowname2. <- function (x) {
-  
-  #Removes Row Names
-  
-  #Internal function
-
-  #Based on: The mice:::unrowname()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: NA
-
-  rownames(x) <- NULL
-  return(x)
-}
-
-format2.perc <- function (probs, digits) {
-
-  #Outputs Probabilities in the Percentage Format
-  
-  #Internal function
-
-  #Based on: The mice:::format2.perc()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: NA
-
-  paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), "%")
-}
-
-process2.mimipo <- function(z, x, conf.int = FALSE, conf.level = 0.95, exponentiate = FALSE) {
-
-  #Process 'mimipo' Objects
-  
-  #Internal function
-
-  #Based on: The mice:::process_mipo()
-  #URL: <https://cran.r-project.org/package=mice>
-  #URL: <https://github.com/stefvanbuuren/mice>
-  #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
-  #URL: <https://www.jstatsoft.org/article/view/v045i03/v45i03.pdf>
-  #Authors: Stef van Buuren et al.
-  #Changes: NA
-
-  #Importing functions
-
-  #' @importFrom stats confint
-  stats::confint
-
-  if (exponentiate) {
-    #Save transformation function for use on confidence interval
-    trans <- exp
-  } else {
-    trans <- identity
-  }
-
-  CI <- NULL
-  if (conf.int) {
-    #Avoid "Waiting for profiling to be done..." message
-    CI <- suppressMessages(confint(x, level = conf.level))
-  }
-  z$estimate <- trans(z$estimate)
-
-  if (!is.null(CI)) {
-    z <- cbind(z[, c("estimate", "std.error", "statistic", "df", "p.value")],
-               trans(unrowname2.(CI)),
-               z[, c("riv", "lambda", "fmi", "ubar", "b", "t", "dfcom")])
-  } else {
-    z <- cbind(z[, c("estimate", "std.error", "statistic", "df", "p.value")],
-               z[, c("riv", "lambda", "fmi", "ubar", "b", "t", "dfcom")])
-  }
-
-  return(z)
+  dfcom
 }

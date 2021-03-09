@@ -4,57 +4,59 @@
 #'
 #' @aliases pool
 #'
-#' @param object This argument specifies an object of the \code{mimira} class (produced by a previous call to \code{with()} function).
-#' @param dfcom This argument specifies a positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the warning \code{The function cannot extract the dfcom from the datasets, hence, large sample is assumed.} is printed and the parameter is set to \code{999999}).
+#' @param object An object of the \code{mimira} class (produced by a previous call to \code{with()}).
+#' @param dfcom A positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the parameter is set to \code{999999}).
 #'
-#' @description \code{pool()} function pools estimates from \code{n} repeated data analyses. The typical sequence of steps to do a matching procedure on the imputed datasets are:
+#' @description \code{pool()} pools estimates from the ana;yses done withi neach imputed dataset. The typical sequence of steps to do a matching procedure on the imputed datasets are:
 #' \enumerate{
-#'  \item Impute the missing values by the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
-#'  \item Match each imputed dataset using a matching model by the \code{matchthem()} function, resulting in an object of the \code{mimids} class;
-#'  \item Check the extent of balance of covariates across the matched datasets;
+#'  \item Impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
+#'  \item Match or weight each imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
+#'  \item Check the extent of balance of covariates across the matched datasets (using functions in \pkg{cobalt});
 #'  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
-#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
+#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
 #' }
 #'
-#' @details \code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules.
+#' @details \code{pool()} function averages the estimates of the model and computes the total variance over the repeated analyses by Rubin’s rules. It calls \code{\link[mice:pool]{mice::pool()}} after computing the model degrees of freedom.
 #'
-#' @return This function returns an object of the \code{mimipo} class.
+#' @return This function returns an object of the \code{mipo} class. Methods for \code{mipo} objects (e.g., \code{print()}, \code{summary}, etc.) are available in \pkg{mice}, which does not need to be attached to use them.
 #'
-#' @seealso \code{\link[=with]{with}}
-#'
-#' @author Extracted from the \pkg{mice} package written by Stef van Buuren et al. with changes
+#' @seealso \code{\link[=with]{with()}}
+#' \code{\link[mice:pool]{mice::pool()}}
 #'
 #' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
 #'
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(Amelia)
 #' library(MatchThem)
+#' library(survey)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+#' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
-#' #Matching the multiply imputed datasets
-#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                               approach = 'within', method = 'nearest')
+#' #Weighting the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps')
 #'
-#' #Analyzing the matched datasets
-#' models <- with(data = matched.datasets,
-#'                exp = glm(KOA ~ OSP, family = binomial))
+#' #Analyzing the weighted datasets
+#' models <- with(weighted.datasets,
+#'                svyglm(KOA ~ OSP, family = quasibinomial))
 #'
-#' #Pooling results obtained from analysing the datasets
-#' results <- pool(models)}
+#' #Pooling results obtained from analyzing the datasets
+#' results <- pool(models)
+#' summary(results)}
 
 pool <- function (object, dfcom = NULL) {
 
   #External function
   #S3 method
 
-  #Based on: The mice::pool()
+  #Based on: mice::pool()
   #URL: <https://cran.r-project.org/package=mice>
   #URL: <https://github.com/stefvanbuuren/mice>
   #URL: <https://cran.r-project.org/web/packages/mice/mice.pdf>
@@ -64,6 +66,8 @@ pool <- function (object, dfcom = NULL) {
 
   UseMethod("pool")
 }
+
+#' @export
 
 pool.mira <- function (object, dfcom = NULL) {
 
@@ -79,17 +83,15 @@ pool.mira <- function (object, dfcom = NULL) {
   #Changes: Few
 
   #Importing functions
-  #' @importFrom mice is.mira pool
-  mice::is.mira
+  #' @importFrom mice pool
   mice::pool
   #' @export
 
   #mids
-  if (mice::is.mira(object)) {
-    output <- mice::pool(object = object, dfcom = dfcom)
-    return(output)
-  }
+  mice::pool(object = object, dfcom = dfcom)
 }
+
+#' @export
 
 pool.mimira <- function (object, dfcom = NULL) {
 
@@ -105,48 +107,33 @@ pool.mimira <- function (object, dfcom = NULL) {
   #Changes: Few
 
   #Importing functions
-  #' @importFrom mice getfit pool
-  #' @importFrom stats df.residual
-  mice::getfit
+  #' @importFrom mice pool getfit
+  #' @importFrom utils packageVersion
   mice::pool
-  stats::df.residual
   #' @export
 
-  #Polishing variables
-  if (class(object)[[1]] != "mimira") stop("The input for the object must be an object of the 'mimira' class.")
-
-  #Checking inputs format
   call <- match.call()
-  m <- length(object$analyses)
 
-  #Deal with imputed datasets with m = 1
-  if (m == 1) {
-    warning("The input for the object has only 1 imputed dataset, hence, no pooling is done.")
-    return(mice::getfit(object, 1))
-  }
+  dfcom <- get.dfcom2(object, dfcom)
 
-  #Handling the (unequal) dfcoms
-  if (!is.null(dfcom)) {
-    dfcom <- max(dfcom, 1)
-  } else {
-    if (!is.null(object$analyses[[1]]$df.residual)) {
-      dfcom.vector <- unlist(lapply(1:length(object$analyses), function(x) object$analyses[[x]]$df.residual))
-      if (is.null(dfcom) & stats::sd(dfcom.vector) != 0) dfcom <- min(na.omit(dfcom.vector))
-      if (is.null(dfcom)) dfcom <- na.omit(dfcom.vector)[1]
+  #Make sure robust SEs are used for coxph models
+  #Not needed for mice version >= 3.13.2
+  if (utils::packageVersion("mice") < "3.13.2") {
+    model <- mice::getfit(object, 1L)
+    if (inherits(model, "coxph")) {
+      for (i in seq_along(object$analyses)) {
+        #Remove naive.var so summary.coxph uses var as std.error
+        object$analyses[[i]]$naive.var <- NULL
+      }
     }
-    if (is.null(dfcom)) dfcom <- stats::df.residual(mice::getfit(mice::getfit(object), 1L))
   }
 
-  #Large dataset
-  if (is.null(dfcom)) {
-    dfcom <- 999999
-    warning("The function cannot extract the dfcom from the datasets, hence, large sample is assumed.")
-  }
+  output <- mice::pool(object, dfcom = dfcom)
 
-  #Pooling
-  pooled <- pool2.fitlist(mice::getfit(object), dfcom = dfcom)
-  output <- list(call = call, m = m, pooled = pooled)
-  class(output) <- c("mimipo", "data.frame")
+  output$call <- NULL
+  output <- c(list(call = call), as.list(output))
+
+  class(output) <- c("mimipo", "mipo", "data.frame")
 
   #Return the output
   return(output)
