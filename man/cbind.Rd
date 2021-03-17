@@ -4,7 +4,7 @@
 \alias{cbind}
 \alias{cbind.mimids}
 \alias{cbind.wimids}
-\title{Combine \code{mimids} and \code{wimids} objects by columns}
+\title{Combine \code{mimids} and \code{wimids} Objects by Columns}
 \usage{
 cbind(..., deparse.level = 1)
 

@@ -3,7 +3,7 @@
 \name{trim}
 \alias{trim}
 \alias{trim.wimids}
-\title{Trim weights}
+\title{Trim Weights}
 \usage{
 trim(w, at = 0, lower = FALSE, ...)
 
