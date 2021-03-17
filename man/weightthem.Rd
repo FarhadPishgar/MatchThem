@@ -4,14 +4,7 @@
 \alias{weightthem}
 \title{Weights Multiply Imputed Datasets}
 \usage{
-weightthem(
-  formula,
-  datasets,
-  approach = "within",
-  method = "ps",
-  printFlag = TRUE,
-  ...
-)
+weightthem(formula, datasets, approach = "within", method = "ps", ...)
 }
 \arguments{
 \item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.}
@@ -21,8 +14,6 @@ weightthem(
 \item{approach}{The approach used to combine information across imputed datasets. Currently, \code{"within"} (estimating weights within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights to be applied to all datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.}
 
 \item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.}
-
-\item{printFlag}{Whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.}
 
 \item{...}{Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{weightit()}} for more details.}
 }

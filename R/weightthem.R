@@ -8,7 +8,6 @@
 #' @param datasets The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach The approach used to combine information across imputed datasets. Currently, \code{"within"} (estimating weights within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights to be applied to all datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.
 #' @param method The method used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.
-#' @param printFlag Whether a message displaying the status of the weight estimation is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{weightit()} to control printing of other messages.
 #' @param ... Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{weightit()}} for more details.
 #'
 #' @description \code{weightthem()} performs weighting in the supplied imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[WeightIt:weightit]{WeightIt::weightit()}} on each of the imputed datasets with the supplied arguments.
@@ -47,7 +46,7 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", printFlag = TRUE, ...) {
+                        method = "ps", ...) {
 
   #External function
 
@@ -107,10 +106,8 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("Estimating weights     | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("Estimating weights     | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       dataset <- mice::complete(datasets, i)
@@ -133,15 +130,13 @@ weightthem <- function (formula, datasets,
     for (i in 1:datasets$m) {
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("Estimating distances   | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("Estimating distances   | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       dataset <- mice::complete(datasets, i)
       modelslist[[i]] <- model <- WeightIt::weightit(formula, dataset,
-                                  method = method, ...)
+                                                     method = method, ...)
 
       #Measures
       distancelist[[i]] <- model$ps
@@ -155,10 +150,8 @@ weightthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("\n", "Estimating weights     | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("\n", "Estimating weights     | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
@@ -176,6 +169,6 @@ weightthem <- function (formula, datasets,
                  models = modelslist,
                  approach = approach)
   class(output) <- "wimids"
-  if (printFlag) cat2("\n")
+  message("\n", appendLF = FALSE)
   return(output)
 }

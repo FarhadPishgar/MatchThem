@@ -10,7 +10,6 @@
 #' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available. Only methods that produce a propensity score (\code{"nearest"}, \code{"full"}, \code{"genetic"}, \code{"subclass"}, and \code{"optimal"}) are compatible with the \code{"across"} approach. The default is \code{"nearest"} for nearest neighbor matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.
 #' @param distance The method used to estimate the distance measure (e.g., propensity scores) used in matching, if any. Only options that specify a method of estimating propensity scores (i.e., not \code{"mahalanobis"}) are compatible with the \code{"across"} approach. The default is \code{"glm"} for propensity scores estimating using logistic regression. See \code{\link[MatchIt:matchit]{matchit()}} and \code{\link[MatchIt:distance]{distance}} for details and allowable options.
 #' @param link,distance.options,discard,reestimate Arguments passed to \code{\link[MatchIt:matchit]{matchit()}} to control estimation of the distance measure (e.g., propensity scores).
-#' @param printFlag Whether a message displaying the status of the matching is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{matchit()} to control printing of other messages.
 #' @param ... Additional arguments passed to \code{\link[MatchIt:matchit]{matchit()}}.
 #'
 #' @description \code{matchthem()} performs matching in the supplied imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each of the imputed datasets with the supplied arguments.
@@ -52,7 +51,7 @@ matchthem <- function (formula, datasets,
                        approach = "within",
                        method = "nearest", distance = "glm", link = "logit",
                        distance.options = list(), discard = "none",
-                       reestimate = FALSE, printFlag = TRUE, ...) {
+                       reestimate = FALSE, ...) {
 
   #External function
 
@@ -121,10 +120,8 @@ matchthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("\n", "Matching Observations  | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("\n", "Matching Observations  | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -151,10 +148,8 @@ matchthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("Estimating distances   | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("Estimating distances   | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       model <- MatchIt::matchit(formula, dataset,
@@ -175,10 +170,8 @@ matchthem <- function (formula, datasets,
       dataset <- mice::complete(datasets, i)
 
       #Printing out
-      if (printFlag) {
-        if (i == 1) cat2(paste0("\n", "Matching Observations  | dataset: #", i))
-        else        cat2(paste0(" #", i))
-      }
+      if (i == 1) message(paste0("\n", "Matching Observations  | dataset: #", i), appendLF = FALSE)
+      else        message(paste0(" #", i), appendLF = FALSE)
 
       #Building the model
       model <- MatchIt::matchit(formula, data = dataset,
@@ -197,6 +190,6 @@ matchthem <- function (formula, datasets,
                  models = modelslist,
                  approach = approach)
   class(output) <- "mimids"
-  if (printFlag) cat2("\n")
+  message("\n", appendLF = FALSE)
   return(output)
 }

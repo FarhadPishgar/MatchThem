@@ -24,7 +24,7 @@ plot.mimids <- function(x, n = 1, ...){
   if(x$object$m < n) {stop("The input for the n is out of bounds.")}
 
   #Printing out
-  cat2("Plotting               | dataset: #", n, "\n", sep = "")
+  message("Plotting               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Plotting
   plot(x$models[[n]], ...)
@@ -41,7 +41,7 @@ print.mimids <- function(x, n = 1, ...) {
   if(x$object$m < n) stop("The input for 'n' is out of bounds.")
 
   #Printing out
-  cat2("Printing               | dataset: #", n, "\n", sep = "")
+  message("Printing               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Printing out
   output <- x$models[[n]]
@@ -71,7 +71,7 @@ summary.mimids <- function(object, n = 1, ...) {
 
 print.summary.mimids <- function(x, ...) {
   #Printing out
-  cat2("Summarizing            | dataset: #", attr(x, ".imp"), "\n", sep = "")
+  message("Summarizing            | dataset: #", attr(x, ".imp"), "\n", appendLF = FALSE)
 
   NextMethod("print")
 }
@@ -89,7 +89,7 @@ print.wimids <- function(x, n = 1, ...) {
   if(x$object$m < n) {stop("The input for 'n' is out of bounds.")}
 
   #Printing out
-  cat2("Printing               | dataset: #", n, "\n", sep = "")
+  message("Printing               | dataset: #", n, "\n", appendLF = FALSE)
 
   #Printing
   output <- x$models[[n]]
@@ -140,7 +140,7 @@ print.mimipo <- function(x, ...) {
   #Authors: Stef van Buuren et al.
   #Changes: NA
 
-  cat2("Pooling estimates      | number of datasets: ", x$m, "\n", sep = "")
+  message("Pooling estimates      | number of datasets: ", x$m, "\n", appendLF = FALSE)
 
   print.data.frame(x$pooled, ...)
   invisible(x)

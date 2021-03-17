@@ -14,7 +14,6 @@ matchthem(
   distance.options = list(),
   discard = "none",
   reestimate = FALSE,
-  printFlag = TRUE,
   ...
 )
 }
@@ -30,8 +29,6 @@ matchthem(
 \item{distance}{The method used to estimate the distance measure (e.g., propensity scores) used in matching, if any. Only options that specify a method of estimating propensity scores (i.e., not \code{"mahalanobis"}) are compatible with the \code{"across"} approach. The default is \code{"glm"} for propensity scores estimating using logistic regression. See \code{\link[MatchIt:matchit]{matchit()}} and \code{\link[MatchIt:distance]{distance}} for details and allowable options.}
 
 \item{link, distance.options, discard, reestimate}{Arguments passed to \code{\link[MatchIt:matchit]{matchit()}} to control estimation of the distance measure (e.g., propensity scores).}
-
-\item{printFlag}{Whether a message displaying the status of the matching is produced. Note this is distinct from the \code{verbose} argument, which, if supplied, is passed \code{matchit()} to control printing of other messages.}
 
 \item{...}{Additional arguments passed to \code{\link[MatchIt:matchit]{matchit()}}.}
 }
