@@ -21,7 +21,6 @@
 #'
 #' @examples \donttest{#Loading libraries
 #' library(MatchThem)
-#' library(survey)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)

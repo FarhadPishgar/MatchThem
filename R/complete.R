@@ -45,8 +45,7 @@
 #'                               method = 'nearest')
 #'
 #' #Extracting the first imputed dataset
-#' matched.dataset.1 <- complete(matched.datasets, n = 1)
-#' head(matched.dataset.1)}
+#' matched.dataset.1 <- complete(matched.datasets, n = 1)}
 
 complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...) {
 

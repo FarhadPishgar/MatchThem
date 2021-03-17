@@ -42,7 +42,9 @@ An object of the \code{\link{mimids}} (matched multiply imputed datasets) class,
 If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{matchthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each one, storing the output of each \code{matchit()} call and the \code{mids} in the output. All arguments supplied to \code{matchthem()} except \code{datasets}, \code{approach}, and \code{printFlag} (distinct from \code{matchit()}'s \code{verbose} argument) are passed directly to \code{matchit()}. With the across method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{matchit()}.
 }
 \examples{
-\donttest{#Loading libraries
+\donttest{#1
+
+#Loading libraries
 library(MatchThem)
 
 #Loading the dataset
@@ -55,7 +57,23 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                               imputed.datasets,
                               approach = 'within',
-                              method = 'nearest')}
+                              method = 'nearest')
+
+#2
+
+#Loading libraries
+library(Amelia)
+library(MatchThem)
+
+#Loading the dataset
+data(osteoarthritis)
+
+#Multiply imputing the missing values
+imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+
+#Matching the multiply imputed datasets
+matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
+                              approach = 'across', method = 'nearest')}
 }
 \references{
 Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}

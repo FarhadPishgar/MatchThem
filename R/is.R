@@ -20,11 +20,10 @@
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
-#' data(dataset)
+#' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
@@ -39,7 +38,6 @@
 
 is.mimids <- function(object) {
 
-  #Importing functions
   #' @export
 
   output <- inherits(object, "mimids")
@@ -68,7 +66,6 @@ is.mimids <- function(object) {
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
@@ -78,8 +75,11 @@ is.mimids <- function(object) {
 #' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
-#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps')
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps',
+#'                                 estimand = "ATT")
 #'
 #' #Checking the 'weighted.datasets' object
 #' is.wimids(weighted.datasets)
@@ -87,7 +87,6 @@ is.mimids <- function(object) {
 
 is.wimids <- function(object) {
 
-  #Importing functions
   #' @export
 
   output <- inherits(object, "wimids")
@@ -116,7 +115,6 @@ is.wimids <- function(object) {
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(mice)
 #' library(MatchThem)
 #' library(survey)
 #'
@@ -127,8 +125,11 @@ is.wimids <- function(object) {
 #' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
-#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                 approach = 'within', method = 'ps')
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps',
+#'                                 estimand = "ATT")
 #'
 #' #Analyzing the weighted datasets
 #' models <- with(data = weighted.datasets,
@@ -140,9 +141,65 @@ is.wimids <- function(object) {
 
 is.mimira <- function(object) {
 
-  #Importing functions
   #' @export
 
   output <- inherits(object, "mimira")
+  return(output)
+}
+
+#' @title Checks for the \code{mimipo} Class
+#'
+#' @rdname is.mimipo
+#'
+#' @aliases is.mimipo
+#'
+#' @param object This argument specifies the object that should be checked to see if is of the \code{mimipo} class or not.
+#'
+#' @description \code{is.mimipo()} function checks whether class of objects is \code{mimipo} or not.
+#'
+#' @details The class of objects is checked to be of the \code{mimipo}.
+#'
+#' @return This function returns a logical value indicating whether \code{object} is of the \code{mimipo} class.
+#'
+#' @seealso \code{\link[=pool]{pool}}
+#' @seealso \code{\link[=mimipo]{mimipo}}
+#'
+#' @author Farhad Pishgar
+#'
+#' @export
+#'
+#' @examples \donttest{#Loading libraries
+#' library(MatchThem)
+#' library(survey)
+#'
+#' #Loading the dataset
+#' data(osteoarthritis)
+#'
+#' #Multiply imputing the missing values
+#' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
+#'
+#' #Estimating weights of observations in the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps',
+#'                                 estimand = "ATT")
+#'
+#' #Analyzing the weighted datasets
+#' models <- with(data = weighted.datasets,
+#'                exp = svyglm(KOA ~ OSP, family = binomial))
+#'
+#' #Pooling results obtained from analysing the datasets
+#' results <- pool(models)
+#'
+#' #Checking the 'results' object
+#' is.mimipo(results)
+#' is(results)}
+
+is.mimipo <- function(object) {
+
+  #' @export
+
+  output <- inherits(object, "mimipo")
   return(output)
 }

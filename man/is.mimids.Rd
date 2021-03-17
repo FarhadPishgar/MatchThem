@@ -20,11 +20,10 @@ The class of objects is checked to be of the \code{mimids}.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
 library(MatchThem)
 
 #Loading the dataset
-data(dataset)
+data(osteoarthritis)
 
 #Multiply imputing the missing values
 imputed.datasets <- mice::mice(osteoarthritis, m = 5)

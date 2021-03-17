@@ -27,7 +27,9 @@ An object of the \code{\link{wimids}} (weighted multiply imputed datasets) class
 If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{weightthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[WeightIt:weightit]{WeightIt::weightit()}} on each one, storing the output of each \code{weightit()} call and the \code{mids} in the output. All arguments supplied to \code{weightthem()} except \code{datasets}, \code{approach}, and \code{printFlag} (distinct from \code{weightit()}'s \code{verbose} argument) are passed directly to \code{weightit()}. With the across method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{weightit()}.
 }
 \examples{
-\donttest{#Loading libraries
+\donttest{#1
+
+#Loading libraries
 library(MatchThem)
 
 #Loading the dataset
@@ -35,6 +37,25 @@ data(osteoarthritis)
 
 #Multiply imputing the missing values
 imputed.datasets <- mice::mice(osteoarthritis, m = 5)
+
+#Estimating weights of observations in the multiply imputed datasets
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
+                                approach = 'within',
+                                method = 'ps',
+                                estimand = "ATT")
+
+#2
+
+#Loading libraries
+library(Amelia)
+library(MatchThem)
+
+#Loading the dataset
+data(osteoarthritis)
+
+#Multiply imputing the missing values
+imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,

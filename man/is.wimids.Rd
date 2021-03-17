@@ -20,7 +20,6 @@ The class of objects is checked to be of the \code{wimids}.
 }
 \examples{
 \donttest{#Loading libraries
-library(mice)
 library(MatchThem)
 
 #Loading the dataset
@@ -30,8 +29,11 @@ data(osteoarthritis)
 imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
 #Estimating weights of observations in the multiply imputed datasets
-weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                                approach = 'within', method = 'ps')
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
+                                approach = 'within',
+                                method = 'ps',
+                                estimand = "ATT")
 
 #Checking the 'weighted.datasets' object
 is.wimids(weighted.datasets)

@@ -57,11 +57,7 @@
 #' #Analyzing the matched datasets
 #' models <- with(matched.datasets,
 #'                svyglm(KOA ~ OSP, family = binomial),
-#'                cluster = TRUE)
-#'
-#' #Pooling results obtained from analyzing the datasets
-#' results <- pool(models)
-#' summary(results)}
+#'                cluster = TRUE)}
 
 with.mimids <- function(data, expr, cluster, ...) {
 

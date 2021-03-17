@@ -28,7 +28,9 @@
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading libraries
+#' @examples \donttest{#1
+#'
+#' #Loading libraries
 #' library(MatchThem)
 #'
 #' #Loading the dataset
@@ -36,6 +38,25 @@
 #'
 #' #Multiply imputing the missing values
 #' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
+#'
+#' #Estimating weights of observations in the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within',
+#'                                 method = 'ps',
+#'                                 estimand = "ATT")
+#'
+#' #2
+#'
+#' #Loading libraries
+#' library(Amelia)
+#' library(MatchThem)
+#'
+#' #Loading the dataset
+#' data(osteoarthritis)
+#'
+#' #Multiply imputing the missing values
+#' imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
@@ -143,7 +164,7 @@ weightthem <- function (formula, datasets,
     }
 
     #Updating the weights
-    d <- rowMeans(as.matrix(do.call("cbind", distancelist)))
+    d <- rowMeans(as.matrix(do.call(base::cbind, distancelist)))
 
     #Adding averaged weights to datasets
     for (i in 1:(datasets$m)) {

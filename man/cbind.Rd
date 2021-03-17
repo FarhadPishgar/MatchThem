@@ -26,7 +26,6 @@ This function combines a \code{mimids} or \code{wimids} object columnwise with a
 \examples{
 \donttest{#Loading libraries
 library(MatchThem)
-library(survey)
 
 #Loading the dataset
 data(osteoarthritis)

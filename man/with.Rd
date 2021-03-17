@@ -57,11 +57,7 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #Analyzing the matched datasets
 models <- with(matched.datasets,
                svyglm(KOA ~ OSP, family = binomial),
-               cluster = TRUE)
-
-#Pooling results obtained from analyzing the datasets
-results <- pool(models)
-summary(results)}
+               cluster = TRUE)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}
