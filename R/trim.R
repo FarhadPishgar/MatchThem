@@ -1,4 +1,4 @@
-#' @title Trim weights
+#' @title Trim Weights
 #'
 #' @name trim
 #'

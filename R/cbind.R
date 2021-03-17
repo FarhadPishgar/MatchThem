@@ -1,4 +1,4 @@
-#' @title Combine \code{mimids} and \code{wimids} objects by columns
+#' @title Combine \code{mimids} and \code{wimids} Objects by Columns
 #'
 #' @name cbind
 #'
