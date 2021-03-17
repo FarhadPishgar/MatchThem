@@ -11,25 +11,11 @@
 
 ### Version 1.0.0
 
-* `mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. 
-
-* `coxph()` when used with `with()` now correctly uses the robust standard errors. 
-
-* A `cluster` argument has been added to `with.mimids()` to control whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the `survey` package. The default is to include pair membership  when present and there are 20 or more unique subclasses (i.e., pairs). This works by supplying the pair membership variable (`subclass`) to the `ids` argument of `svydesign()`.
-
-* `cbind()` methods have been exported and documented. 
-
-* Printed messages can now be suppressed with `supressMessages()` or by setting the new `printFlag` option in `matchthem()` and `weightthem()`. 
-
-* `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. `mice` has been added to Depends.
-
-* `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. This may make old code that directly interfaced with the `mimids` and `wimids` internals no longer operate correctly, but any code that relied on `with()`, `pool()`, and `complete()` should still operate as before.
-
-* Added `trim.wimids()` to trim estimated weights. This relies on `WeightIt::trim()` and uses the same syntax. Unless `WeightIt` has been attached (i.e., using `library(WeightIt)`), `trim.wimids()` must be called using `WeightIt::trim(.)`.
+This is an update to improve documentation and to add several new features: 1. `mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects, so their special methods have been removed from `MatchThem`, thinning out the package code. The `mice` does not need to be attached (i.e., with `library()`) for its methods to be dispatched. 2. `coxph()` when used with `with()` now correctly uses the robust standard errors. 3. A `cluster` argument has been added to `with.mimids()` to control whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the `survey` package. The default is to include pair membership  when present and there are 20 or more unique subclasses (i.e., pairs). This works by supplying the pair membership variable (`subclass`) to the `ids` argument of `svydesign()`. 4. `cbind()` methods have been exported and documented. 5. `MatchIt` and `WeightIt` have been moved from `Depends` to `Imports` since they do not need to be attached to use `MatchThem` functions. Several packages have been removed from `Imports`. `mice` has been added to `Depends`. 6. `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. This may make old code that directly interfaced with the `mimids` and `wimids` internals no longer operate correctly, but any code that relied on `with()`, `pool()`, and `complete()` should still operate as before. 7. Added `trim()` to trim estimated weights. This relies on `WeightIt::trim()` and uses the same syntax. 
 
 ### Version 0.9.3
 
-This is an update to kill few bugs.
+This is an update to fix few bugs.
 
 ### Version 0.9.2
 
