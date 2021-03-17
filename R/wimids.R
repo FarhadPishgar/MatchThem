@@ -24,5 +24,5 @@
 
 NULL
 
-#object: original mids object augmented with estimated weights
-#models: weightit objects
+#object: Original 'mids' object augmented with estimated weights
+#models: 'weightit' objects

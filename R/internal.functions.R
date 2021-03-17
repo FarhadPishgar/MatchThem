@@ -42,7 +42,7 @@ cat2 <- function(...) {
   }
 }
 
-get.dfcom2 <- function(object, dfcom = NULL) {
+get.2dfcom <- function(object, dfcom = NULL) {
   # residual degrees of freedom of model fitted on hypothetically complete data
   # Unlike mice, using minimum across imputations to be conservative
 

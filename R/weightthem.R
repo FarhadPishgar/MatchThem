@@ -43,8 +43,7 @@
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
 #'                                 method = 'ps',
-#'                                 estimand = "ATT")
-#' #See ?pool for a complete analysis.}
+#'                                 estimand = "ATT")}
 
 weightthem <- function (formula, datasets,
                         approach = "within",

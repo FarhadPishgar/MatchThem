@@ -24,7 +24,7 @@
 
 NULL
 
-#object: original mids object augmented with estimated weights
-#models: weightit objects
-#datasets: imputed datasets with estimated weights (lapply(0:m, .(i) complete(W$object, i)))
-#others: list with source, which is the original mids object
+#object: Original 'mids' object augmented with estimated weights
+#models: 'weightit' objects
+#datasets: Imputed datasets with estimated weights (lapply(0:m, .(i) complete(W$object, i)))
+#others: List with source, which is the original 'mids' object

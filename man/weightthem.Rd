@@ -50,8 +50,7 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
                                 method = 'ps',
-                                estimand = "ATT")
-#See ?pool for a complete analysis.}
+                                estimand = "ATT")}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}

@@ -1,11 +1,13 @@
 #' @title Combine \code{mimids} and \code{wimids} objects by columns
 #'
-#' @aliases cbind.mimids cbind.wimids
+#' @name cbind
+#'
+#' @rdname cbind
+#'
+#' @aliases cbind cbind.mimids cbind.wimids
 #'
 #' @param ... Objects to combine columnwise. The first should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.
 #' @param deparse.level Ignored.
-#'
-#' @method cbind mimids
 #'
 #' @description This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
 #'
@@ -14,6 +16,8 @@
 #' @seealso \code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
 #'
 #' @author Farhad Pishgar and Noah Greifer
+#'
+#' @export
 #'
 #' @examples \donttest{#Loading libraries
 #' library(MatchThem)
@@ -31,24 +35,30 @@
 #'
 #' #Adding additional variables
 #' weighted.datasets <- cbind(weighted.datasets,
-#'                            logAGE = log(osteoarthritis$AGE))
+#'                            logAGE = log(osteoarthritis$AGE))}
+
+cbind <- function(..., deparse.level = 1) {
+
+  #External function
+  #S3 method
+
+  UseMethod("cbind")
+}
+
+#' @rdname cbind
 #'
-#' #Using the additional variables in an analysis
-#' pool(with(weighted.datasets,
-#'           svyglm(KOA ~ OSP + logAGE, family = quasibinomial)))
-#'}
-
-
+#' @method cbind mimids
+#'
 #' @export
+
 cbind.mimids <- function(..., deparse.level = 1) {
 
-  #Internal function
   #S3 method
 
   #Importing functions
-  #' @importFrom mice complete cbind
-  mice::complete
+  #' @importFrom mice cbind
   mice::cbind
+  #' @export
 
   #Checking inputs format
   if(...length() == 1) return(..1)
@@ -58,16 +68,17 @@ cbind.mimids <- function(..., deparse.level = 1) {
   dots <- list(...)
   classed <- class(dots[[1]])
   x <- dots[[1]]
-  dots[[1]] <- x$object
 
-  x$object <- do.call(mice::cbind, dots)
+  x$object <- mice::cbind(x$object, dots[[2]])
 
   #Returning output
   return(x)
-
 }
 
-#' @rdname cbind.mimids
-#' @export
+#' @rdname cbind
+#'
 #' @method cbind wimids
+#'
+#' @export
+
 cbind.wimids <- cbind.mimids

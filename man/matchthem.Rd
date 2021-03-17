@@ -58,8 +58,7 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                               imputed.datasets,
                               approach = 'within',
-                              method = 'nearest')
-#See ?with for a complete analysis.}
+                              method = 'nearest')}
 }
 \references{
 Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{http://gking.harvard.edu/files/abs/matchp-abs.shtml}

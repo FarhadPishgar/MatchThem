@@ -114,7 +114,7 @@ pool.mimira <- function (object, dfcom = NULL) {
 
   call <- match.call()
 
-  dfcom <- get.dfcom2(object, dfcom)
+  dfcom <- get.2dfcom(object, dfcom)
 
   #Make sure robust SEs are used for coxph models
   #Not needed for mice version >= 3.13.2
@@ -129,10 +129,8 @@ pool.mimira <- function (object, dfcom = NULL) {
   }
 
   output <- mice::pool(object, dfcom = dfcom)
-
   output$call <- NULL
   output <- c(list(call = call), as.list(output))
-
   class(output) <- c("mimipo", "mipo", "data.frame")
 
   #Return the output

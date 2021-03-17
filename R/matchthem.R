@@ -46,8 +46,7 @@
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                               imputed.datasets,
 #'                               approach = 'within',
-#'                               method = 'nearest')
-#' #See ?with for a complete analysis.}
+#'                               method = 'nearest')}
 
 matchthem <- function (formula, datasets,
                        approach = "within",

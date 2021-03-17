@@ -65,7 +65,6 @@ summary.mimids <- function(object, n = 1, ...) {
   attr(output, ".imp") <- n
   class(output) <- c("summary.mimids", class(output))
   output
-
 }
 
 #' @export

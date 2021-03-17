@@ -61,9 +61,7 @@ models <- with(matched.datasets,
 
 #Pooling results obtained from analyzing the datasets
 results <- pool(models)
-summary(results)
-
-#See ?pool for an example using weighting.}
+summary(results)}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v45/i03/}

@@ -61,9 +61,7 @@
 #'
 #' #Pooling results obtained from analyzing the datasets
 #' results <- pool(models)
-#' summary(results)
-#'
-#' #See ?pool for an example using weighting.}
+#' summary(results)}
 
 with.mimids <- function(data, expr, cluster, ...) {
 

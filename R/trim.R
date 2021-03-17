@@ -1,8 +1,10 @@
-#' @title Trim Weights
+#' @title Trim weights
 #'
-#' @rdname trim.wimids
+#' @name trim
 #'
-#' @aliases trim.wimids
+#' @rdname trim
+#'
+#' @aliases trim trim.wimids
 #'
 #' @param w A \code{wimids} object; the output of a call to \code{\link[=weightthem]{weightthem()}}.
 #' @param at \code{numeric}; either the quantile of the weights above which weights are to be trimmed (given as a single number between .5 and 1) or the number of weights to be trimmed (e.g., \code{at = 3} for the top 3 weights to be set to the 4th largest weight).
@@ -18,6 +20,8 @@
 #' @seealso \code{\link[WeightIt:trim]{WeightIt::trim()}}
 #'
 #' @author Noah Greifer
+#'
+#' @export
 #'
 #' @examples \donttest{#Loading libraries
 #' library(MatchThem)
@@ -37,10 +41,27 @@
 #'
 #' #Trimming the top 10% of weights in each dataset
 #' #to the 90th percentile
-#' trimmed.datasets <- WeightIt::trim(weighted.datasets, at = .9)}
+#' trimmed.datasets <- trim(weighted.datasets, at = .9)}
 
-#' @exportS3Method WeightIt::trim wimids
+trim <- function (w, at = 0, lower = FALSE, ...) {
+
+  #External function
+  #S3 method
+
+  #Based on: WeightIt::trim()
+  #URL: <https://cran.r-project.org/package=WeightIt>
+  #Authors: Noah Greifer
+  #Changes: Few
+
+  UseMethod("trim")
+}
+
+#' @rdname trim
+#'
 #' @method trim wimids
+#'
+#' @export
+
 trim.wimids <- function (w, at = 0, lower = FALSE, ...) {
 
   #External function
@@ -48,6 +69,7 @@ trim.wimids <- function (w, at = 0, lower = FALSE, ...) {
   #Importing functions
   #' @importFrom WeightIt trim
   WeightIt::trim
+  #' @export
 
   for (i in seq_along(w$models)) {
     suppressMessages(w$models[[i]] <- WeightIt::trim(w$models[[i]], at = at, lower = lower, ...))
