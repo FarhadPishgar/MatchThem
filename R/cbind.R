@@ -21,6 +21,7 @@
 #'
 #' @examples \donttest{#Loading libraries
 #' library(MatchThem)
+#' library(survey)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
@@ -34,7 +35,15 @@
 #'
 #' #Adding additional variables
 #' weighted.datasets <- cbind(weighted.datasets,
-#'                            logAGE = log(osteoarthritis$AGE))}
+#'                            logAGE = log(osteoarthritis$AGE))
+#'
+#' #Using the additional variables in an analysis
+#' models <- with(weighted.datasets,
+#'                svyglm(KOA ~ OSP + logAGE, family = quasibinomial))
+#'
+#' #Pooling results obtained from analyzing the datasets
+#' results <- pool(models)
+#' summary(results)}
 
 cbind <- function(..., deparse.level = 1) {
 
@@ -67,8 +76,9 @@ cbind.mimids <- function(..., deparse.level = 1) {
   dots <- list(...)
   classed <- class(dots[[1]])
   x <- dots[[1]]
+  dots[[1]] <- x$object
 
-  x$object <- mice::cbind(x$object, dots[[2]])
+  x$object <- do.call(mice::cbind, dots)
 
   #Returning output
   return(x)

@@ -112,7 +112,7 @@ weightthem <- function (formula, datasets,
       implist[[i+1]] <- imp
     }
 
-    imp.datasets <- do.call("rbind", as.list(noquote(implist)))
+    imp.datasets <- do.call(base::rbind, as.list(noquote(implist)))
     datasets <- mice::as.mids(imp.datasets)
     originals <- datasets
   }

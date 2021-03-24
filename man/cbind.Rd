@@ -26,6 +26,7 @@ This function combines a \code{mimids} or \code{wimids} object columnwise with a
 \examples{
 \donttest{#Loading libraries
 library(MatchThem)
+library(survey)
 
 #Loading the dataset
 data(osteoarthritis)
@@ -39,7 +40,15 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datas
 
 #Adding additional variables
 weighted.datasets <- cbind(weighted.datasets,
-                           logAGE = log(osteoarthritis$AGE))}
+                           logAGE = log(osteoarthritis$AGE))
+
+#Using the additional variables in an analysis
+models <- with(weighted.datasets,
+               svyglm(KOA ~ OSP + logAGE, family = quasibinomial))
+
+#Pooling results obtained from analyzing the datasets
+results <- pool(models)
+summary(results)}
 }
 \seealso{
 \code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
