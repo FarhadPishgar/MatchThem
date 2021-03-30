@@ -21,7 +21,7 @@
 #'
 #' @author Noah Greifer
 #'
-#' @export
+#' @export trim
 #'
 #' @examples \donttest{#Loading libraries
 #' library(MatchThem)
@@ -43,21 +43,6 @@
 #' #to the 90th percentile
 #' trimmed.datasets <- trim(weighted.datasets, at = .9)}
 
-trim <- function (w, at = 0, lower = FALSE, ...) {
-
-  #External function
-  #S3 method
-
-  #Based on: WeightIt::trim()
-  #URL: <https://cran.r-project.org/package=WeightIt>
-  #Authors: Noah Greifer
-  #Changes: Few
-
-  UseMethod("trim")
-}
-
-#' @rdname trim
-#'
 #' @method trim wimids
 #'
 #' @export

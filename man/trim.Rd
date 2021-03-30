@@ -5,8 +5,6 @@
 \alias{trim.wimids}
 \title{Trim Weights}
 \usage{
-trim(w, at = 0, lower = FALSE, ...)
-
 \method{trim}{wimids}(w, at = 0, lower = FALSE, ...)
 }
 \arguments{
