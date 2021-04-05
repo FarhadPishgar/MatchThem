@@ -2,7 +2,7 @@
 #'
 #' @rdname osteoarthritis
 #'
-#' @description \code{osteoarthritis} includes demographic data of 2,585 units (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), osteoporosis status at baseline (\code{OSP}, a binary qualitative variable), and knee osteoarthritis status at follow-up (\code{KOA}, a binary qualitative variable).
+#' @description \code{osteoarthritis} includes demographic data of 2,585 units (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), and knee osteoarthritis status at follow-up (\code{KOA}, a binary qualitative variable).
 #'
 #' @format This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristics of that individual. The columns are:
 #' \describe{
