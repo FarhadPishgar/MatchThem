@@ -9,7 +9,7 @@ citEntry(
   volume   = "",
   number   = "",
   pages    = "",
-  url      = "https://journal.r-project.org/archive/2021/RJ-2021-073/index.html",
+  url      = "https://journal.r-project.org/archive/2021/RJ-2021-073",
   doi      = "10.32614/RJ-2021-073",
   textVersion = paste("Farhad Pishgar, Noah Greifer, Clémence Leyrat and Elizabeth Stuart (2021).",
         "MatchThem:: Matching and Weighting after Multiple Imputation.",
