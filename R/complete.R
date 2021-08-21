@@ -4,7 +4,7 @@
 #'
 #' @aliases complete complete.mimids complete.wimids
 #'
-#' @param data A \code{mimids} or \code{wimids} object
+#' @param data A \code{mimids} or \code{wimids} object.
 #' @param action The imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.
 #' @param include Whether the original data with the missing values should be included. The input must be a logical value. The default is \code{FALSE}.
 #' @param mild Whether the return value should be an object of \code{mild} class. Please note that setting \code{mild = TRUE} overrides \code{action} keywords \code{"long"}, \code{"broad"}, and \code{"repeated"}. The default is \code{FALSE}.

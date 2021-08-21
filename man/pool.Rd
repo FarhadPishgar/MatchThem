@@ -12,16 +12,16 @@ pool(object, dfcom = NULL)
 \item{dfcom}{A positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the parameter is set to \code{999999}).}
 }
 \value{
-This function returns an object of the \code{mipo} class. Methods for \code{mipo} objects (e.g., \code{print()}, \code{summary}, etc.) are available in \pkg{mice}, which does not need to be attached to use them.
+This function returns an object of the \code{mimipo} class. Methods for \code{mimipo} objects (e.g., \code{print()}, \code{summary()}, etc.) are available in \pkg{mice}, which does not need to be attached to use them.
 }
 \description{
-\code{pool()} pools estimates from the ana;yses done withi neach imputed dataset. The typical sequence of steps to do a matching procedure on the imputed datasets are:
+\code{pool()} pools estimates from the analyses done within each imputed dataset. The typical sequence of steps to do a matching procedure on the imputed datasets are:
 \enumerate{
  \item Impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiple imputed dataset (an object of the \code{mids} or \code{amelia} class);
  \item Match or weight each imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
  \item Check the extent of balance of covariates across the matched datasets (using functions in \pkg{cobalt});
  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
- \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+ \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 }
 }
 \details{
@@ -57,5 +57,6 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 }
 \seealso{
 \code{\link[=with]{with()}}
+
 \code{\link[mice:pool]{mice::pool()}}
 }

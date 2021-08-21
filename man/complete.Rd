@@ -11,7 +11,7 @@
 \method{complete}{wimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
-\item{data}{A \code{mimids} or \code{wimids} object}
+\item{data}{A \code{mimids} or \code{wimids} object.}
 
 \item{action}{The imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the imputed datasets), \code{"long"} (produces a dataset with imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with imputed datasets stacked horizontally). The default is \code{1}.}
 

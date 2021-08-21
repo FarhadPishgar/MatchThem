@@ -7,7 +7,7 @@
 weightthem(formula, datasets, approach = "within", method = "ps", ...)
 }
 \arguments{
-\item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.}
+\item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.}
 
 \item{datasets}{The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).}
 
@@ -48,14 +48,14 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #2
 
 #Loading libraries
-library(Amelia)
 library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
-imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+imputed.datasets <- Amelia::amelia(osteoarthritis, m = 5,
+                                   noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 
 #Estimating weights of observations in the multiply imputed datasets
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,

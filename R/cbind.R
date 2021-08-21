@@ -13,7 +13,8 @@
 #'
 #' @return An object with the same class as the first input object with the additional variables added to the components.
 #'
-#' @seealso \code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
+#' @seealso \code{\link[mice:cbind.mids]{mice::cbind.mids}}
+#' @seealso \code{\link{cbind}}
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'
@@ -30,8 +31,9 @@
 #' imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 #'
 #' #Weighting the multiply imputed datasets
-#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                                approach = 'within')
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                 imputed.datasets,
+#'                                 approach = 'within')
 #'
 #' #Adding additional variables
 #' weighted.datasets <- cbind(weighted.datasets,

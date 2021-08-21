@@ -29,8 +29,10 @@ data(osteoarthritis)
 imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
 #Matching the multiply imputed datasets
-matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                              approach = 'within', method = 'nearest')
+matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                              imputed.datasets,
+                              approach = 'within',
+                              method = 'nearest')
 
 #Checking the 'matched.datasets' object
 is.mimids(matched.datasets)

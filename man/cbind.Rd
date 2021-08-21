@@ -35,8 +35,9 @@ data(osteoarthritis)
 imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 
 #Weighting the multiply imputed datasets
-weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-                               approach = 'within')
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                                imputed.datasets,
+                                approach = 'within')
 
 #Adding additional variables
 weighted.datasets <- cbind(weighted.datasets,
@@ -51,7 +52,9 @@ results <- pool(models)
 summary(results)}
 }
 \seealso{
-\code{\link[mice:cbind.mids]{mice::cbind.mids}}, \code{\link{cbind}}
+\code{\link[mice:cbind.mids]{mice::cbind.mids}}
+
+\code{\link{cbind}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

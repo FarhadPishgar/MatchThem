@@ -4,7 +4,7 @@
 #'
 #' @aliases weightthem
 #'
-#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.
+#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.
 #' @param datasets The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach The approach used to combine information across imputed datasets. Currently, \code{"within"} (estimating weights within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights to be applied to all datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.
 #' @param method The method used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.
@@ -49,14 +49,14 @@
 #' #2
 #'
 #' #Loading libraries
-#' library(Amelia)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+#' imputed.datasets <- Amelia::amelia(osteoarthritis, m = 5,
+#'                                    noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 #'
 #' #Estimating weights of observations in the multiply imputed datasets
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,

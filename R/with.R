@@ -8,8 +8,8 @@
 #'
 #' @method with mimids
 #'
-#' @param data An \code{mimids} or \code{wimids} object, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
-#' @param expr An expression (usually a call to a modeling function like \code{glm()}, \code{coxph()}, \code{svyglm()}, etc.) to evaluate for each imputed data set. See Details.
+#' @param data A \code{mimids} or \code{wimids} object, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
+#' @param expr An expression (usually a call to a modeling function like \code{glm()}, \code{coxph()}, \code{svyglm()}, etc.) to evaluate for each imputed dataset. See Details.
 #' @param cluster When a function from \pkg{survey} (e.g., \code{\link[survey:svyglm]{svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
 #' @param ... Additional arguments to be passed to \code{expr}.
 #'
@@ -19,11 +19,11 @@
 #'  \item Match or weight each imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
 #'  \item Check the extent of balance of covariates across the matched datasets (using functions in \pkg{cobalt});
 #'  \item Fit the statistical model of interest on each matched dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
-#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mipo} class.
+#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 #' }
 #'
 #' @details \code{with()} applies the supplied model in \code{expr} to the matched or weighrd imputed datasets, automatically incorporating the (matching) weights when possible. The argument to \code{expr} should be of the form \code{glm(y ~ z, family = quasibinomial)}, for example, excluding the data or weights argument, which are automatically supplied. \cr
-#' Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} objcect needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see Arguments above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}. \cr
+#' Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} objcect needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see the \code{cluster} argument above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}. \cr
 #' For generalized linear models, it is always recommended to use \code{svyglm()} rather than \code{glm()} in order to correctly compute standard errors. For Cox models, \code{coxph()} will produce correct standard errors when used with weighting but \code{svycoxph()} will produce more accurate standard errors when matching is used.
 #'
 #' @return An object of the \code{mimira} class containing the output of the analyses.
@@ -50,9 +50,9 @@
 #'
 #' #Matching in the multiply imputed datasets
 #' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
-#'                                 imputed.datasets,
-#'                                 approach = 'within',
-#'                                 method = 'nearest')
+#'                               imputed.datasets,
+#'                               approach = 'within',
+#'                               method = 'nearest')
 #'
 #' #Analyzing the matched datasets
 #' models <- with(matched.datasets,

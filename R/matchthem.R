@@ -4,7 +4,7 @@
 #'
 #' @aliases matchthem
 #'
-#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to code{\link[MatchIt:matchit]{MatchIt::matchit()}} to specify the propensity score model or treatment and covariates to be used in matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.
+#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[MatchIt:matchit]{MatchIt::matchit()}} to specify the propensity score model or treatment and covariates to be used in matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.
 #' @param datasets This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach The approach used to combine information across imputed datasets. Currently, \code{"within"} (performing matching within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and performing matching on the averaged propensity scores in each dataset) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.
 #' @param method This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available. Only methods that produce a propensity score (\code{"nearest"}, \code{"full"}, \code{"genetic"}, \code{"subclass"}, and \code{"optimal"}) are compatible with the \code{"across"} approach. The default is \code{"nearest"} for nearest neighbor matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.
@@ -14,7 +14,7 @@
 #'
 #' @description \code{matchthem()} performs matching in the supplied imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each of the imputed datasets with the supplied arguments.
 #'
-#' @details If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{matchthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each one, storing the output of each \code{matchit()} call and the \code{mids} in the output. All arguments supplied to \code{matchthem()} except \code{datasets} and \code{approach} are passed directly to \code{matchit()}. With the across method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{matchit()}.
+#' @details If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{matchthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each one, storing the output of each \code{matchit()} call and the \code{mids} in the output. All arguments supplied to \code{matchthem()} except \code{datasets} and \code{approach} are passed directly to \code{matchit()}. With the \code{"across"} method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{matchit()}.
 #'
 #' @return An object of the \code{\link{mimids}} (matched multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{matchit()} on each imputed dataset.
 #'
@@ -52,18 +52,20 @@
 #' #2
 #'
 #' #Loading libraries
-#' library(Amelia)
 #' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
-#' imputed.datasets <- amelia(osteoarthritis, m = 5, noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
+#' imputed.datasets <- Amelia::amelia(osteoarthritis, m = 5,
+#'                                    noms = c("SEX", "RAC", "SMK", "OSP", "KOA"))
 #'
 #' #Matching the multiply imputed datasets
-#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK, imputed.datasets,
-#'                               approach = 'across', method = 'nearest')}
+#' matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                               imputed.datasets,
+#'                               approach = 'across',
+#'                               method = 'nearest')}
 
 matchthem <- function (formula, datasets,
                        approach = "within",
