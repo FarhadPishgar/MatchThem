@@ -48,16 +48,16 @@ This is the first release of the [`MatchThem`](https://cran.r-project.org/packag
 ## Authors
 Farhad Pishgar
 
-[![](https://img.shields.io/twitter/follow/FarhadPishgar.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
 
 Noah Greifer
 
-[![](https://img.shields.io/twitter/follow/Noah_Greifer.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
+[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
 
 Clémence Leyrat
 
-[![](https://img.shields.io/twitter/follow/LeyClem.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
+[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
 
 Elizabeth Stuart
 
-[![](https://img.shields.io/twitter/follow/Lizstuartdc.svg?color=informational&style=for-the-badge)](https://twitter.com/LizStuartdc)
+[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LizStuartdc)
