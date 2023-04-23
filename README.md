@@ -43,18 +43,7 @@ The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/165
 We would like to thank the CRAN team members for their technical support and comments on the package performance. This package relies on the [`MatchIt`](https://cran.r-project.org/package=MatchIt), [`mice`](https://cran.r-project.org/package=mice), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages. Please cite their reference manuals and vignettes in your work besides citing the reference manual and vignette of this package.
 
 ## Authors
-Farhad Pishgar
-
-[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
-
-Noah Greifer
-
-[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
-
-Clémence Leyrat
-
-[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
-
-Elizabeth Stuart
-
-[![](https://img.shields.io/badge/Twitter-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LizStuartdc)
+[![](https://img.shields.io/badge/Farhad%20Pishgar-success.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
+[![](https://img.shields.io/badge/Noah%20Greifer-success.svg?color=informational&style=for-the-badge)](https://twitter.com/Noah_Greifer)
+[![](https://img.shields.io/badge/Clémence%20Leyrat-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LeyClem)
+[![](https://img.shields.io/badge/Elizabeth%20Stuart-success.svg?color=informational&style=for-the-badge)](https://twitter.com/LizStuartdc)
