@@ -23,19 +23,7 @@ This update is primarily focused on enhancing the documentation and addressing m
 
 ### Version 1.0.0
 
-This update brings significant improvements to the documentation and introduces several new features:
-
-#### 1. The `mimira` and `mimipo` objects, which are the output of `with()` and `pool()` functions respectively, now inherit from the [`mice`](https://cran.r-project.org/package=mice) classes `mira` and `mipo`. This allows for seamless integration with existing [`mice`](https://cran.r-project.org/package=mice) methods.
-
-#### 2. When using `coxph()` with `with()`, the update ensures that the robust standard errors are correctly applied.
-
-#### 3. A new cluster argument has been added to `with.mimids()` function. This argument controls whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the [`survey`](https://cran.r-project.org/package=survey) package. By default, pair membership is included when present and there are 20 or more unique subclasses (pairs).
-
-#### 4. The `cbind()` methods have been documented and exported.
-
-#### 5. The `mimids` and `wimids` objects have been optimized to reduce their size. They now only contain the supplied `mids` object and the outputs from `matchit()` or `weightit()`.
-
-#### 6. A new `trim()` function has been added to trim estimated weights, utilizing `WeightIt::trim()` with the same syntax (credits go to [Nicolas](https://twitter.com/n_hueb) for this contribution).
+This update brings significant improvements to the documentation and introduces several new features: 1. The `mimira` and `mimipo` objects, which are the output of `with()` and `pool()` functions respectively, now inherit from the [`mice`](https://cran.r-project.org/package=mice) classes `mira` and `mipo`. This allows for seamless integration with existing [`mice`](https://cran.r-project.org/package=mice) methods, 2. When using `coxph()` with `with()`, the update ensures that the robust standard errors are correctly applied, 3. A new cluster argument has been added to `with.mimids()` function. This argument controls whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the [`survey`](https://cran.r-project.org/package=survey) package. By default, pair membership is included when present and there are 20 or more unique subclasses (pairs), 4. The `cbind()` methods have been documented and exported, 5. The `mimids` and `wimids` objects have been optimized to reduce their size. They now only contain the supplied `mids` object and the outputs from `matchit()` or `weightit()`, and 6. A new `trim()` function has been added to trim estimated weights, utilizing `WeightIt::trim()` with the same syntax (credits go to [Nicolas](https://twitter.com/n_hueb) for this contribution).
 
 These updates enhance the functionality, flexibility, and efficiency of the package, providing users with an improved experience.
 
