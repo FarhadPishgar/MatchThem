@@ -11,7 +11,7 @@
 
 ### Version 1.1.0
 
-This update includes improved documentation, specifically highlighting the newly introduced weighting approach by Nguyen and Stuart known as averaging probability weights (or as what we call it in this package apw, please see their paper [here](https://arxiv.org/abs/2301.07066)). This approach has demonstrated consistency for propensity score weighting. However, the recommended approach is still to use the within approach for optimal results. The updated documentation provides detailed explanations and guidance on these weighting approaches to ensure users can make informed decisions based on their specific requirements and circumstances.
+This update includes improved documentation, specifically highlighting the newly introduced weighting approach by Nguyen and Stuart known as averaging probability weights (or as what we call it in this package `apw`, please see their paper [here](https://arxiv.org/abs/2301.07066)). This approach has demonstrated consistency for propensity score weighting. However, the recommended approach is still to use the within approach for optimal results. The updated documentation provides detailed explanations and guidance on these weighting approaches to ensure users can make informed decisions based on their specific requirements and circumstances.
 
 ### Version 1.0.2
 
