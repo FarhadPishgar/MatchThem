@@ -4,46 +4,66 @@
 #### Matching and Weighting Multiply Imputed Datasets
 <!-- badges: end -->
 
-[![](https://img.shields.io/badge/CRAN%20version-1.0.1-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-1.0.2-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/CRAN%20version-1.1.0-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
+[![](https://img.shields.io/badge/github%20version-1.1.0-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## What's New
 
+### Version 1.1.0
+
+This update includes improved documentation, specifically highlighting the newly introduced weighting approach by Nguyen and Stuart known as averaging probability weights (or as what we call it in this package apw, please see their paper [here](https://arxiv.org/abs/2301.07066)). This approach has demonstrated consistency for propensity score weighting. However, the recommended approach is still to use the within approach for optimal results. The updated documentation provides detailed explanations and guidance on these weighting approaches to ensure users can make informed decisions based on their specific requirements and circumstances.
+
 ### Version 1.0.2
 
-This is an update to improve documentation.
+This update is dedicated to enhancing the documentation, providing clearer explanations, examples, and instructions to improve the usability and understanding of the package. The focus is on ensuring that users have comprehensive and detailed documentation to make the most out of the package's features and functionality.
 
 ### Version 1.0.1
 
-This is an update to improve documentation and to fix minor bugs.
+This update is primarily focused on enhancing the documentation and addressing minor bugs in order to improve the overall performance and user experience of the package. The necessary fixes have been implemented to ensure smoother operation and to address any reported issues.
 
 ### Version 1.0.0
 
-This is an update to improve documentation and to add several new features: 1. `mimira` and `mimipo` objects (the output of `with()` and `pool()`, respectively) now inherit from the `mice` classes `mira` and `mipo`. This means `mice` methods work with these objects. 2. `coxph()` when used with `with()` now correctly uses the robust standard errors. 3. A `cluster` argument has been added to `with.mimids()` to control whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the `survey` package. The default is to include pair membership when present and there are 20 or more unique subclasses (i.e., pairs). This works by supplying the pair membership variable (`subclass`) to the `ids` argument of `svydesign()`. 4. `cbind()` methods have been exported and documented. 5. `mimids` and `wimids` objects are now much smaller, now containing only the supplied `mids` object and the `matchit()` or `weightit()` outputs. and 6. Added `trim()` to trim estimated weights. This relies on `WeightIt::trim()` and uses the same syntax (thanks [Nicolas](https://twitter.com/n_hueb)!). 
+This update brings significant improvements to the documentation and introduces several new features:
+
+#### 1. The `mimira` and `mimipo` objects, which are the output of `with()` and `pool()` functions respectively, now inherit from the [`mice`](https://cran.r-project.org/package=mice) classes `mira` and `mipo`. This allows for seamless integration with existing [`mice`](https://cran.r-project.org/package=mice) methods.
+
+#### 2. When using `coxph()` with `with()`, the update ensures that the robust standard errors are correctly applied.
+
+#### 3. A new cluster argument has been added to `with.mimids()` function. This argument controls whether cluster-robust standard errors should be used to account for pair membership when the model is a `svyglm()`-type model from the [`survey`](https://cran.r-project.org/package=survey) package. By default, pair membership is included when present and there are 20 or more unique subclasses (pairs).
+
+#### 4. The `cbind()` methods have been documented and exported.
+
+#### 5. The `mimids` and `wimids` objects have been optimized to reduce their size. They now only contain the supplied `mids` object and the outputs from `matchit()` or `weightit()`.
+
+#### 6. A new `trim()` function has been added to trim estimated weights, utilizing `WeightIt::trim()` with the same syntax (credits go to [Nicolas](https://twitter.com/n_hueb) for this contribution).
+
+These updates enhance the functionality, flexibility, and efficiency of the package, providing users with an improved experience.
 
 ### Version 0.9.3
 
-This is an update to fix few bugs.
+This update focuses on resolving a few bugs, resulting in improved stability and functionality of the package. The necessary fixes have been implemented to address these issues and enhance the overall performance.
 
 ### Version 0.9.2
 
-This is an update to change the definition of the `complete()` function to evade name clashes with the [`tidyr`](https://cran.r-project.org/package=tidyr) package.
+This update includes a modification to the `complete()` function in order to avoid any potential conflicts with the [`tidyr`](https://cran.r-project.org/package=tidyr) package. The updated definition of the `complete()` function ensures smooth compatibility and eliminates any name clashes that might have occurred.
 
 ### Version 0.9.1
 
-This is an update to improve documentation and to fix minor bugs.
+This update focuses on enhancing documentation and addressing minor bugs, resulting in improved overall performance and user experience.
 
 ### Version 0.9.0
 
-This is an update to improve documentation and to implement compatibility for robust estimation of standard errors (compatibility with the `svyglm()` and `svycoxph()`, from the [`survey`](https://cran.r-project.org/package=survey) package, to be used as expressions within the `with()` function) and for new matching and weighting methods (e.g. the `full`, `genetic`, and `cem` matching methods as well as `ebal` and `optweight` weighting methods). Moreover, `complete()` function is included in the package to replace the `matchthem.data()` and `weightthem.data()`.
+This update focuses on enhancing documentation and implementing compatibility for robust estimation of standard errors. Specifically, the package now supports compatibility with the `svyglm()` and `svycoxph()` functions from the [`survey`](https://cran.r-project.org/package=survey) package, allowing them to be used as expressions within the `with()` function. Additionally, new matching and weighting methods have been introduced, such as the `full`, `genetic`, and `cem` matching methods, as well as the `ebal` and `optweight` weighting methods.
+
+Furthermore, the package now includes the `complete()` function, which replaces the previous `matchthem.data()` and `weightthem.data()` functions. This new function provides improved functionality and convenience for completing the required data operations within the package.
 
 ### Version 0.8.2
 
-This is a spit and polish update to improve documentation and to fix minor bugs.
+This update focuses on enhancing the documentation and addressing minor bugs to improve the overall quality of the package. It includes necessary refinements and fixes to ensure a more polished and seamless user experience.
 
 ### Version 0.8.1
 
-This is the first release of the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package both on the [Github](https://github.com/FarhadPishgar/MatchThem) and the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=MatchThem).
+The [`MatchThem`](https://cran.r-project.org/package=MatchThem) package has been released and can now be accessed on [Github](https://github.com/FarhadPishgar/MatchThem) and [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/package=MatchThem).
 
 ## Authors
 [![](https://img.shields.io/badge/Farhad%20Pishgar-success.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
