@@ -23,6 +23,3 @@
 #' @keywords classes
 
 NULL
-
-#object: Original 'mids' object augmented with estimated weights
-#models: 'weightit' objects

@@ -13,15 +13,15 @@ cbind(..., deparse.level = 1)
 \method{cbind}{wimids}(..., deparse.level = 1)
 }
 \arguments{
-\item{...}{Objects to combine columnwise. The first should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.}
+\item{...}{Objects to combine columnwise. The first argument should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.}
 
 \item{deparse.level}{Ignored.}
 }
 \value{
-An object with the same class as the first input object with the additional variables added to the components.
+An object with the same class as the first input object with the additional datasets or variables added to the components.
 }
 \description{
-This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
+This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original multiple imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
 }
 \examples{
 \donttest{#Loading libraries
@@ -52,8 +52,6 @@ results <- pool(models)
 summary(results)}
 }
 \seealso{
-\code{\link[mice:cbind.mids]{mice::cbind.mids}}
-
 \code{\link{cbind}}
 }
 \author{

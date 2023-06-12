@@ -17,7 +17,7 @@
 \item{...}{Ignored.}
 }
 \value{
-An object of class \code{wimids}, identical to the original object except with \code{trim()} applied to each of the \code{weightit} objects in the \code{models} component.
+An object from the \code{wimids} class, identical to the original object except with \code{trim()} applied to each of the \code{weightit} objects in the \code{models} component.
 }
 \description{
 Trims (i.e., truncates) large weights by setting all weights higher than that at a given quantile to the weight at the quantile. This can be useful in controlling extreme weights, which can reduce effective sample size by enlarging the variability of the weights.

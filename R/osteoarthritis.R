@@ -1,10 +1,10 @@
-#' @title Data of 2,585 Participants in the OAI Project
+#' @title Data of 2,585 Participants in the Osteoarthritis Initiative (OAI) Project
 #'
 #' @rdname osteoarthritis
 #'
 #' @description \code{osteoarthritis} includes demographic data of 2,585 units (individuals) with or at risk of knee osteoarthritis. The recorded data has missing values in body mass index (\code{BMI}, a quantitative variable), race (\code{RAC}, a categorical qualitative variable), smoking status (\code{SMK}, a binary qualitative variable), and knee osteoarthritis status at follow-up (\code{KOA}, a binary qualitative variable).
 #'
-#' @format This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristic of that individual. The columns are:
+#' @format This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristic of that unit. The columns are:
 #' \describe{
 #'   \item{AGE}{Age of each unit (individual);}
 #'   \item{SEX}{Gender of each unit (individual), coded as \code{0} (female) and \code{1} (male);}

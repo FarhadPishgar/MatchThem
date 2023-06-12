@@ -3,9 +3,9 @@
 \docType{data}
 \name{osteoarthritis}
 \alias{osteoarthritis}
-\title{Data of 2,585 Participants in the OAI Project}
+\title{Data of 2,585 Participants in the Osteoarthritis Initiative (OAI) Project}
 \format{
-This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristic of that individual. The columns are:
+This dataset contains 2,585 rows and 7 columns. Each row presents data of an unit (individual) and each column presents data of a characteristic of that unit. The columns are:
 \describe{
   \item{AGE}{Age of each unit (individual);}
   \item{SEX}{Gender of each unit (individual), coded as \code{0} (female) and \code{1} (male);}

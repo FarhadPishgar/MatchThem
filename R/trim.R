@@ -15,7 +15,7 @@
 #'
 #' @details \code{trim.wimids()} works by calling \code{\link[WeightIt:trim]{WeightIt::trim()}} on each \code{weightit} object stored in the \code{models} component of the \code{wimids} object. Because \code{trim()} itself is not exported from \pkg{MatchThem}, it must be called using \code{WeightIt::trim()} or by attaching \pkg{WeightIt} (i.e., running \code{library(WeightIt)}) before use.
 #'
-#' @return An object of class \code{wimids}, identical to the original object except with \code{trim()} applied to each of the \code{weightit} objects in the \code{models} component.
+#' @return An object from the \code{wimids} class, identical to the original object except with \code{trim()} applied to each of the \code{weightit} objects in the \code{models} component.
 #'
 #' @seealso \code{\link[WeightIt:trim]{WeightIt::trim()}}
 #'

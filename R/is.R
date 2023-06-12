@@ -4,7 +4,7 @@
 #'
 #' @aliases is.mimids
 #'
-#' @param object This argument specifies the object that should be checked to see if is of the \code{mimids} class or not.
+#' @param object This argument specifies the object that should be checked to see if it is of the \code{mimids} class or not.
 #'
 #' @description \code{is.mimids()} function checks whether class of objects is \code{mimids} or not.
 #'
@@ -52,7 +52,7 @@ is.mimids <- function(object) {
 #'
 #' @aliases is.wimids
 #'
-#' @param object This argument specifies the object that should be checked to see if is of the \code{wimids} class or not.
+#' @param object This argument specifies the object that should be checked to see if it is of the \code{wimids} class or not.
 #'
 #' @description \code{is.wimids()} function checks whether class of objects is \code{wimids} or not.
 #'
@@ -101,7 +101,7 @@ is.wimids <- function(object) {
 #'
 #' @aliases is.mimira
 #'
-#' @param object This argument specifies the object that should be checked to see if is of the \code{mimira} class or not.
+#' @param object This argument specifies the object that should be checked to see if it is of the \code{mimira} class or not.
 #'
 #' @description \code{is.mimira()} function checks whether class of objects is \code{mimira} or not.
 #'
@@ -155,7 +155,7 @@ is.mimira <- function(object) {
 #'
 #' @aliases is.mimipo
 #'
-#' @param object This argument specifies the object that should be checked to see if is of the \code{mimipo} class or not.
+#' @param object This argument specifies the object that should be checked to see if it is of the \code{mimipo} class or not.
 #'
 #' @description \code{is.mimipo()} function checks whether class of objects is \code{mimipo} or not.
 #'

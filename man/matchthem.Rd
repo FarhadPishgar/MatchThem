@@ -20,26 +20,26 @@ matchthem(
 \arguments{
 \item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[MatchIt:matchit]{MatchIt::matchit()}} to specify the propensity score model or treatment and covariates to be used in matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.}
 
-\item{datasets}{This argument specifies the datasets containing the exposure indicator and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).}
+\item{datasets}{This argument specifies the datasets containing the exposure and the potential confounders called in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} function from the \pkg{mice} package or to \code{amelia()} function from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).}
 
-\item{approach}{The approach used to combine information across imputed datasets. Currently, \code{"within"} (performing matching within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and performing matching on the averaged propensity scores in each dataset) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.}
+\item{approach}{The approach that should be used to combine information in multiply imputed datasets. Currently, \code{"within"} (performing matching within each imputed dataset) and \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and performing matching using the averaged propensity scores in each dataset) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.}
 
 \item{method}{This argument specifies a matching method. Currently, \code{"nearest"} (nearest neighbor matching), \code{"exact"} (exact matching), \code{"full"} (full matching), \code{"genetic"} (genetic matching), \code{"subclass"} (subclassication), \code{"cem"} (coarsened exact matching), and \code{"optimal"} (optimal matching) methods are available. Only methods that produce a propensity score (\code{"nearest"}, \code{"full"}, \code{"genetic"}, \code{"subclass"}, and \code{"optimal"}) are compatible with the \code{"across"} approach. The default is \code{"nearest"} for nearest neighbor matching. See \code{\link[MatchIt:matchit]{matchit()}} for details.}
 
-\item{distance}{The method used to estimate the distance measure (e.g., propensity scores) used in matching, if any. Only options that specify a method of estimating propensity scores (i.e., not \code{"mahalanobis"}) are compatible with the \code{"across"} approach. The default is \code{"glm"} for propensity scores estimating using logistic regression. See \code{\link[MatchIt:matchit]{matchit()}} and \code{\link[MatchIt:distance]{distance}} for details and allowable options.}
+\item{distance}{The method used to estimate the distance measure (e.g., propensity scores) used in matching, if any. Only options that specify a method of estimating propensity scores (i.e., not \code{"mahalanobis"}) are compatible with the \code{"across"} approach. The default is \code{"glm"} for estimating propensity scores using logistic regression. See \code{\link[MatchIt:matchit]{matchit()}} and \code{\link[MatchIt:distance]{distance}} for details and allowable options.}
 
 \item{link, distance.options, discard, reestimate}{Arguments passed to \code{\link[MatchIt:matchit]{matchit()}} to control estimation of the distance measure (e.g., propensity scores).}
 
 \item{...}{Additional arguments passed to \code{\link[MatchIt:matchit]{matchit()}}.}
 }
 \value{
-An object of the \code{\link{mimids}} (matched multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{matchit()} on each imputed dataset.
+An object of the \code{\link{mimids}} (matched multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{matchit()} on each multiply imputed dataset.
 }
 \description{
-\code{matchthem()} performs matching in the supplied imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each of the imputed datasets with the supplied arguments.
+\code{matchthem()} performs matching in the supplied multiply imputed datasets, given as \code{mids} or \code{amelia} objects, by running \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each of the multiply imputed datasets with the supplied arguments.
 }
 \details{
-If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{matchthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each one, storing the output of each \code{matchit()} call and the \code{mids} in the output. All arguments supplied to \code{matchthem()} except \code{datasets} and \code{approach} are passed directly to \code{matchit()}. With the \code{"across"} method, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{matchit()}.
+If an \code{amelia} object is supplied to \code{datasets}, it will first be transformed into a \code{mids} object for further use. \code{matchthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls \code{\link[MatchIt:matchit]{MatchIt::matchit()}} on each one, storing the output of each \code{matchit()} call and the \code{mids} in the output. All arguments supplied to \code{matchthem()} except \code{datasets} and \code{approach} are passed directly to \code{matchit()}. With the \code{"across"} approach, the estimated propensity scores are averaged across multiply imputed datasets and re-supplied to another set of calls to \code{matchit()}.
 }
 \examples{
 \donttest{#1
@@ -80,7 +80,7 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 \references{
 Daniel Ho, Kosuke Imai, Gary King, and Elizabeth Stuart (2007). Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference. \emph{Political Analysis}, 15(3): 199-236. \url{https://gking.harvard.edu/files/abs/matchp-abs.shtml}
 
-Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://www.jstatsoft.org/v045/i03/}
+Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://doi.org/10.18637/jss.v045.i03}
 
 Gary King, James Honaker, Anne Joseph, and Kenneth Scheve (2001). Analyzing Incomplete Political Science Data: An Alternative Algorithm for Multiple Imputation. \emph{American Political Science Review}, 95: 49–69. \url{https://gking.harvard.edu/files/abs/evil-abs.shtml}
 }
