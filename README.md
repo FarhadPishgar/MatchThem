@@ -11,7 +11,7 @@
 
 One of the significant challenges in matching procedures is the occurrence of missing data on the covariates. Matching involves comparing the values of covariates for units in control and treated subgroups, or relying on predictions from a logistic regression model. When there are missing values in the covariates within the model, it becomes impossible to make a valid comparison or generate accurate predictions for that unit. To tackle this issue, several solutions have been proposed, including complete-case analysis. However, these approaches have their flaws and limitations. As a result, the adoption of algorithms for multiply imputing the missing data is gaining popularity as an alternative.
 
-The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are recognized statistical tools for imputing missing data within the R. In combination with these packages, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package streamlines the matching and weighting processes for imputed datasets. It facilitates the credible implementation of matching and weighting approaches and methods in practical applications.
+The [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are recognized statistical tools for imputing missing data within the R. In combination with these packages, the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package streamlines the matching and weighting processes for multiply imputed datasets. It facilitates the credible implementation of matching and weighting approaches and methods in practical applications.
 
 ## Installation
 
@@ -38,9 +38,7 @@ Implementing algorithms for multiple imputation of missing data, as well as the 
 5. **Pooling the Causal Effect Estimates**: To combine the causal effect estimates obtained from analyzing each dataset, the `pool()` function from the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package should be employed. This function facilitates the pooling of the estimates to obtain an overall estimate of the causal effects.
 
 ## Acknowledgments
-The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed by Max Josino. You can view and explore more of his work on his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) profile. We sincerely thank Max Josino for his kind contribution.
-
-This package relies on the functionality provided by the [`mice`](https://cran.r-project.org/package=mice), [`MatchIt`](https://cran.r-project.org/package=MatchIt), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages.
+The logo for this package, [a trip to the Arctic](https://dribbble.com/shots/1652911-A-trip-to-the-Arctic), was designed by Max Josino. You can view and explore more of his work on his [website](http://maxjosino.co/) and [Dribble](https://dribbble.com/maxjosino) profile. We sincerely thank Max Josino for his kind contribution. This package relies on the functionality provided by the [`mice`](https://cran.r-project.org/package=mice), [`MatchIt`](https://cran.r-project.org/package=MatchIt), and [`WeightIt`](https://cran.r-project.org/package=WeightIt) packages.
 
 ## Authors
 [![](https://img.shields.io/badge/Farhad%20Pishgar-success.svg?color=informational&style=for-the-badge)](https://twitter.com/FarhadPishgar)
