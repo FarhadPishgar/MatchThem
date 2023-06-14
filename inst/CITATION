@@ -1,18 +1,18 @@
 citHeader("To cite MatchThem in publications use:")
 
-citEntry(
-  entry    = "Article",
-  title    = "MatchThem:: Matching and Weighting after Multiple Imputation",
-  author   = personList(person("Farhad", "Pishgar"), person("Noah", "Greifer"), person("Clémence", "Leyrat"), person("Elizabeth", "Stuart")),,
-  journal  = "The R Journal",
-  year     = "2021",
-  volume   = "",
-  number   = "",
-  pages    = "",
-  url      = "https://journal.r-project.org/archive/2021/RJ-2021-073/",
+bibentry(
+  bibtype     = "Article",
+  title       = "MatchThem:: Matching and Weighting after Multiple Imputation",
+  author      = c(person("Farhad", "Pishgar"), person("Noah", "Greifer"), person("Clémence", "Leyrat"), person("Elizabeth", "Stuart")),,
+  journal     = "The R Journal",
+  year        = "2021",
+  volume      = "",
+  number      = "",
+  pages       = "",
+  doi         = "10.32614/RJ-2021-073",
+  url         = "https://journal.r-project.org/archive/2021/RJ-2021-073/",
   textVersion = paste("Farhad Pishgar, Noah Greifer, Clémence Leyrat and Elizabeth Stuart (2021).",
-        "MatchThem:: Matching and Weighting after Multiple Imputation.",
-        "The R Journal.",
-        "doi: 10.32614/RJ-2021-073."
-  )
+                      "MatchThem:: Matching and Weighting after Multiple Imputation.",
+                      "The R Journal.",
+                      "doi: 10.32614/RJ-2021-073.")
 )

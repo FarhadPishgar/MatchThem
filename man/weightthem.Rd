@@ -65,7 +65,7 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 estimand = "ATT")}
 }
 \references{
-Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \url{https://doi.org/10.18637/jss.v045.i03}
+Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
 }
 \seealso{
 \code{\link[=wimids]{wimids}}
