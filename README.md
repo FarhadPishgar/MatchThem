@@ -29,7 +29,7 @@ devtools::install_github(repo = "FarhadPishgar/MatchThem")
 
 ## Suggested Workflow
 
-Implementing algorithms for multiple imputation of missing data, as well as the matching or weighting procedures, may appear complex at first. To simplify this process, a suggested workflow has been designed, consisting of five steps. For more detailed information, please refer to the package's [cheat sheet](vignettes/cheatsheet.pdf) or [vignette](vignettes/vignette.pdf).
+Implementing algorithms for multiple imputation of missing data, as well as the matching or weighting procedures, may appear complex at first. To simplify this process, a suggested workflow has been designed, consisting of five steps. For more detailed information, please refer to the package's [cheat sheet](https://cran.r-project.org/package=MatchThem/vignettes/cheatsheet.pdf) or [vignette](https://cran.r-project.org/package=MatchThem/vignettes/vignette.pdf).
 
 1. **Multiply Imputing of Missing Data in the Dataset**: [`mice`](https://cran.r-project.org/package=mice) and [`Amelia`](https://cran.r-project.org/package=Amelia) packages are recommended for performing multiple imputation of missing data in the dataset.
 2. **Matching or Weighting the Multiply Imputed Datasets**: The matching procedure for selecting matched units from the control and treated subgroups of each imputed dataset or the weighting procedure can be accomplished using the `matchthem()` or `weightthem()` functions provided by the [`MatchThem`](https://cran.r-project.org/package=MatchThem) package.
