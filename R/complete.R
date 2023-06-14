@@ -1,4 +1,4 @@
-#' @title Extracts Imputed Datasets
+#' @title Extracts Multiply Imputed Datasets
 #'
 #' @name complete
 #'

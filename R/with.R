@@ -1,4 +1,4 @@
-#' @title Evaluates an Expression in Matched or Weighted Imputed Datasets
+#' @title Evaluates an Expression in Matched or Weighted Multiply Imputed Datasets
 #'
 #' @name with
 #'

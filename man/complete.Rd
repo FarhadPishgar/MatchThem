@@ -4,7 +4,7 @@
 \alias{complete}
 \alias{complete.mimids}
 \alias{complete.wimids}
-\title{Extracts Imputed Datasets}
+\title{Extracts Multiply Imputed Datasets}
 \usage{
 \method{complete}{mimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 

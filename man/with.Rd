@@ -4,7 +4,7 @@
 \alias{with}
 \alias{with.mimids}
 \alias{with.wimids}
-\title{Evaluates an Expression in Matched or Weighted Imputed Datasets}
+\title{Evaluates an Expression in Matched or Weighted Multiply Imputed Datasets}
 \usage{
 \method{with}{mimids}(data, expr, cluster, ...)
 
