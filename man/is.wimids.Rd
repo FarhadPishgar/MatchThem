@@ -39,9 +39,9 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 is.wimids(weighted.datasets)}
 }
 \seealso{
-\code{\link[=weightthem]{weightthem}}
+\code{\link[=weightthem]{weightthem()}}
 
-\code{\link[=wimids]{wimids}}
+\code{\link[=wimids]{wimids()}}
 }
 \author{
 Farhad Pishgar

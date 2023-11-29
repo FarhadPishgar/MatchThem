@@ -11,7 +11,7 @@
 \method{complete}{wimids}(data, action = 1, include = FALSE, mild = FALSE, all = TRUE, ...)
 }
 \arguments{
-\item{data}{A \code{mimids} or \code{wimids} object.}
+\item{data}{A \code{\link{mimids}} or \code{\link{wimids}} object; the output of a call to \code{\link[=matchthem]{matchthem()}} or \code{\link[=weightthem]{weightthem()}}.}
 
 \item{action}{The imputed dataset number, intended to extract its data, or an action. The input must be a positive integer or a keyword. The keywords include \code{"all"} (produces a \code{mild} object of the multiply imputed datasets), \code{"long"} (produces a dataset with multiply imputed datasets stacked vertically), and \code{"broad"} (produces a dataset with multiply imputed datasets stacked horizontally). The default is \code{1}.}
 
@@ -27,10 +27,10 @@
 This function returns the imputed dataset within the supplied \code{mimids} or \code{wimids} objects.
 }
 \description{
-\code{complete()} function extracts data from an object of the \code{mimids} or \code{wimids} class.
+\code{complete()} extracts data from an object of the \code{mimids} or \code{wimids} class.
 }
 \details{
-\code{complete()} works by running \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object stored within the \code{mimids} or \code{wimids} object and appending the outputs of the matching or weighting procedure. For \code{mimids} objects, the appended outputs include the matching weights, the propensity score (if included), pair membership (if included), and whether each unit was discarded. For \code{wimids} objects, the appended output is the estimated weights.
+\code{complete()} works by running \code{\link[mice:complete.mids]{mice::complete()}} on the \code{mids} object stored within the \code{mimids} or \code{wimids} object and appending the outputs of the matching or weighting procedure. For \code{mimids} objects, the appended outputs include the matching weights, the propensity score (if included), pair membership (if included), and whether each unit was discarded. For \code{wimids} objects, the appended output is the estimated weights.
 }
 \examples{
 \donttest{#Loading libraries
@@ -55,9 +55,9 @@ matched.dataset.1 <- complete(matched.datasets, n = 1)}
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
 }
 \seealso{
-\code{\link[=mimids]{mimids}}
+\code{\link{mimids}}
 
-\code{\link[=wimids]{wimids}}
+\code{\link{wimids}}
 
-\code{\link[mice:complete]{mice::complete}}
+\code{\link[mice:complete.mids]{mice::complete()}}
 }

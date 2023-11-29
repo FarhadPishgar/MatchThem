@@ -10,9 +10,13 @@
 \arguments{
 \item{w}{A \code{wimids} object; the output of a call to \code{\link[=weightthem]{weightthem()}}.}
 
-\item{at}{Either the quantile of the weights above which weights are to be trimmed (given as a single number between 0.5 and 1) or the number of weights to be trimmed (e.g., \code{at = 3} for the top 3 weights to be set to the 4th largest weight). The input must be a numeric value. The default is \code{0}.}
+\item{at}{
+\code{numeric}; either the quantile of the weights above which weights are to be trimmed. A single number between .5 and 1, or the number of weights to be trimmed (e.g., \code{at = 3} for the top 3 weights to be set to the 4th largest weight).
+}
 
-\item{lower}{Whether also to trim at the lower quantile (e.g., for \code{at = 0.9}, trimming at both the 0.1 and 0.9 quantiles, or for \code{at = 3}, trimming the top and bottom 3 weights). The input must be a logical value. The default is \code{FALSE}.}
+\item{lower}{
+\code{logical}; whether also to trim at the lower quantile (e.g., for \code{at = .9}, trimming at both .1 and .9, or for \code{at = 3}, trimming the top and bottom 3 weights).
+}
 
 \item{...}{Ignored.}
 }

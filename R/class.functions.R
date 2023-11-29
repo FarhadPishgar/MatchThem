@@ -1,6 +1,6 @@
 ##### mimids
 
-#' @export
+#' @exportS3Method plot mimids
 
 plot.mimids <- function(x, n = 1, ...){
 
@@ -30,7 +30,7 @@ plot.mimids <- function(x, n = 1, ...){
   plot(x$models[[n]], ...)
 }
 
-#' @export
+#' @exportS3Method print mimids
 
 print.mimids <- function(x, n = 1, ...) {
 
@@ -49,7 +49,7 @@ print.mimids <- function(x, n = 1, ...) {
   print(output, ...)
 }
 
-#' @export
+#' @exportS3Method summary mimids
 
 summary.mimids <- function(object, n = 1, ...) {
 
@@ -67,7 +67,7 @@ summary.mimids <- function(object, n = 1, ...) {
   output
 }
 
-#' @export
+#' @exportS3Method print summary.mimids
 
 print.summary.mimids <- function(x, ...) {
   #Printing out
@@ -78,7 +78,7 @@ print.summary.mimids <- function(x, ...) {
 
 ##### wimids
 
-#' @export
+#' @exportS3Method print wimids
 
 print.wimids <- function(x, n = 1, ...) {
 
@@ -96,7 +96,7 @@ print.wimids <- function(x, n = 1, ...) {
   print(output, ...)
 }
 
-#' @export
+#' @exportS3Method summary wimids
 
 summary.wimids <- function(object, n = 1, ...) {
 
@@ -121,12 +121,12 @@ summary.wimids <- function(object, n = 1, ...) {
   output
 }
 
-#' @export
+#' @exportS3Method print summary.wimids
 print.summary.wimids <- print.summary.mimids
 
 ##### mimipo
 
-#' @export
+#' @exportS3Method print mimipo
 
 print.mimipo <- function(x, ...) {
 

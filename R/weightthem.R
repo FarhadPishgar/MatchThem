@@ -2,27 +2,27 @@
 #'
 #' @rdname weightthem
 #'
-#' @param formula A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to [WeightIt::weightit()] to specify the propensity score model or treatment and covariates to be used to estimate the weights. See [WeightIt::weightit()] for details.
-#' @param datasets The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
-#' @param approach The approach used to combine information in multiply imputed datasets. Currently, \code{"within"} (estimating weights within each dataset), \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights based on that to be applied to all datasets), and \code{"apw"} (or averaging the probability weights, estimating weights within each dataset and averaging them across datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.
-#' @param method The method used to estimate weights. See [WeightIt::weightit()] for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.
-#' @param ... Additional arguments to be passed to \code{weightit()}. see [WeightIt::weightit()] for more details.
+#' @param formula A `formula` of the form `z ~ x1 + x2`, where `z` is the exposure and `x1` and `x2` are the covariates to be balanced, which is passed directly to [WeightIt::weightit()] to specify the propensity score model or treatment and covariates to be used to estimate the weights. See [WeightIt::weightit()] for details.
+#' @param datasets The datasets containing the exposure and covariates mentioned in the `formula`. This argument must be an object of the `mids` or `amelia` class, which is typically produced by a previous call to `mice()` from the \pkg{mice} package or to `amelia()` from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
+#' @param approach The approach used to combine information in multiply imputed datasets. Currently, `"within"` (estimating weights within each dataset), `"across"` (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights based on that to be applied to all datasets), and `"apw"` (or averaging the probability weights, estimating weights within each dataset and averaging them across datasets) approaches are available. The default is `"within"`, which has been shown to have superior performance in most cases.
+#' @param method The method used to estimate weights. See [WeightIt::weightit()] for allowable options. Only methods that produce a propensity score (`"ps"`, `"gbm"`, `"cbps"`, `"super"`, and `"bart"`) are compatible with the `"across"` approach). The default is `"ps"` propensity score weighting using logistic regression propensity scores.
+#' @param ... Additional arguments to be passed to `weightit()`. see [WeightIt::weightit()] for more details.
 #'
-#' @description \code{weightthem()} performs weighting in the supplied multiply imputed datasets, given as \code{mids} or \code{amelia} objects, by running [WeightIt::weightit()] on each of the multiply imputed datasets with the supplied arguments.
+#' @description `weightthem()` performs weighting in the supplied multiply imputed datasets, given as `mids` or `amelia` objects, by running [WeightIt::weightit()] on each of the multiply imputed datasets with the supplied arguments.
 #'
-#' @details If an \code{amelia} object is supplied to \code{datasets}, it will be transformed into a \code{mids} object for further use. \code{weightthem()} works by calling \code{\link[mice:complete]{mice::complete()}} on the \code{mids} object to extract a complete dataset, and then calls [WeightIt::weightit()] on each dataset, storing the output of each \code{weightit()} call and the \code{mids} in the output. All arguments supplied to \code{weightthem()} except \code{datasets} and \code{approach} are passed directly to \code{weightit()}. With the \code{"across"} approach, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to \code{weightit()}.
+#' @details If an `amelia` object is supplied to `datasets`, it will be transformed into a `mids` object for further use. `weightthem()` works by calling [mice::complete()] on the `mids` object to extract a complete dataset, and then calls [WeightIt::weightit()] on each dataset, storing the output of each `weightit()` call and the `mids` in the output. All arguments supplied to `weightthem()` except `datasets` and `approach` are passed directly to `weightit()`. With the `"across"` approach, the estimated propensity scores are averaged across imputations and re-supplied to another set of calls to `weightit()`.
 #'
-#' @return An object of the \code{\link{wimids}} (weighted multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{weightit()} on each multiply imputed dataset.
+#' @return An object of the [wimids()] (weighted multiply imputed datasets) class, which includes the supplied `mids` object (or an `amelia` object transformed into a `mids` object if supplied) and the output of the calls to `weightit()` on each multiply imputed dataset.
 #'
-#' @seealso \code{\link[=wimids]{wimids}}
-#' @seealso \code{\link[=with]{with}}
-#' @seealso \code{\link[=pool]{pool}}
-#' @seealso \code{\link[=matchthem]{matchthem}}
+#' @seealso [`wimids`]
+#' @seealso [with()]
+#' @seealso [pool()]
+#' @seealso [matchthem()]
 #' @seealso [WeightIt::weightit()]
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'
-#' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
+#' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). `mice`: Multivariate Imputation by Chained Equations in `R`. *Journal of Statistical Software*, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
 #'
 #' @export
 #'

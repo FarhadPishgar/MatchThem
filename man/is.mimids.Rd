@@ -38,9 +38,11 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 is.mimids(matched.datasets)}
 }
 \seealso{
-\code{\link[=matchthem]{matchthem}}
+\code{\link[=matchthem]{matchthem()}}
 
-\code{\link[=mimids]{mimids}}
+\code{\link{mimids}}
+
+\code{\link[=inherits]{inherits()}}
 }
 \author{
 Farhad Pishgar

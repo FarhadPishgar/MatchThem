@@ -47,9 +47,9 @@ results <- pool(models)
 is.mimipo(results)}
 }
 \seealso{
-\code{\link[=pool]{pool}}
+\code{\link[=pool]{pool()}}
 
-\code{\link[=mimipo]{mimipo}}
+\code{\link[=mimipo]{mimipo()}}
 }
 \author{
 Farhad Pishgar

@@ -21,7 +21,7 @@ cbind(..., deparse.level = 1)
 An object with the same class as the first input object with the additional datasets or variables added to the components.
 }
 \description{
-This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original multiple imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
+This function combines a \code{\link{mimids}} or \code{\link{wimids}} object columnwise with additional datasets or variables. Typically these would be variables not included in the original multiple imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
 }
 \examples{
 \donttest{#Loading libraries
@@ -52,7 +52,7 @@ results <- pool(models)
 summary(results)}
 }
 \seealso{
-\code{\link{cbind}}
+\code{\link[=cbind]{cbind()}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

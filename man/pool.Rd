@@ -7,7 +7,7 @@
 pool(object, dfcom = NULL)
 }
 \arguments{
-\item{object}{An object of the \code{mimira} class (produced by a previous call to \code{with()}).}
+\item{object}{An object of the \code{\link{mimira}} class (produced by a previous call to \code{with()}).}
 
 \item{dfcom}{A positive number representing the degrees of freedom in the data analysis. The default is \code{NULL}, which means to extract this information from the fitted model with the lowest number of observations or the first fitted model (when that fails the parameter is set to \code{999999}).}
 }

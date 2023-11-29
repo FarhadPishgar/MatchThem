@@ -8,33 +8,33 @@
 #'
 #' @method with mimids
 #'
-#' @param data A \code{mimids} or \code{wimids} object, typically produced by a previous call to the \code{matchthem()} or \code{weightthem()}.
-#' @param expr An expression (usually a call to a modeling function like \code{glm()}, \code{coxph()}, \code{svyglm()}, etc.) to evaluate in each (matched or weighted) multiply imputed dataset. See Details.
-#' @param cluster When a function from \pkg{survey} (e.g., \code{\link[survey:svyglm]{svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
-#' @param ... Additional arguments to be passed to \code{expr}.
+#' @param data A `mimids` or `wimids` object, typically produced by a previous call to the [matchthem()] or [weightthem()].
+#' @param expr An expression (usually a call to a modeling function like `glm()`, `coxph()`, `svyglm()`, etc.) to evaluate in each (matched or weighted) multiply imputed dataset. See Details.
+#' @param cluster When a function from \pkg{survey} (e.g., [survey::svyglm()]) is supplied in `expr`, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the `ids` argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to `TRUE` if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
+#' @param ... Additional arguments to be passed to `expr`.
 #'
-#' @description \code{with()} runs a model on the \code{n} multiply imputed datasets of the supplied \code{mimids} or \code{wimids} object. The typical sequence of steps to do a matching or weighting procedure on multiply imputed datasets are:
+#' @description `with()` runs a model on the `n` multiply imputed datasets of the supplied `mimids` or `wimids` object. The typical sequence of steps to do a matching or weighting procedure on multiply imputed datasets are:
 #' \enumerate{
-#'  \item Multiply impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiply imputed dataset (an object of the \code{mids} or \code{amelia} class);
-#'  \item Match or weight each multiply imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
+#'  \item Multiply impute the missing values using the `mice()` function (from the \pkg{mice} package) or the `amelia()` function (from the \pkg{Amelia} package), resulting in a multiply imputed dataset (an object of the `mids` or `amelia` class);
+#'  \item Match or weight each multiply imputed dataset using `matchthem()` or `weightthem()`, resulting in an object of the `mimids` or `wimids` class;
 #'  \item Check the extent of balance of covariates in the datasets (using functions from the \pkg{cobalt} package);
-#'  \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
-#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
+#'  \item Fit the statistical model of interest on each dataset by the `with()` function, resulting in an object of the `mimira` class; and
+#'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the `mimipo` class.
 #' }
 #'
-#' @details \code{with()} applies the supplied model in \code{expr} to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to \code{expr} should be of the form \code{glm(y ~ z, family = quasibinomial)}, for example, excluding the data or weights argument, which are automatically supplied. \cr
-#' Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} object needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see the \code{cluster} argument above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}. \cr
-#' For generalized linear models, it is always recommended to use \code{svyglm()} rather than \code{glm()} in order to correctly compute standard errors. For Cox models, \code{coxph()} will produce correct standard errors when used with weighting but \code{svycoxph()} will produce more accurate standard errors when matching is used.
+#' @details `with()` applies the supplied model in `expr` to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to `expr` should be of the form `glm(y ~ z, family = quasibinomial)`, for example, excluding the data or weights argument, which are automatically supplied. \cr
+#' Functions from the \pkg{survey} package, such as `svyglm()`, are treated a bit differently. No `svydesign` object needs to be supplied because `with()` automatically constructs and supplies it with the imputed dataset and estimated weights. When `cluster = TRUE` (or `with()` detects that pairs should be clustered; see the `cluster` argument above), pair membership is supplied to the `ids` argument of `svydesign()`. \cr
+#' For generalized linear models, it is always recommended to use `svyglm()` rather than `glm()` in order to correctly compute standard errors. For Cox models, `coxph()` will produce correct standard errors when used with weighting but `svycoxph()` will produce more accurate standard errors when matching is used.
 #'
-#' @return An object from the \code{mimira} class containing the output of the analyses.
+#' @return An object from the `mimira` class containing the output of the analyses.
 #'
-#' @seealso \code{\link[=matchthem]{matchthem()}}
-#' @seealso \code{\link[=weightthem]{weightthem()}}
-#' @seealso \code{\link[mice:with.mids]{mice::with.mids()}}
+#' @seealso [matchthem()]
+#' @seealso [weightthem()]
+#' @seealso [mice::with.mids()]
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'
-#' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
+#' @references Stef van Buuren and Karin Groothuis-Oudshoorn (2011). `mice`: Multivariate Imputation by Chained Equations in `R`. *Journal of Statistical Software*, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
 #'
 #' @export
 #'
