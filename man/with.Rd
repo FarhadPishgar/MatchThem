@@ -25,11 +25,11 @@ An object from the \code{mimira} class containing the output of the analyses.
 \description{
 \code{with()} runs a model on the \code{n} multiply imputed datasets of the supplied \code{mimids} or \code{wimids} object. The typical sequence of steps to do a matching or weighting procedure on multiply imputed datasets are:
 \enumerate{
- \item Multiply impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiply imputed dataset (an object of the \code{mids} or \code{amelia} class);
- \item Match or weight each multiply imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
- \item Check the extent of balance of covariates in the datasets (using functions from the \pkg{cobalt} package);
- \item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
- \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
+\item Multiply impute the missing values using the \code{mice()} function (from the \pkg{mice} package) or the \code{amelia()} function (from the \pkg{Amelia} package), resulting in a multiply imputed dataset (an object of the \code{mids} or \code{amelia} class);
+\item Match or weight each multiply imputed dataset using \code{matchthem()} or \code{weightthem()}, resulting in an object of the \code{mimids} or \code{wimids} class;
+\item Check the extent of balance of covariates in the datasets (using functions from the \pkg{cobalt} package);
+\item Fit the statistical model of interest on each dataset by the \code{with()} function, resulting in an object of the \code{mimira} class; and
+\item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the \code{mimipo} class.
 }
 }
 \details{

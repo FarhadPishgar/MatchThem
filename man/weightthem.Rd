@@ -7,15 +7,15 @@
 weightthem(formula, datasets, approach = "within", method = "ps", ...)
 }
 \arguments{
-\item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{weightit()}} for details.}
+\item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for details.}
 
 \item{datasets}{The datasets containing the exposure and covariates mentioned in the \code{formula}. This argument must be an object of the \code{mids} or \code{amelia} class, which is typically produced by a previous call to \code{mice()} from the \pkg{mice} package or to \code{amelia()} from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).}
 
 \item{approach}{The approach used to combine information in multiply imputed datasets. Currently, \code{"within"} (estimating weights within each dataset), \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights based on that to be applied to all datasets), and \code{"apw"} (or averaging the probability weights, estimating weights within each dataset and averaging them across datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.}
 
-\item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.}
+\item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.}
 
-\item{...}{Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{weightit()}} for more details.}
+\item{...}{Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for more details.}
 }
 \value{
 An object of the \code{\link{wimids}} (weighted multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{weightit()} on each multiply imputed dataset.
@@ -42,8 +42,8 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
-                                estimand = "ATT")
+                                method = 'glm',
+                                estimand = 'ATT')
 
 #2
 
@@ -61,8 +61,8 @@ imputed.datasets <- Amelia::amelia(osteoarthritis, m = 5,
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
-                                estimand = "ATT")}
+                                method = 'glm',
+                                estimand = 'ATT')}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
@@ -76,7 +76,7 @@ Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate 
 
 \code{\link[=matchthem]{matchthem}}
 
-\code{\link[WeightIt:weightit]{WeightIt::weightit}}
+\code{\link[WeightIt:weightit]{WeightIt::weightit()}}
 }
 \author{
 Farhad Pishgar and Noah Greifer

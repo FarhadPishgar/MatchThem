@@ -35,15 +35,13 @@
 #'                               method = 'nearest')
 #'
 #' #Checking the 'matched.datasets' object
-#' is.mimids(matched.datasets)
-#' is(matched.datasets)}
+#' is.mimids(matched.datasets)}
 
 is.mimids <- function(object) {
 
   #' @export
 
-  output <- inherits(object, "mimids")
-  return(output)
+  inherits(object, "mimids")
 }
 
 #' @title Checks for the \code{wimids} Class
@@ -84,15 +82,13 @@ is.mimids <- function(object) {
 #'                                 estimand = "ATT")
 #'
 #' #Checking the 'weighted.datasets' object
-#' is.wimids(weighted.datasets)
-#' is(weighted.datasets)}
+#' is.wimids(weighted.datasets)}
 
 is.wimids <- function(object) {
 
   #' @export
 
-  output <- inherits(object, "wimids")
-  return(output)
+  inherits(object, "wimids")
 }
 
 #' @title Checks for the \code{mimira} Class
@@ -138,15 +134,13 @@ is.wimids <- function(object) {
 #'                exp = svyglm(KOA ~ OSP, family = binomial))
 #'
 #' #Checking the 'models' object
-#' is.mimira(models)
-#' is(models)}
+#' is.mimira(models)}
 
 is.mimira <- function(object) {
 
   #' @export
 
-  output <- inherits(object, "mimira")
-  return(output)
+  inherits(object, "mimira")
 }
 
 #' @title Checks for the \code{mimipo} Class
@@ -195,13 +189,11 @@ is.mimira <- function(object) {
 #' results <- pool(models)
 #'
 #' #Checking the 'results' object
-#' is.mimipo(results)
-#' is(results)}
+#' is.mimipo(results)}
 
 is.mimipo <- function(object) {
 
   #' @export
 
-  output <- inherits(object, "mimipo")
-  return(output)
+  inherits(object, "mimipo")
 }
