@@ -9,6 +9,10 @@
 
 ## What's New
 
+### Version 1.2.0
+
+New functions `as.mimids()` and `as.wimids()` are now available; these take a list of `matchit` or `weightit` objects fit to multiply imputed data and transform them into a `mimids` or `wimids` object, respectively, for use in balance assessment and to take advantage of `MatchThem`'s other capabilities.
+
 ### Version 1.1.0
 
 In this update, the `matchthem()` function has been enhanced to include support for the `quick` and `cardinality` matching methods. These additional methods offer users more options for their matching analyses, catering to a wider range of use cases and data characteristics. Alongside the matching method updates, this release also incorporates improved documentation and inclusion of a newly introduced weighting approach by Nguyen and Stuart, known as averaging probability weights (`apw`, please see their paper [here](https://arxiv.org/abs/2301.07066)).
