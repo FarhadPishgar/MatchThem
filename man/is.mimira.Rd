@@ -41,13 +41,12 @@ models <- with(data = weighted.datasets,
                exp = svyglm(KOA ~ OSP, family = binomial))
 
 #Checking the 'models' object
-is.mimira(models)
-is(models)}
+is.mimira(models)}
 }
 \seealso{
-\code{\link[=with]{with}}
+\code{\link[=with]{with()}}
 
-\code{\link[=mimira]{mimira}}
+\code{\link[=mimira]{mimira()}}
 }
 \author{
 Farhad Pishgar

@@ -44,13 +44,12 @@ models <- with(data = weighted.datasets,
 results <- pool(models)
 
 #Checking the 'results' object
-is.mimipo(results)
-is(results)}
+is.mimipo(results)}
 }
 \seealso{
-\code{\link[=pool]{pool}}
+\code{\link[=pool]{pool()}}
 
-\code{\link[=mimipo]{mimipo}}
+\code{\link[=mimipo]{mimipo()}}
 }
 \author{
 Farhad Pishgar

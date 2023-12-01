@@ -36,13 +36,12 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 estimand = "ATT")
 
 #Checking the 'weighted.datasets' object
-is.wimids(weighted.datasets)
-is(weighted.datasets)}
+is.wimids(weighted.datasets)}
 }
 \seealso{
-\code{\link[=weightthem]{weightthem}}
+\code{\link[=weightthem]{weightthem()}}
 
-\code{\link[=wimids]{wimids}}
+\code{\link[=wimids]{wimids()}}
 }
 \author{
 Farhad Pishgar

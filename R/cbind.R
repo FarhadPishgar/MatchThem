@@ -1,4 +1,4 @@
-#' @title Combine \code{mimids} and \code{wimids} Objects by Columns
+#' @title Combine `mimids` and `wimids` Objects by Columns
 #'
 #' @name cbind
 #'
@@ -6,14 +6,14 @@
 #'
 #' @aliases cbind cbind.mimids cbind.wimids
 #'
-#' @param ... Objects to combine columnwise. The first argument should be a \code{mimids} or \code{wimids} object. Additional \code{data.frame}s, \code{matrix}es, \code{factor}s, or \code{vector}s can be supplied. These can be given as named arguments.
+#' @param ... Objects to combine columnwise. The first argument should be a `mimids` or `wimids` object. Additional `data.frame`s, `matrix`es, `factor`s, or `vector`s can be supplied. These can be given as named arguments.
 #' @param deparse.level Ignored.
 #'
-#' @description This function combines a \code{mimids} or \code{wimids} object columnwise with additional datasets or variables. Typically these would be variables not included in the original multiple imputation and therefore absent in the \code{mimids} or \code{wimids} object. \code{with()} can then be used on the output to run models with the added variables.
+#' @description This function combines a [`mimids`] or [`wimids`] object columnwise with additional datasets or variables. Typically these would be variables not included in the original multiple imputation and therefore absent in the `mimids` or `wimids` object. `with()` can then be used on the output to run models with the added variables.
 #'
 #' @return An object with the same class as the first input object with the additional datasets or variables added to the components.
 #'
-#' @seealso \code{\link{cbind}}
+#' @seealso [cbind()]
 #'
 #' @author Farhad Pishgar and Noah Greifer
 #'

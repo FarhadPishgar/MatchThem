@@ -17,7 +17,7 @@ The \pkg{MatchThem} package does not use the S4 class definitions and instead re
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}
 }
 \seealso{
-\code{\link[=matchthem]{matchthem}}
+\code{\link[=matchthem]{matchthem()}}, \code{\link[=as.mimids]{as.mimids()}}
 }
 \author{
 Farhad Pishgar

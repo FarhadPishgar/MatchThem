@@ -21,7 +21,8 @@ get.2dfcom <- function(object, dfcom = NULL) {
   if (rlang::is_bare_numeric(dfcom, 1) && is.finite(dfcom)) {
     return(max(dfcom, 1L))
   }
-  else dfcom <- NULL
+
+  dfcom <- NULL
 
   if (!inherits(object, "mimira")) stop("The input for the object must be an object of the 'mimira' class.")
 

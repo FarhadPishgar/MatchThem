@@ -35,13 +35,14 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                               method = 'nearest')
 
 #Checking the 'matched.datasets' object
-is.mimids(matched.datasets)
-is(matched.datasets)}
+is.mimids(matched.datasets)}
 }
 \seealso{
-\code{\link[=matchthem]{matchthem}}
+\code{\link[=matchthem]{matchthem()}}
 
-\code{\link[=mimids]{mimids}}
+\code{\link{mimids}}
+
+\code{\link[=inherits]{inherits()}}
 }
 \author{
 Farhad Pishgar

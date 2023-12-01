@@ -1,11 +1,12 @@
 Package: MatchThem
 Title: Matching and Weighting Multiply Imputed Datasets
 Description: Provides essential tools for the pre-processing techniques of matching and weighting multiply imputed datasets. The package includes functions for matching within and across multiply imputed datasets using various methods, estimating weights for units in the imputed datasets using multiple weighting methods, calculating causal effect estimates in each matched or weighted dataset using parametric or non-parametric statistical models, and pooling the resulting estimates according to Rubin's rules (please see <https://journal.r-project.org/archive/2021/RJ-2021-073/> for more details).
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad.Pishgar@Gmail.com"),
-             person("Noah", "Greifer", role = "aut", email = "Noah.Greifer@Gmail.com"),
+             person("Noah", "Greifer", role = "aut", email = "noah.greifer@gmail.com",
+	                  comment = c(ORCID = "0000-0003-3067-7154")),
              person("Clémence", "Leyrat", role = "ctb", email = "Clemence.Leyrat@lshtm.ac.uk"),
-             person("Elizabeth", "Stuart", role = "ctb", email = "EStuart@jhu.edu"))
+             person("Elizabeth", "Stuart", role = "ctb", email = "estuart@jhu.edu"))
 Maintainer: Farhad Pishgar <Farhad.Pishgar@Gmail.com>
 Depends: R (>= 3.6.0)
 Imports: MatchIt (>= 4.0.0), mice, rlang, survey, WeightIt
@@ -22,3 +23,4 @@ Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],
   Clémence Leyrat [ctb],
   Elizabeth Stuart [ctb]
+Roxygen: list(markdown = TRUE)
