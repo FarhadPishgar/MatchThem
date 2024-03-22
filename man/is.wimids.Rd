@@ -19,10 +19,7 @@ This function returns a logical value indicating whether \code{object} is of the
 The class of objects is checked to be of the \code{wimids}.
 }
 \examples{
-\donttest{#Loading libraries
-library(MatchThem)
-
-#Loading the dataset
+\donttest{#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -32,7 +29,7 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
+                                method = 'glm',
                                 estimand = "ATT")
 
 #Checking the 'weighted.datasets' object

@@ -25,9 +25,7 @@
 #'
 #' @export complete
 #'
-#' @examples \donttest{#Loading libraries
-#' library(MatchThem)
-#'
+#' @examples \donttest{
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'

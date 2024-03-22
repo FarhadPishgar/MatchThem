@@ -9,6 +9,10 @@
 
 ## What's New
 
+### Version 1.2.1
+
+Added support for using `glm_weightit()` in the outcome model after weighting using `weightthem()`. Other documentation updates.
+
 ### Version 1.2.0
 
 New functions `as.mimids()` and `as.wimids()` are now available; these take a list of `matchit` or `weightit` objects fit to multiply imputed data and transform them into a `mimids` or `wimids` object, respectively, for use in balance assessment and to take advantage of `MatchThem`'s other capabilities.

@@ -35,11 +35,10 @@ An object from the \code{mimira} class containing the output of the analyses.
 \details{
 \code{with()} applies the supplied model in \code{expr} to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to \code{expr} should be of the form \code{glm(y ~ z, family = quasibinomial)}, for example, excluding the data or weights argument, which are automatically supplied. \cr
 Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} object needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see the \code{cluster} argument above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}. \cr
-For generalized linear models, it is always recommended to use \code{svyglm()} rather than \code{glm()} in order to correctly compute standard errors. For Cox models, \code{coxph()} will produce correct standard errors when used with weighting but \code{svycoxph()} will produce more accurate standard errors when matching is used.
+After weighting using \code{weightthem()}, \code{glm_weightit()} should be used as the modeling function to fit generalized lienar models. It correctly produces robust standard errors that account for estimation of the weights, if possible. See \code{\link[WeightIt:glm_weightit]{WeightIt::glm_weightit()}} for details. Otherwise, \code{svyglm()} should be used rather than \code{glm()} in order to correctly compute standard errors. For Cox models, \code{coxph()} will produce approximately correct standard errors when used with weighting but \code{svycoxph()} will produce more accurate standard errors when matching is used.
 }
 \examples{
 \donttest{#Loading libraries
-library(MatchThem)
 library(survey)
 
 #Loading the dataset
@@ -57,7 +56,19 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #Analyzing the matched datasets
 models <- with(matched.datasets,
                svyglm(KOA ~ OSP, family = binomial),
-               cluster = TRUE)}
+               cluster = TRUE)
+
+#Weghting in the multiply imputed datasets
+weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+                               imputed.datasets,
+                               approach = 'within',
+                               method = 'glm')
+
+#Analyzing the matched datasets
+models <- with(weighted.datasets,
+               WeightIt::glm_weightit(KOA ~ OSP,
+                                      family = binomial))
+}
 }
 \references{
 Stef van Buuren and Karin Groothuis-Oudshoorn (2011). \code{mice}: Multivariate Imputation by Chained Equations in \code{R}. \emph{Journal of Statistical Software}, 45(3): 1-67. \doi{10.18637/jss.v045.i03}

@@ -34,9 +34,6 @@
 #'
 #' @examples \donttest{#1
 #'
-#' #Loading libraries
-#' library(MatchThem)
-#'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
@@ -50,9 +47,6 @@
 #'                               method = 'nearest')
 #'
 #' #2
-#'
-#' #Loading libraries
-#' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
