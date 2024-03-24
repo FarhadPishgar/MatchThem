@@ -20,7 +20,6 @@ The class of objects is checked to be of the \code{mimira}.
 }
 \examples{
 \donttest{#Loading libraries
-library(MatchThem)
 library(survey)
 
 #Loading the dataset
@@ -33,12 +32,12 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
+                                method = 'glm',
                                 estimand = "ATT")
 
 #Analyzing the weighted datasets
-models <- with(data = weighted.datasets,
-               exp = svyglm(KOA ~ OSP, family = binomial))
+models <- with(weighted.datasets,
+               svyglm(KOA ~ OSP, family = binomial))
 
 #Checking the 'models' object
 is.mimira(models)}

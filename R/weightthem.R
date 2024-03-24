@@ -5,7 +5,7 @@
 #' @param formula A `formula` of the form `z ~ x1 + x2`, where `z` is the exposure and `x1` and `x2` are the covariates to be balanced, which is passed directly to [WeightIt::weightit()] to specify the propensity score model or treatment and covariates to be used to estimate the weights. See [WeightIt::weightit()] for details.
 #' @param datasets The datasets containing the exposure and covariates mentioned in the `formula`. This argument must be an object of the `mids` or `amelia` class, which is typically produced by a previous call to `mice()` from the \pkg{mice} package or to `amelia()` from the \pkg{Amelia} package (the \pkg{Amelia} package is designed to impute missing data in a single cross-sectional dataset or in a time-series dataset, currently, the \pkg{MatchThem} package only supports the former datasets).
 #' @param approach The approach used to combine information in multiply imputed datasets. Currently, `"within"` (estimating weights within each dataset), `"across"` (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights based on that to be applied to all datasets), and `"apw"` (or averaging the probability weights, estimating weights within each dataset and averaging them across datasets) approaches are available. The default is `"within"`, which has been shown to have superior performance in most cases.
-#' @param method The method used to estimate weights. See [WeightIt::weightit()] for allowable options. Only methods that produce a propensity score (`"ps"`, `"gbm"`, `"cbps"`, `"super"`, and `"bart"`) are compatible with the `"across"` approach). The default is `"ps"` propensity score weighting using logistic regression propensity scores.
+#' @param method The method used to estimate weights. See [WeightIt::weightit()] for allowable options. Only methods that produce a propensity score (`"glm"`, `"gbm"`, `"ipt"` `"cbps"`, `"super"`, and `"bart"`) are compatible with the `"across"` approach). The default is `"glm"` propensity score weighting using logistic regression propensity scores.
 #' @param ... Additional arguments to be passed to `weightit()`. see [WeightIt::weightit()] for more details.
 #'
 #' @description `weightthem()` performs weighting in the supplied multiply imputed datasets, given as `mids` or `amelia` objects, by running [WeightIt::weightit()] on each of the multiply imputed datasets with the supplied arguments.
@@ -28,9 +28,6 @@
 #'
 #' @examples \donttest{#1
 #'
-#' #Loading libraries
-#' library(MatchThem)
-#'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
@@ -45,9 +42,6 @@
 #'                                 estimand = 'ATT')
 #'
 #' #2
-#'
-#' #Loading libraries
-#' library(MatchThem)
 #'
 #' #Loading the dataset
 #' data(osteoarthritis)
@@ -65,7 +59,7 @@
 
 weightthem <- function (formula, datasets,
                         approach = "within",
-                        method = "ps", ...) {
+                        method = "glm", ...) {
 
   #External function
 
@@ -92,7 +86,7 @@ weightthem <- function (formula, datasets,
   if(!is.null(datasets$data$weights)) {stop("The input for the datasets shouldn't have a variable named 'weights'.")}
 
   approach <- match.arg(approach, c("within", "across", "apw"))
-  if(approach == "across" && (!(method %in% c("ps", "gbm", "cbps", "super", "bart")))) {stop("The input for the weighting method must be 'ps', 'gbm', 'cbps', 'super', or 'bart' when the 'across' weighting approch is selected.")}
+  if(approach == "across" && (!(method %in% c("glm", "ps", "gbm", "ipt", "cbps", "super", "bart")))) {stop("The input for the weighting method must be 'glm', 'gbm', 'ipt', 'cbps', 'super', or 'bart' when the 'across' weighting approch is selected.")}
 
   #Compatibility with amelia objects
   if (inherits(datasets, "amelia")) {
@@ -159,6 +153,9 @@ weightthem <- function (formula, datasets,
                                                      method = method, ...)
 
       #Distances
+      if (length(model$ps) == 0 || length(dim(model$ps) > 1)) {
+        stop("No propensity scores were estimated. Use a different 'approach'.")
+      }
       distancelist[[i]] <- model$ps
     }
 
@@ -175,11 +172,12 @@ weightthem <- function (formula, datasets,
 
       #Building the model
       model <- WeightIt::weightit(formula, dataset,
-                                  method = "ps",
+                                  method = "glm",
                                   ps = d, ...)
 
       #Updating the list
       modelslist[[i]][c("weights", "ps")] <- model[c("weights", "ps")]
+      attr(modelslist[[i]], "Mparts") <- NULL
     }
   }
 
@@ -220,6 +218,7 @@ weightthem <- function (formula, datasets,
       modelslist[[i]]$weights <- w
       modelslist[[i]]$ps <- NULL
       modelslist[[i]]$s.weights <- NULL
+      attr(modelslist[[i]], "Mparts") <- NULL
     }
   }
 

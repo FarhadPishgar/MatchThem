@@ -33,9 +33,7 @@ This function returns the imputed dataset within the supplied \code{mimids} or \
 \code{complete()} works by running \code{\link[mice:complete.mids]{mice::complete()}} on the \code{mids} object stored within the \code{mimids} or \code{wimids} object and appending the outputs of the matching or weighting procedure. For \code{mimids} objects, the appended outputs include the matching weights, the propensity score (if included), pair membership (if included), and whether each unit was discarded. For \code{wimids} objects, the appended output is the estimated weights.
 }
 \examples{
-\donttest{#Loading libraries
-library(MatchThem)
-
+\donttest{
 #Loading the dataset
 data(osteoarthritis)
 

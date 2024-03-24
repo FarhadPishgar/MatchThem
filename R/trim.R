@@ -7,7 +7,7 @@
 #' @aliases trim trim.wimids
 #'
 #' @inheritParams WeightIt::trim
-#' @param w A `wimids` object; the output of a call to [`weightthem()`][weightthem].
+#' @param x A `wimids` object; the output of a call to [`weightthem()`][weightthem].
 #' @param ... Ignored.
 #'
 #' @description Trims (i.e., truncates) large weights by setting all weights higher than that at a given quantile to the weight at the quantile. This can be useful in controlling extreme weights, which can reduce effective sample size by enlarging the variability of the weights.
@@ -22,10 +22,7 @@
 #'
 #' @export trim
 #'
-#' @examples \donttest{#Loading libraries
-#' library(MatchThem)
-#'
-#' #Loading the dataset
+#' @examples \donttest{#Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -35,7 +32,7 @@
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
-#'                                 method = 'ps',
+#'                                 method = 'glm',
 #'                                 estimand = "ATE")
 #'
 #' #Trimming the top 10% of weights in each dataset
@@ -46,7 +43,7 @@
 #'
 #' @export
 
-trim.wimids <- function (w, at = 0, lower = FALSE, ...) {
+trim.wimids <- function (x, at = 0, lower = FALSE, ...) {
 
   #External function
 
@@ -55,8 +52,8 @@ trim.wimids <- function (w, at = 0, lower = FALSE, ...) {
   WeightIt::trim
   #' @export
 
-  for (i in seq_along(w$models)) {
-    suppressMessages(w$models[[i]] <- WeightIt::trim(w$models[[i]], at = at, lower = lower, ...))
+  for (i in seq_along(x$models)) {
+    suppressMessages(x$models[[i]] <- WeightIt::trim(x$models[[i]], at = at, lower = lower, ...))
   }
-  return(w)
+  return(x)
 }

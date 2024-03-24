@@ -24,7 +24,7 @@
 #'
 #' @details `with()` applies the supplied model in `expr` to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to `expr` should be of the form `glm(y ~ z, family = quasibinomial)`, for example, excluding the data or weights argument, which are automatically supplied. \cr
 #' Functions from the \pkg{survey} package, such as `svyglm()`, are treated a bit differently. No `svydesign` object needs to be supplied because `with()` automatically constructs and supplies it with the imputed dataset and estimated weights. When `cluster = TRUE` (or `with()` detects that pairs should be clustered; see the `cluster` argument above), pair membership is supplied to the `ids` argument of `svydesign()`. \cr
-#' For generalized linear models, it is always recommended to use `svyglm()` rather than `glm()` in order to correctly compute standard errors. For Cox models, `coxph()` will produce correct standard errors when used with weighting but `svycoxph()` will produce more accurate standard errors when matching is used.
+#' After weighting using `weightthem()`, `glm_weightit()` should be used as the modeling function to fit generalized lienar models. It correctly produces robust standard errors that account for estimation of the weights, if possible. See [WeightIt::glm_weightit()] for details. Otherwise, `svyglm()` should be used rather than `glm()` in order to correctly compute standard errors. For Cox models, `coxph()` will produce approximately correct standard errors when used with weighting but `svycoxph()` will produce more accurate standard errors when matching is used.
 #'
 #' @return An object from the `mimira` class containing the output of the analyses.
 #'
@@ -39,7 +39,6 @@
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(MatchThem)
 #' library(survey)
 #'
 #' #Loading the dataset
@@ -57,7 +56,19 @@
 #' #Analyzing the matched datasets
 #' models <- with(matched.datasets,
 #'                svyglm(KOA ~ OSP, family = binomial),
-#'                cluster = TRUE)}
+#'                cluster = TRUE)
+#'
+#' #Weghting in the multiply imputed datasets
+#' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
+#'                                imputed.datasets,
+#'                                approach = 'within',
+#'                                method = 'glm')
+#'
+#' #Analyzing the matched datasets
+#' models <- with(weighted.datasets,
+#'                WeightIt::glm_weightit(KOA ~ OSP,
+#'                                       family = binomial))
+#' }
 
 with.mimids <- function(data, expr, cluster, ...) {
 
@@ -163,7 +174,22 @@ with.wimids <- function(data, expr, ...) {
   call <- match.call()
 
   #Do the repeated analysis, store the result
-  if (substr(substitute(expr)[1], 1, 3) != "svy") {
+  if (packageVersion("WeightIt") >= "0.14.2.9004" &&
+      deparse1(substitute(expr)[[1]]) %in% c("glm_weightit", "lm_weightit",
+                                             "WeightIt::glm_weightit",
+                                             "WeightIt::lm_weightit")) {
+    con.expr <- substitute(expr)
+    analyses <- lapply(seq_len(object$m), function(i) {
+      data.i <- complete.wimids(data, i, all = TRUE)
+      con.expr$data <- data.i
+      con.expr$weightit <- data$models[[i]]
+      out <- eval(expr = con.expr, parent.frame())
+      if (is.expression(out)) {
+        out <- eval(expr = out, enclos = parent.frame())
+      }
+      out
+    })
+  } else if (substr(substitute(expr)[1], 1, 3) != "svy") {
     con.expr <- substitute(expr)
     con.expr$weights <- quote(weights)
     if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE

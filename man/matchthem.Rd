@@ -44,9 +44,6 @@ If an \code{amelia} object is supplied to \code{datasets}, it will be transforme
 \examples{
 \donttest{#1
 
-#Loading libraries
-library(MatchThem)
-
 #Loading the dataset
 data(osteoarthritis)
 
@@ -60,9 +57,6 @@ matched.datasets <- matchthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                               method = 'nearest')
 
 #2
-
-#Loading libraries
-library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)
