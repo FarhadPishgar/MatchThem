@@ -4,7 +4,7 @@
 \alias{weightthem}
 \title{Weights Multiply Imputed Datasets}
 \usage{
-weightthem(formula, datasets, approach = "within", method = "ps", ...)
+weightthem(formula, datasets, approach = "within", method = "glm", ...)
 }
 \arguments{
 \item{formula}{A \code{formula} of the form \code{z ~ x1 + x2}, where \code{z} is the exposure and \code{x1} and \code{x2} are the covariates to be balanced, which is passed directly to \code{\link[WeightIt:weightit]{WeightIt::weightit()}} to specify the propensity score model or treatment and covariates to be used to estimate the weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for details.}
@@ -13,7 +13,7 @@ weightthem(formula, datasets, approach = "within", method = "ps", ...)
 
 \item{approach}{The approach used to combine information in multiply imputed datasets. Currently, \code{"within"} (estimating weights within each dataset), \code{"across"} (estimating propensity scores within each dataset, averaging them across datasets, and computing a single set of weights based on that to be applied to all datasets), and \code{"apw"} (or averaging the probability weights, estimating weights within each dataset and averaging them across datasets) approaches are available. The default is \code{"within"}, which has been shown to have superior performance in most cases.}
 
-\item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for allowable options. Only methods that produce a propensity score (\code{"ps"}, \code{"gbm"}, \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"ps"} propensity score weighting using logistic regression propensity scores.}
+\item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for allowable options. Only methods that produce a propensity score (\code{"glm"}, \code{"gbm"}, \code{"ipt"} \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"glm"} propensity score weighting using logistic regression propensity scores.}
 
 \item{...}{Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for more details.}
 }
@@ -29,9 +29,6 @@ If an \code{amelia} object is supplied to \code{datasets}, it will be transforme
 \examples{
 \donttest{#1
 
-#Loading libraries
-library(MatchThem)
-
 #Loading the dataset
 data(osteoarthritis)
 
@@ -46,9 +43,6 @@ weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 estimand = 'ATT')
 
 #2
-
-#Loading libraries
-library(MatchThem)
 
 #Loading the dataset
 data(osteoarthritis)

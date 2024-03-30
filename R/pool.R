@@ -28,9 +28,6 @@
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(MatchThem)
-#' library(survey)
-#'
 #' #Loading the dataset
 #' data(osteoarthritis)
 #'
@@ -41,11 +38,12 @@
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
-#'                                 method = 'ps')
+#'                                 method = 'glm')
 #'
 #' #Analyzing the weighted datasets
 #' models <- with(weighted.datasets,
-#'                svyglm(KOA ~ OSP, family = quasibinomial))
+#'                WeightIt::glm_weightit(KOA ~ OSP,
+#'                                       family = binomial))
 #'
 #' #Pooling results obtained from analyzing the datasets
 #' results <- pool(models)

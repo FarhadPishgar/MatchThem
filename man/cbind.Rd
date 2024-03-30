@@ -25,7 +25,6 @@ This function combines a \code{\link{mimids}} or \code{\link{wimids}} object col
 }
 \examples{
 \donttest{#Loading libraries
-library(MatchThem)
 library(survey)
 
 #Loading the dataset

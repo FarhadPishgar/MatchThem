@@ -5,18 +5,19 @@
 \alias{trim.wimids}
 \title{Trim Weights}
 \usage{
-\method{trim}{wimids}(w, at = 0, lower = FALSE, ...)
+\method{trim}{wimids}(x, at = 0, lower = FALSE, ...)
 }
 \arguments{
-\item{w}{A \code{wimids} object; the output of a call to \code{\link[=weightthem]{weightthem()}}.}
+\item{x}{A \code{wimids} object; the output of a call to \code{\link[=weightthem]{weightthem()}}.}
 
-\item{at}{
-\code{numeric}; either the quantile of the weights above which weights are to be trimmed. A single number between .5 and 1, or the number of weights to be trimmed (e.g., \code{at = 3} for the top 3 weights to be set to the 4th largest weight).
-}
+\item{at}{\code{numeric}; either the quantile of the weights above which
+weights are to be trimmed. A single number between .5 and 1, or the number
+of weights to be trimmed (e.g., \code{at = 3} for the top 3 weights to be
+set to the 4th largest weight).}
 
-\item{lower}{
-\code{logical}; whether also to trim at the lower quantile (e.g., for \code{at = .9}, trimming at both .1 and .9, or for \code{at = 3}, trimming the top and bottom 3 weights).
-}
+\item{lower}{\code{logical}; whether also to trim at the lower quantile
+(e.g., for \code{at = .9}, trimming at both .1 and .9, or for \code{at = 3},
+trimming the top and bottom 3 weights). Default is \code{FALSE} to only trim the higher weights.}
 
 \item{...}{Ignored.}
 }
@@ -30,10 +31,7 @@ Trims (i.e., truncates) large weights by setting all weights higher than that at
 \code{trim.wimids()} works by calling \code{\link[WeightIt:trim]{WeightIt::trim()}} on each \code{weightit} object stored in the \code{models} component of the \code{wimids} object. Because \code{trim()} itself is not exported from \pkg{MatchThem}, it must be called using \code{WeightIt::trim()} or by attaching \pkg{WeightIt} (i.e., running \code{library(WeightIt)}) before use.
 }
 \examples{
-\donttest{#Loading libraries
-library(MatchThem)
-
-#Loading the dataset
+\donttest{#Loading the dataset
 data(osteoarthritis)
 
 #Multiply imputing the missing values
@@ -43,7 +41,7 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
+                                method = 'glm',
                                 estimand = "ATE")
 
 #Trimming the top 10\% of weights in each dataset

@@ -20,7 +20,6 @@ The class of objects is checked to be of the \code{mimipo}.
 }
 \examples{
 \donttest{#Loading libraries
-library(MatchThem)
 library(survey)
 
 #Loading the dataset
@@ -33,7 +32,7 @@ imputed.datasets <- mice::mice(osteoarthritis, m = 5)
 weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
                                 imputed.datasets,
                                 approach = 'within',
-                                method = 'ps',
+                                method = 'glm',
                                 estimand = "ATT")
 
 #Analyzing the weighted datasets

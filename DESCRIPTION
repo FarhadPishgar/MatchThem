@@ -1,7 +1,7 @@
 Package: MatchThem
 Title: Matching and Weighting Multiply Imputed Datasets
 Description: Provides essential tools for the pre-processing techniques of matching and weighting multiply imputed datasets. The package includes functions for matching within and across multiply imputed datasets using various methods, estimating weights for units in the imputed datasets using multiple weighting methods, calculating causal effect estimates in each matched or weighted dataset using parametric or non-parametric statistical models, and pooling the resulting estimates according to Rubin's rules (please see <https://journal.r-project.org/archive/2021/RJ-2021-073/> for more details).
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(person("Farhad", "Pishgar", role = c("aut", "cre"), email = "Farhad.Pishgar@Gmail.com"),
              person("Noah", "Greifer", role = "aut", email = "noah.greifer@gmail.com",
 	                  comment = c(ORCID = "0000-0003-3067-7154")),
@@ -17,7 +17,7 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: R.rsp
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 NeedsCompilation: no
 Author: Farhad Pishgar [aut, cre],
   Noah Greifer [aut],

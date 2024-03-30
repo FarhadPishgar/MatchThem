@@ -20,10 +20,7 @@
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading libraries
-#' library(MatchThem)
-#'
-#' #Loading the dataset
+#' @examples \donttest{#Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -66,10 +63,7 @@ is.mimids <- function(object) {
 #'
 #' @export
 #'
-#' @examples \donttest{#Loading libraries
-#' library(MatchThem)
-#'
-#' #Loading the dataset
+#' @examples \donttest{#Loading the dataset
 #' data(osteoarthritis)
 #'
 #' #Multiply imputing the missing values
@@ -79,7 +73,7 @@ is.mimids <- function(object) {
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
-#'                                 method = 'ps',
+#'                                 method = 'glm',
 #'                                 estimand = "ATT")
 #'
 #' #Checking the 'weighted.datasets' object
@@ -114,7 +108,6 @@ is.wimids <- function(object) {
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(MatchThem)
 #' library(survey)
 #'
 #' #Loading the dataset
@@ -127,12 +120,12 @@ is.wimids <- function(object) {
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
-#'                                 method = 'ps',
+#'                                 method = 'glm',
 #'                                 estimand = "ATT")
 #'
 #' #Analyzing the weighted datasets
-#' models <- with(data = weighted.datasets,
-#'                exp = svyglm(KOA ~ OSP, family = binomial))
+#' models <- with(weighted.datasets,
+#'                svyglm(KOA ~ OSP, family = binomial))
 #'
 #' #Checking the 'models' object
 #' is.mimira(models)}
@@ -166,7 +159,6 @@ is.mimira <- function(object) {
 #' @export
 #'
 #' @examples \donttest{#Loading libraries
-#' library(MatchThem)
 #' library(survey)
 #'
 #' #Loading the dataset
@@ -179,7 +171,7 @@ is.mimira <- function(object) {
 #' weighted.datasets <- weightthem(OSP ~ AGE + SEX + BMI + RAC + SMK,
 #'                                 imputed.datasets,
 #'                                 approach = 'within',
-#'                                 method = 'ps',
+#'                                 method = 'glm',
 #'                                 estimand = "ATT")
 #'
 #' #Analyzing the weighted datasets
