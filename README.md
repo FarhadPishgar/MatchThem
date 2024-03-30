@@ -4,8 +4,8 @@
 #### Matching and Weighting Multiply Imputed Datasets
 <!-- badges: end -->
 
-[![](https://img.shields.io/badge/CRAN%20version-1.1.0-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
-[![](https://img.shields.io/badge/github%20version-1.2.0-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
+[![](https://img.shields.io/badge/CRAN%20version-1.2.1-success.svg?color=informational&style=for-the-badge)](https://cran.r-project.org/package=MatchThem)
+[![](https://img.shields.io/badge/github%20version-1.2.1-success.svg?color=informational&style=for-the-badge)](https://github.com/FarhadPishgar/MatchThem)
 
 ## Introduction
 
