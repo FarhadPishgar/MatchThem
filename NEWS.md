@@ -9,6 +9,10 @@
 
 ## What's New
 
+### Version 1.2.2
+
+This update includes improvement to the `complete()` function, which can now extracts and outputs multiply imputed datasets stacked vertically while keeping the original dataset in the output.
+
 ### Version 1.2.1
 
 Support for using `glm_weightit()` in the outcome model after weighting using `weightthem()` is added.

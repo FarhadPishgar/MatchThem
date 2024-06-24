@@ -88,16 +88,15 @@ complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all
   }
 
   #Select created variables from matchit/weightit models to add
-  if (is.mimids(data)) {
+  if (is.mimids(object)) {
     modelvars <- c("weights", "subclass", "distance", "discard")
-  }
-  else modelvars <- "weights"
+  } else modelvars <- "weights"
 
   modelvars <- intersect(modelvars, names(object$models[[2]]))
 
   #Do it
   mylist <- lapply(idx, function(j) {
-    out <- mice::complete(data$object, j)
+    out <- mice::complete(object$object, j)
     for (v in modelvars) {
       out[[v]] <- if (j == 0) NA_real_ else object$models[[j]][[v]]
     }
@@ -123,11 +122,12 @@ complete.mimids <- function(data, action = 1, include = FALSE, mild = FALSE, all
   }
 
   if (shape == "long") {
-    cmp <- do.call("rbind", lapply(idx, function(i) data.frame(.imp = i, .id = seq_len(nrow(mylist[[i]])),
-                                                               mylist[[i]])))
-    if (is.integer(attr(mylist[[1]], "row.names")))
+    if (include) cmp <- do.call("rbind", lapply(idx, function(i) data.frame(.imp = i, .id = seq_len(nrow(mylist[[i + 1]])), mylist[[i + 1]])))
+    if (!include) cmp <- do.call("rbind", lapply(idx, function(i) data.frame(.imp = i, .id = seq_len(nrow(mylist[[i]])), mylist[[i]])))
+    
+    if (is.integer(attr(mylist[[1]], "row.names"))) {
       row.names(cmp) <- seq_len(nrow(cmp))
-    else row.names(cmp) <- as.character(seq_len(nrow(cmp)))
+    } else row.names(cmp) <- as.character(seq_len(nrow(cmp)))
 
     if (!all) cmp <- cmp[cmp$weights > 0, ,drop = FALSE]
 
