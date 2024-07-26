@@ -15,7 +15,7 @@ weightthem(formula, datasets, approach = "within", method = "glm", ...)
 
 \item{method}{The method used to estimate weights. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for allowable options. Only methods that produce a propensity score (\code{"glm"}, \code{"gbm"}, \code{"ipt"} \code{"cbps"}, \code{"super"}, and \code{"bart"}) are compatible with the \code{"across"} approach). The default is \code{"glm"} propensity score weighting using logistic regression propensity scores.}
 
-\item{...}{Additional arguments to be passed to \code{weightit()}. see \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for more details.}
+\item{...}{Additional arguments to be passed to \code{weightit()}. See \code{\link[WeightIt:weightit]{WeightIt::weightit()}} for more details.}
 }
 \value{
 An object of the \code{\link[=wimids]{wimids()}} (weighted multiply imputed datasets) class, which includes the supplied \code{mids} object (or an \code{amelia} object transformed into a \code{mids} object if supplied) and the output of the calls to \code{weightit()} on each multiply imputed dataset.

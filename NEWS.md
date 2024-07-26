@@ -9,6 +9,10 @@
 
 ## What's New
 
+### Version 1.2.2
+
+Added support for using `coxph_weightit()`, `multinom_weightit()`, and `ordinal_weightit()`, and any other modeling functions from `WeightIt` in `with()` to fit the outcome model after weighting using `weightthem()`.
+
 ### Version 1.2.1
 
 Added support for using `glm_weightit()` in the outcome model after weighting using `weightthem()`. Other documentation updates.

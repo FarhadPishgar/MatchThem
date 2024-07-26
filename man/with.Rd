@@ -15,7 +15,7 @@
 
 \item{expr}{An expression (usually a call to a modeling function like \code{glm()}, \code{coxph()}, \code{svyglm()}, etc.) to evaluate in each (matched or weighted) multiply imputed dataset. See Details.}
 
-\item{cluster}{When a function from \pkg{survey} (e.g., \code{\link[survey:svyglm]{survey::svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).}
+\item{cluster}{When a function from \pkg{survey} (e.g., \code{\link[survey:svyglm]{survey::svyglm()}}) is supplied in \code{expr}, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the \code{ids} argument of \code{\link[survey:svydesign]{survey::svydesign()}}. If unspecified, it will be set to \code{TRUE} if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).}
 
 \item{...}{Additional arguments to be passed to \code{expr}.}
 }
@@ -33,9 +33,11 @@ An object from the \code{mimira} class containing the output of the analyses.
 }
 }
 \details{
-\code{with()} applies the supplied model in \code{expr} to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to \code{expr} should be of the form \code{glm(y ~ z, family = quasibinomial)}, for example, excluding the data or weights argument, which are automatically supplied. \cr
-Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} object needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see the \code{cluster} argument above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}. \cr
-After weighting using \code{weightthem()}, \code{glm_weightit()} should be used as the modeling function to fit generalized lienar models. It correctly produces robust standard errors that account for estimation of the weights, if possible. See \code{\link[WeightIt:glm_weightit]{WeightIt::glm_weightit()}} for details. Otherwise, \code{svyglm()} should be used rather than \code{glm()} in order to correctly compute standard errors. For Cox models, \code{coxph()} will produce approximately correct standard errors when used with weighting but \code{svycoxph()} will produce more accurate standard errors when matching is used.
+\code{with()} applies the supplied model in \code{expr} to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to \code{expr} should be of the form \code{glm(y ~ z, family = quasibinomial)}, for example, excluding the data or weights argument, which are automatically supplied.
+
+Functions from the \pkg{survey} package, such as \code{svyglm()}, are treated a bit differently. No \code{svydesign} object needs to be supplied because \code{with()} automatically constructs and supplies it with the imputed dataset and estimated weights. When \code{cluster = TRUE} (or \code{with()} detects that pairs should be clustered; see the \code{cluster} argument above), pair membership is supplied to the \code{ids} argument of \code{svydesign()}.
+
+After weighting using \code{weightthem()}, \code{glm_weightit()} and related functions in \pkg{WeightIt} should be used as the modeling functions to fit outcome models. They correctly produce robust standard errors that account for estimation of the weights, if possible. See \code{\link[WeightIt:glm_weightit]{WeightIt::glm_weightit()}} for details. Otherwise, \code{\link[survey:svyglm]{survey::svyglm()}} and other functions in \pkg{survey} (e.g., \code{\link[survey:svycoxph]{survey::svycoxph()}}) should be used rather than \code{glm()} in order to correctly compute standard errors.
 }
 \examples{
 \donttest{#Loading libraries

@@ -10,7 +10,7 @@
 #'
 #' @param data A `mimids` or `wimids` object, typically produced by a previous call to the [matchthem()] or [weightthem()].
 #' @param expr An expression (usually a call to a modeling function like `glm()`, `coxph()`, `svyglm()`, etc.) to evaluate in each (matched or weighted) multiply imputed dataset. See Details.
-#' @param cluster When a function from \pkg{survey} (e.g., [survey::svyglm()]) is supplied in `expr`, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the `ids` argument of \code{link[survey:svydesign]{svydesign()}}. If unspecified, it will be set to `TRUE` if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
+#' @param cluster When a function from \pkg{survey} (e.g., [survey::svyglm()]) is supplied in `expr`, whether the standard errors should incorporate clustering due to dependence between matched pairs. This is done by supplying the variable containing pair membership to the `ids` argument of [survey::svydesign()]. If unspecified, it will be set to `TRUE` if subclasses (i.e., pairs) are present in the output and there are 20 or more unique subclasses. It will be ignored for matching methods that don't return subclasses (e.g., matching with replacement).
 #' @param ... Additional arguments to be passed to `expr`.
 #'
 #' @description `with()` runs a model on the `n` multiply imputed datasets of the supplied `mimids` or `wimids` object. The typical sequence of steps to do a matching or weighting procedure on multiply imputed datasets are:
@@ -22,9 +22,11 @@
 #'  \item Pool the estimates from each model into a single set of estimates and standard errors, resulting in an object of the `mimipo` class.
 #' }
 #'
-#' @details `with()` applies the supplied model in `expr` to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to `expr` should be of the form `glm(y ~ z, family = quasibinomial)`, for example, excluding the data or weights argument, which are automatically supplied. \cr
-#' Functions from the \pkg{survey} package, such as `svyglm()`, are treated a bit differently. No `svydesign` object needs to be supplied because `with()` automatically constructs and supplies it with the imputed dataset and estimated weights. When `cluster = TRUE` (or `with()` detects that pairs should be clustered; see the `cluster` argument above), pair membership is supplied to the `ids` argument of `svydesign()`. \cr
-#' After weighting using `weightthem()`, `glm_weightit()` should be used as the modeling function to fit generalized lienar models. It correctly produces robust standard errors that account for estimation of the weights, if possible. See [WeightIt::glm_weightit()] for details. Otherwise, `svyglm()` should be used rather than `glm()` in order to correctly compute standard errors. For Cox models, `coxph()` will produce approximately correct standard errors when used with weighting but `svycoxph()` will produce more accurate standard errors when matching is used.
+#' @details `with()` applies the supplied model in `expr` to the (matched or weighted) multiply imputed datasets, automatically incorporating the (matching) weights when possible. The argument to `expr` should be of the form `glm(y ~ z, family = quasibinomial)`, for example, excluding the data or weights argument, which are automatically supplied.
+#'
+#' Functions from the \pkg{survey} package, such as `svyglm()`, are treated a bit differently. No `svydesign` object needs to be supplied because `with()` automatically constructs and supplies it with the imputed dataset and estimated weights. When `cluster = TRUE` (or `with()` detects that pairs should be clustered; see the `cluster` argument above), pair membership is supplied to the `ids` argument of `svydesign()`.
+#'
+#' After weighting using `weightthem()`, `glm_weightit()` and related functions in \pkg{WeightIt} should be used as the modeling functions to fit outcome models. They correctly produce robust standard errors that account for estimation of the weights, if possible. See [WeightIt::glm_weightit()] for details. Otherwise, [survey::svyglm()] and other functions in \pkg{survey} (e.g., [survey::svycoxph()]) should be used rather than `glm()` in order to correctly compute standard errors.
 #'
 #' @return An object from the `mimira` class containing the output of the analyses.
 #'
@@ -94,26 +96,11 @@ with.mimids <- function(data, expr, cluster, ...) {
   #Polishing variables
   object <- data$object
   call <- match.call()
+  sub.expr <- substitute(expr)
 
   #Do the repeated analysis, store the result
-  if (substr(substitute(expr)[1], 1, 3) != "svy") {
-    con.expr <- substitute(expr)
-    con.expr$weights <- quote(weights)
-    if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
-    if (!missing(cluster)) warning("The 'cluster' argument can only be used with functions from the survey package (e.g., svyglm()). Ignoring 'cluster'.")
-    analyses <- lapply(seq_len(object$m), function(i) {
-
-      data.i <- mice::complete(data$object, i)
-      m.data.i <- MatchIt::match.data(data$models[[i]], data = data.i)
-
-      out <- eval(expr = con.expr, envir = m.data.i, enclos = parent.frame())
-      if (is.expression(out)){
-        out <- eval(expr = out, envir = m.data.i, enclos = parent.frame())
-      }
-      out
-    })
-  } else {
-    svy.expr <- substitute(expr)
+  if (deparse1(sub.expr[[1]]) %in% .survey_models()) {
+    svy.expr <- sub.expr
     svy.expr$design <- quote(design.i)
     missing.cluster <- missing(cluster)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'matchthem()' function) in the expr is unnecessary and may result in biased estimates.")
@@ -133,6 +120,22 @@ with.mimids <- function(data, expr, cluster, ...) {
       out <- eval(expr = svy.expr)
       if (is.expression(out)){
         out <- eval(expr = out)
+      }
+      out
+    })
+  } else {
+    con.expr <- sub.expr
+    con.expr$weights <- quote(weights)
+    if (deparse1(con.expr[[1]]) %in% c("coeftest", "lmtest::coeftest")) con.expr$save <- TRUE
+    if (!missing(cluster)) warning("The 'cluster' argument can only be used with functions from the 'survey' package (e.g., svyglm()). Ignoring 'cluster'.")
+    analyses <- lapply(seq_len(object$m), function(i) {
+
+      data.i <- mice::complete(data$object, i)
+      m.data.i <- MatchIt::match.data(data$models[[i]], data = data.i)
+
+      out <- eval(expr = con.expr, envir = m.data.i, enclos = parent.frame())
+      if (is.expression(out)){
+        out <- eval(expr = out, envir = m.data.i, enclos = parent.frame())
       }
       out
     })
@@ -172,13 +175,11 @@ with.wimids <- function(data, expr, ...) {
   #Polishing variables
   object <- data$object
   call <- match.call()
+  sub.expr <- substitute(expr)
 
   #Do the repeated analysis, store the result
-  if (packageVersion("WeightIt") >= "0.14.2.9004" &&
-      deparse1(substitute(expr)[[1]]) %in% c("glm_weightit", "lm_weightit",
-                                             "WeightIt::glm_weightit",
-                                             "WeightIt::lm_weightit")) {
-    con.expr <- substitute(expr)
+  if (deparse1(sub.expr[[1]]) %in% .WeightIt_models()) {
+    con.expr <- sub.expr
     analyses <- lapply(seq_len(object$m), function(i) {
       data.i <- complete.wimids(data, i, all = TRUE)
       con.expr$data <- data.i
@@ -189,20 +190,8 @@ with.wimids <- function(data, expr, ...) {
       }
       out
     })
-  } else if (substr(substitute(expr)[1], 1, 3) != "svy") {
-    con.expr <- substitute(expr)
-    con.expr$weights <- quote(weights)
-    if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
-    analyses <- lapply(seq_len(object$m), function(i) {
-      data.i <- complete.wimids(data, i, all = FALSE)
-      out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
-      if (is.expression(out)){
-        out <- eval(expr = out, envir = data.i, enclos = parent.frame())
-      }
-      out
-    })
-  } else {
-    svy.expr <- substitute(expr)
+  } else if (deparse1(sub.expr[[1]]) %in% .survey_models()) {
+    svy.expr <- sub.expr
     svy.expr$design <- quote(design.i)
     if (!is.null(svy.expr$weights)) warning("Including weights (estimated by the 'weightthem()' function) in the expr is unnecessary and may result in biased estimates.")
     analyses <- lapply(seq_len(object$m), function(i) {
@@ -214,6 +203,18 @@ with.wimids <- function(data, expr, ...) {
       }
       out
     })
+  } else {
+    con.expr <- sub.expr
+    con.expr$weights <- quote(weights)
+    if (deparse1(con.expr[[1]]) == "coeftest") con.expr$save <- TRUE
+    analyses <- lapply(seq_len(object$m), function(i) {
+      data.i <- complete.wimids(data, i, all = FALSE)
+      out <- eval(expr = con.expr, envir = data.i, enclos = parent.frame())
+      if (is.expression(out)){
+        out <- eval(expr = out, envir = data.i, enclos = parent.frame())
+      }
+      out
+    })
   }
 
   #Return the complete data analyses as a list of length nimp
@@ -222,4 +223,17 @@ with.wimids <- function(data, expr, ...) {
   #Return the output
   class(output) <- c("mimira", "mira")
   return(output)
+}
+
+.WeightIt_models <- function() {
+  funs <- getNamespaceExports("WeightIt")
+  funs <- funs[endsWith(funs, "_weightit")]
+
+  c(funs, sprintf("WeightIt::%s", funs))
+}
+
+.survey_models <- function() {
+  funs <- c("svycoxph", "svyglm", "svyivreg", "svyolr", "svysurvreg")
+
+  c(funs, sprintf("survey::%s", funs))
 }
