@@ -13,7 +13,7 @@
 
 Support for using `coxph_weightit()`, `multinom_weightit()`, and `ordinal_weightit()`, and any other modeling functions from `WeightIt` in `with()` to fit the outcome model after weighting using `weightthem()`.
 
-This update includes improvement to the `complete()` function, which can now extract and output multiply imputed datasets stacked vertically while keeping the original dataset in the output.
+This update includes improvements to the `complete()` function, which can now extract and output multiply imputed datasets stacked vertically while keeping the original dataset in the output.
 
 ### Version 1.2.1
 
