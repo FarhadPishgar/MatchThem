@@ -174,10 +174,22 @@ with.wimids <- function(data, expr, ...) {
   call <- match.call()
 
   #Do the repeated analysis, store the result
-  if (packageVersion("WeightIt") >= "0.14.2.9004" &&
-      deparse1(substitute(expr)[[1]]) %in% c("glm_weightit", "lm_weightit",
+  if (deparse1(substitute(expr)[[1]]) %in% c("glm_weightit",
+                                             "lm_weightit",
+                                             "coxph_weightit",
+                                             "ordinal_weightit",
+                                             "multinom_weightit",
                                              "WeightIt::glm_weightit",
-                                             "WeightIt::lm_weightit")) {
+                                             "WeightIt::lm_weightit",
+                                             "WeightIt::coxph_weightit",
+                                             "WeightIt::ordinal_weightit",
+                                             "WeightIt::multinom_weightit")) {
+    if (packageVersion("WeightIt") < "1.2.0") {
+      stop(sprintf("Please update 'WeightIt' to use `%s`.",
+                   deparse1(substitute(expr)[[1]])),
+           .call = FALSE)
+    }
+      
     con.expr <- substitute(expr)
     analyses <- lapply(seq_len(object$m), function(i) {
       data.i <- complete.wimids(data, i, all = TRUE)
